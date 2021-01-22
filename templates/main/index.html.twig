@@ -1,0 +1,427 @@
+{% extends 'base.html.twig' %} {% block title %}Datos del sitio{% endblock %} 
+
+{%block body %}
+<style>
+  .example-wrapper {
+    margin: 1em auto;
+    max-width: 800px;
+    width: 95%;
+    font: 18px/1.5 sans-serif;
+  }
+  .example-wrapper code {
+    background: #f5f5f5;
+    padding: 2px 6px;
+  }
+  html,
+  body {
+    min-height: 100%;
+  }
+  body,
+  div,
+  form,
+  input,
+  select,
+  textarea,
+  p {
+    padding: 0;
+    margin: 0;
+    outline: none;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 14px;
+    color: #666;
+    line-height: 22px;
+  }
+  h1 {
+    position: absolute;
+    margin: 0;
+    font-size: 32px;
+    color: #fff;
+    z-index: 2;
+  }
+  h5 {
+    margin: 10px 0;
+  }
+  .testbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: inherit;
+    padding: 20px;
+  }
+  form {
+    width: 100%;
+    padding: 20px;
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0 0 20px 0 #095484;
+  }
+  .banner {
+    position: relative;
+    height: 210px;
+    background-image: url("/uploads/media/default/0001/01/c43630149befa5c9559813f72e99bcb6bf149e62.jpeg");
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .banner::after {
+    content: "";
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  input,
+  select,
+  textarea {
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  input {
+    width: calc(100% - 10px);
+    padding: 5px;
+  }
+  select {
+    width: 100%;
+    padding: 7px 0;
+    background: transparent;
+  }
+  textarea {
+    width: calc(100% - 12px);
+    padding: 5px;
+  }
+  .item:hover p,
+  .item:hover i,
+  .question:hover p,
+  .question label:hover,
+  input:hover::placeholder,
+  a {
+    color: #095484;
+  }
+  .item input:hover,
+  .item select:hover,
+  .item textarea:hover {
+    border: 1px solid transparent;
+    box-shadow: 0 0 6px 0 #095484;
+    color: #095484;
+  }
+  .item {
+    position: relative;
+    margin: 10px 0;
+    border-style: groove;
+    border-width: 2px;
+    padding: 0.5rem;
+  }
+  input[type="date"]::-webkit-inner-spin-button {
+    display: none;
+  }
+  .item i,
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    font-size: 20px;
+    color: #a9a9a9;
+  }
+  .item i {
+    right: 2%;
+    top: 30px;
+    z-index: 1;
+  }
+  [type="date"]::-webkit-calendar-picker-indicator {
+    right: 1%;
+    z-index: 2;
+    opacity: 0;
+    cursor: pointer;
+  }
+  input[type="radio"],
+  input[type="checkbox"] {
+    display: none;
+  }
+  label.radio,
+  label.check {
+    position: relative;
+    display: inline-block;
+    margin: 5px 20px 15px 0;
+    cursor: pointer;
+  }
+  .question span {
+    margin-left: 30px;
+  }
+  span.required {
+    margin-left: 0;
+    color: red;
+  }
+  .checkbox-item label {
+    margin: 5px 20px 10px 0;
+  }
+  label.radio:before,
+  label.check:before {
+    content: "";
+    position: absolute;
+    left: 0;
+  }
+  label.radio:before {
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    border: 2px solid #095484;
+  }
+  label.check:before {
+    top: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    border: 1px solid #095484;
+  }
+  input[type="checkbox"]:checked + .check:before {
+    background: #095484;
+  }
+  label.radio:after {
+    left: 5px;
+    border: 3px solid #095484;
+  }
+  label.check:after {
+    left: 4px;
+    border: 3px solid #fff;
+  }
+  label.radio:after,
+  label.check:after {
+    content: "";
+    position: absolute;
+    top: 6px;
+    width: 8px;
+    height: 4px;
+    background: transparent;
+    border-top: none;
+    border-right: none;
+    transform: rotate(-45deg);
+    opacity: 0;
+  }
+  input[type="radio"]:checked + label:after,
+  input[type="checkbox"]:checked + label:after {
+    opacity: 1;
+  }
+  .btn-block {
+    margin-top: 10px;
+    text-align: center;
+  }
+  button {
+    width: 150px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #095484;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+  }
+  button:hover {
+    background: #0666a3;
+  }
+  @media (min-width: 568px) {
+    .city-item {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    .city-item input {
+      width: calc(50% - 20px);
+    }
+    .city-item select {
+      width: calc(50% - 8px);
+    }
+    .city-item div {
+      width: calc(50% - 20px);
+    }
+  }
+</style>
+
+<div class="example-wrapper">
+  <div id="app">
+    <h1>VUE APP</h1>
+    <app></app>
+  </div>
+  <div class="testbox">
+    <form action={{path('view')}} method="post">
+      <div class="banner">
+        <h1>Insertar datos del sitio</h1>
+      </div>
+      <div class="item">
+        <p>Nombre del Sitio (solo el nombre)</p>
+        <input type="text" name="site_name" required />
+        <p>Alias (si existe)</p>
+        <input type="text" name="alias" />
+        <p>Nombre completo (incluir dominio ej: www.sitio.nat.cu)</p>
+        <input type="text" name="site_dom" />
+        <div class="question">
+          <p>Cliente</p>
+          <div class="question-answer">
+            <input
+              type="radio"
+              value="Natural"
+              id="radio_nat1"
+              name="client"
+              required
+            />
+            <label for="radio_nat1" class="radio"><span>Natural</span></label>
+            <input
+              type="radio"
+              value="Empresarial"
+              id="radio_empr2"
+              name="client"
+              required
+            />
+            <label for="radio_empr2" class="radio"><span>Empresarial</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="city-item">
+          <div>
+            <p>Espacio en disco del paquete</p>
+            <select name="diskspace">
+              <option value="800">800MB</option>
+              <option value="2400">2.4GB</option>
+              <option value="4000">4.0GB</option>
+              <option value="8000">8.0GB</option>
+            </select>
+          </div>
+          <div>
+            <p>Espacio adicional</p>
+            <INPUT name="extradiskspace" TYPE="NUMBER" MIN="0" MAX="100000" STEP="100" VALUE="0">MB
+          </div>
+        </div>
+        <div class="city-item">
+          <div>
+            <p>Espacio en disco de base de datos</p>
+            <select name="dbspace">
+              <option value="200">200MB</option>
+              <option value="600">600MB</option>
+              <option value="1000">1.0GB</option>
+              <option value="2000">2.0GB</option>
+            </select>
+          </div>
+          <div>
+            <p>Espacio adicional</p>
+            <INPUT name="extradbspace" TYPE="NUMBER" MIN="0" MAX="100000" STEP="100" VALUE="0">MB
+          </div>
+        </div>
+      </div>
+
+      <div class="item">
+        <p>Servidor Web</p>
+        <select name="webserver" required>
+          <option value="1">Apache/PHP/Node.js</option>
+          <option value="2">Apache Tomcat</option>
+        </select>
+
+        <div class="city-item">
+          <select name="phpversion">
+            <option value="">Versión PHP</option>
+            <option value="5.6">5.6</option>
+            <option value="7.2">7.2</option>
+            <option value="7.3">7.3</option>
+          </select>
+          <div class="question">
+            <p>Usa NodeJS:</p>
+            <div class="question-answer">
+              <input
+                type="radio"
+                value="1"
+                id="radio_1"
+                name="node"
+              />
+              <label for="radio_1" class="radio"><span>Sí</span></label>
+              <input
+                type="radio"
+                value="0"
+                id="radio_2"
+                name="node"
+              />
+              <label for="radio_2" class="radio"><span>No</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="item">
+        <p>Base de datos</p>
+        <select name="db" required>
+          <option value=""></option>
+          <option value="1">MySQL</option>
+          <option value="2">PostgreSQL</option>
+        </select>
+        <p>Contraseña</p>
+        <input type="password" name="dbpass" required>
+      </div>
+
+      <div class="item">
+        <p>Tecnología Web</p>
+        <select name="webtech" required>
+          <option value="1">Framework</option>
+          <option value="2">LMS</option>
+          <option value="3">CMS</option>
+          <option value="4">Desarrollo Autónomo</option>
+        </select>
+        <p>Nombre (ej:Symfony)</p>
+        <input type="text" name="webtechname" required />
+        <p>Versión</p>
+        <input type="text" name="version" required/>
+      </div>
+
+      <div class="item">
+        <div class="question">
+          <p>Directorios Protegidos:</p>
+          <div class="question-answer">
+            <input
+              type="radio"
+              value="1"
+              id="radio_12"
+              name="protected"
+              required
+            />
+            <label for="radio_12" class="radio"><span>Sí</span></label>
+            <input
+              type="radio"
+              value="0"
+              id="radio_22"
+              name="protected"
+              required
+            />
+            <label for="radio_22" class="radio"><span>No</span></label>
+          </div>
+        </div>
+        <div>
+          <p>Nombres de dichos directorios</p>
+          <textarea rows="3" name="protectedfiles"></textarea>
+        </div>
+      </div>
+
+      <div class="item">
+        <p>Nombres fichero de inicio (ej:index.html)</p>
+        <input type="text" name="index" required />
+      </div>
+
+      <div class="item">
+        <h4>Usuario LDAP</h4>
+        <p>Nombre</p>
+        <input type="text" name="ldapname" required>
+        <p>Apellidos</p>
+        <input type="text" name="ldaplastname" required>
+        <p>Correo</p>
+        <input type="text" name="ldapemail" required>
+        <p>Teléfono</p>
+        <input type="text" name="ldapphone" required>
+        <p>Contraseña</p>
+        <input type="password" name="ldappass" required>
+      </div>
+
+      <div class="btn-block">
+        <button type="submit">Enviar Solicitud</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
