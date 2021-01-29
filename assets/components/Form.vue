@@ -53,7 +53,7 @@
                         <label for="web_server">Servidor Web</label>
                         <Dropdown id="web_server" :options="web_server_options" optionLabel="name" v-model="web_server" v-on:change="selectWebServer()" />
                         <div class="p-field" v-if="show_php_node" style="margin-top:0.5rem">
-                            <label for="php_version">Version php</label>
+                            <label for="php_version">Versión php</label>
                             <Dropdown :options="php_options" v-model="php_version" id="php_version" />   
                         </div>
                         <div class="p-field-checkbox" v-if="show_php_node" style="margin-top:0.5rem">
@@ -66,7 +66,7 @@
                         <Dropdown id="web_server" :options="template_options" optionLabel="name" v-model="template" />
                     </div>
                     <div class="p-field">
-                        <label for="template_version">Versión</label>
+                        <label for="template_version">Versión de la plantilla</label>
                         <InputText id="template_version" type="text" name="template_version" v-model="template_version"/>
                     </div>
                 </div>
@@ -75,6 +75,14 @@
                     <div class="p-field">
                         <label for="database_server">Servidor de Base de Datos</label>
                         <Dropdown id="database_server" :options="database_servers" optionLabel="name" v-model="database_server" />
+                    </div>
+                    <div class="p-field">
+                        <label for="database_name">Nombre base de datos</label>
+                        <InputText id="database_name" type="text" v-model="database_name" />
+                    </div>
+                    <div class="p-field">
+                        <label for="database_user">Usuario base de datos</label>
+                        <InputText id="database_user" type="text" v-model="database_user" />
                     </div>
                     <div class="p-field">
                         <label for="database_password">Contraseña base de datos</label>
@@ -92,6 +100,10 @@
 
                 <div class="p-col-7 tab" v-show="show_ldap">
                     <div class="p-field">
+                        <label for="ldap_user">Usuario</label>
+                        <InputText id="ldap_user" type="text" name="ldap_user" v-model="ldap_user"/>
+                    </div>
+                    <div class="p-field">
                         <label for="ldap_name">Nombre</label>
                         <InputText id="ldap_name" type="text" name="ldap_name" v-model="ldap_name"/>
                     </div>
@@ -105,7 +117,7 @@
                     </div>
                     <div class="p-field">
                         <label for="ldap_phone">Teléfono</label>
-                        <InputText id="ldap_phone" type="text" name="ldap_phone" v-model="ldap_phone"/>
+                        <InputText id="ldap_phone" type="number" name="ldap_phone" v-model="ldap_phone"/>
                     </div>
                     <div class="p-field">
                         <label for="ldap_password">Contraseña</label>
@@ -162,6 +174,8 @@ export default {
             template_version: "",
 
             database_servers: [],
+            database_name: "",
+            database_user: "",
             database_server: "MySQL",
             database_password: "",
 
@@ -169,17 +183,18 @@ export default {
             index: "index.html",
 
             ldap_name: "",
+            ldap_user: "",
             ldap_last_name: "",
             ldap_email: "",
             ldap_phone: "",
             ldap_password: "",
 
             packets: [],
-            packet: {},
+            packet: "",
             selected_packet: false,
-            disk_space: {},
+            disk_space: "",
             extra_disk_space: 0,
-            db_space: {},
+            db_space: "",
             extra_db_space: 0,
 
             table_data: [],
@@ -374,9 +389,9 @@ export default {
                 this.ldap_phone !== "" &&
                 this.ldap_password !== "" &&
                 this.packet !== null &&
-                this.packet != {} &&
-                this.disk_space !== {} &&
-                this.db_space !== {}
+                this.packet != "" &&
+                this.disk_space !== "" &&
+                this.db_space !== ""
         }
     },
     mounted () {
