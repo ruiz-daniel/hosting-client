@@ -34,6 +34,11 @@ class Packet
      */
     private $db_space;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $client_type;
+
     public function __construct()
     {
         $this->contracts = new ArrayCollection();
@@ -76,6 +81,18 @@ class Packet
     public function setDbSpace(int $db_space): self
     {
         $this->db_space = $db_space;
+
+        return $this;
+    }
+
+    public function getClientType(): ?string
+    {
+        return $this->client_type;
+    }
+
+    public function setClientType(string $client_type): self
+    {
+        $this->client_type = $client_type;
 
         return $this;
     }

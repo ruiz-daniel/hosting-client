@@ -10,15 +10,15 @@
                 <div class="p-col-7 tab" v-show="show_site">
                     <div class="p-field">
                         <label for="site_name">Nombre del Sitio</label>
-                        <InputText id="site_name" type="text" name="site_name" v-model="site_name" placeholder="ej: nombresitio.nat.cu"/>
+                        <InputText id="site_name" type="text" v-model="site_name" placeholder="ej: www.nombresitio.nat.cu"/>
                     </div>
                     <div class="p-field">
                         <label for="alias">Alias (si existe)</label>
-                        <InputText id="alias" type="text" name="alias" v-model="alias"/>
+                        <InputText id="alias" type="text" v-model="alias"/>
                     </div>
                     <div class="p-field">
                         <label for="client">Cliente</label>
-                        <Dropdown id="client" name="client" :options="client_options" v-model="client"/>
+                        <Dropdown id="client" :options="client_types" v-model="client"/>
                     </div>
                 </div>
 
@@ -63,7 +63,7 @@
                     </div>
                     <div class="p-field">
                         <label for="template">Plantilla</label>
-                        <Dropdown id="web_server" :options="template_options" optionLabel="name" v-model="template" />
+                        <Dropdown id="web_server" :options="templates" optionLabel="name" v-model="template" />
                     </div>
                     <div class="p-field">
                         <label for="template_version">Versión de la plantilla</label>
@@ -147,6 +147,7 @@
 
 <script>
 import axios from 'axios';
+import { mapState } from 'vuex';
 export default {
     data() {
         return {
@@ -159,21 +160,16 @@ export default {
 
             site_name: "",
             alias: "",
-            client_options: ["Natural", "Empresarial"],
             client: "Natural",
 
             web_server: "Apache/PHP/Node.js",
-            web_server_options: [],
             show_php_node: true,
             php_version: "",
-            php_options: ["5.6", "7.2", "7.3", "7.4"],
             node: false,
 
-            template_options: [],
             template: "",
             template_version: "",
 
-            database_servers: [],
             database_name: "",
             database_user: "",
             database_server: "MySQL",
@@ -189,7 +185,6 @@ export default {
             ldap_phone: "",
             ldap_password: "",
 
-            packets: [],
             packet: "",
             selected_packet: false,
             disk_space: "",
@@ -298,26 +293,6 @@ export default {
                 this.selected_packet = true;
             }
         },
-        validate(){
-            if(
-                this.site_name !== "" &&
-                this.template !== "" &&
-                this.database_password !== "" &&
-                this.index !== "" &&
-                this.ldap_name !== "" &&
-                this.ldap_last_name !== "" &&
-                this.ldap_email !== "" &&
-                this.ldap_phone !== "" &&
-                this.ldap_password !== "" &&
-                this.packet !== null &&
-                this.packet !== {} &&
-                this.disk_space !== {} &&
-                this.db_space !== {}
-            ){
-                return true;
-            }
-            return false;
-        },
         createTable(){
             var node = "Sí";
             if(!this.node) node = "No"
@@ -355,6 +330,7 @@ export default {
                     ldap_last_name: this.ldap_last_name,
                     ldap_email: this.ldap_email,
                     ldap_phone: this.ldap_phone,
+                    ldap_user: this.ldap_user,
                     client: this.client,
                     site_name: this.site_name,
                     alias: this.alias,
@@ -383,6 +359,7 @@ export default {
                 this.template !== "" &&
                 this.database_password !== "" &&
                 this.index !== "" &&
+                this.ldap_user !== "" &&
                 this.ldap_name !== "" &&
                 this.ldap_last_name !== "" &&
                 this.ldap_email !== "" &&
@@ -392,36 +369,18 @@ export default {
                 this.packet != "" &&
                 this.disk_space !== "" &&
                 this.db_space !== ""
-        }
+        },
+        packets() {
+            if (this.client === "Natural"){
+                return this.$store.getters.getNaturalPackets
+            }
+            else if (this.client === "Empresarial"){
+                return this.$store.getters.getEnterprisePackets
+            }
+        },
+        ...mapState(['web_server_options', 'templates', 'database_servers', 'client_types', 'php_options'])
     },
     mounted () {
-        axios.request({
-            method: 'get',
-            url: '/eppackets'
-        }).then(response=>{
-            this.packets = response.data;
-        });
-
-        axios.request({
-            method: 'get',
-            url: '/epwebservers'
-        }).then(response=>{
-            this.web_server_options = response.data;
-        });
-
-        axios.request({
-            method: 'get',
-            url: '/epdbservers'
-        }).then(response=>{
-            this.database_servers = response.data;
-        });
-
-        axios.request({
-            method: 'get',
-            url: '/eptemplates'
-        }).then(response=>{
-            this.template_options = response.data;
-        });
 
         this.createTable();
     },

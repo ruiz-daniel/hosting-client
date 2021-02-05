@@ -20,7 +20,7 @@ use App\Entity\LdapUser;
 class VueAPIController extends AbstractController
 {
     /**
-     * @Route("/vueapi", name="vueapi")
+     * @Route("/", name="vueapi")
      */
     public function index(): Response
     {
@@ -57,7 +57,7 @@ class VueAPIController extends AbstractController
         $entityManager->persist($contract);
 
         $ldapUser = new LdapUser(
-            $request_data["site_name"]."ftp",
+            $request_data["ldap_user"],
             $request_data["ldap_password"]
         );
         $ldapUser->setClient($client);
@@ -92,7 +92,7 @@ class VueAPIController extends AbstractController
         // var_dump($packets[0]->getName());
         $packets = [];
         foreach ($packets_response as $packet) {
-            $packets[] = ['id'=>$packet->getId(), 'name'=>$packet->getName(), 'disk_space'=>$packet->getDiskSpace(), 'db_space'=>$packet->getDbSpace()] ;
+            $packets[] = ['id'=>$packet->getId(), 'name'=>$packet->getName(), 'disk_space'=>$packet->getDiskSpace(), 'db_space'=>$packet->getDbSpace(), 'client_type'=>$packet->getClientType()] ;
         }
         $response = new Response(
             \json_encode($packets),
