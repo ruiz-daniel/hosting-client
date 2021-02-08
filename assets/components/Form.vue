@@ -18,7 +18,7 @@
                     </div>
                     <div class="p-field">
                         <label for="client">Cliente</label>
-                        <Dropdown id="client" :options="client_types" v-model="client"/>
+                        <Dropdown id="client" :options="client_types" v-model="client" v-on:change="packet = null; getPacket()" />
                     </div>
                 </div>
 
