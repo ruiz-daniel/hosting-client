@@ -15,6 +15,7 @@ import Vue from 'vue';
 import App from './components/App';
 import axios from 'axios';
 import store from './store.js';
+import router from './router.js';
 
 
 
@@ -39,9 +40,14 @@ import DataTable from 'primevue/datatable';
 Vue.component("DataTable", DataTable);
 import Column from 'primevue/column';
 Vue.component("Column", Column);
+import Card from 'primevue/card';
+Vue.component("Card", Card);
+import Toolbar from 'primevue/toolbar';
+Vue.component("Toolbar", Toolbar);
 
 new Vue({
     store,
+    router,
 
     mounted() {
         axios.request({

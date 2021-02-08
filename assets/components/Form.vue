@@ -2,7 +2,7 @@
   <div class="p-grid p-justify-center" style="margin-top:2%; height: 100vh">
         <div class="p-shadow-14 p-col-6" style="text-align:center" id="container">
           <h1>Datos del Sitio</h1>
-          <form action="/viewdata/" method="POST">
+          <form method="POST">
             <div class="p-grid form-container">
                 <div class="p-col-4 box">
                     <PanelMenu :model="menu_items"></PanelMenu>
@@ -135,10 +135,7 @@
                     <div class="submit-div p-col-11">
                         <Button label="Guardar" v-if="validate" v-on:click="submit()" style="float: right"/>
                     </div>
-                </div>
-
-                
-                
+                </div> 
             </div>
           </form>
         </div>
@@ -381,8 +378,16 @@ export default {
         ...mapState(['web_server_options', 'templates', 'database_servers', 'client_types', 'php_options'])
     },
     mounted () {
-
         this.createTable();
+        axios.request({
+            method: "post",
+            url: '/epsitename',
+            data: {
+                'site': 40
+            }
+        }).then(response => {
+            console.log(response.data)
+        })
     },
 }
 </script>
@@ -390,7 +395,7 @@ export default {
 <style scoped>
     #container{
         background-color: lightgray;
-        height: 90%;
+        height: 85%;
     }
     
     .p-panelmenu{
@@ -425,5 +430,8 @@ export default {
     label {
         width: 35%;
         text-align: end;
+    }
+    .p-dropdown{
+        width: 189px;
     }
 </style>

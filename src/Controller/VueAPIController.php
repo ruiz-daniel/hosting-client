@@ -20,6 +20,13 @@ use App\Entity\LdapUser;
 class VueAPIController extends AbstractController
 {
     /**
+     * @Route("/test", name="vueindex", methods={"GET"})
+     */
+    public function main(){
+        return $this->render('main/mainForm.html.twig', []);
+    }
+
+    /**
      * @Route("/", name="vueapi")
      */
     public function index(): Response
@@ -150,6 +157,53 @@ class VueAPIController extends AbstractController
         }
         $response = new Response(
             \json_encode($templates),
+            200,
+            ['content-type' => 'json']
+        );
+        return $response;
+    }
+
+    /**
+     * @Route("/epgethostedsites", methods={"GET"})
+     */
+    public function getSites(){
+        $entityManager = $this->getDoctrine();
+        $sites_response = $entityManager->getRepository(HostedSite::class)->findAll();
+        $sites = [];
+        foreach ($sites_response as $site) {
+            $sites[] = [
+                'id' => $site->getId(),
+                'web_server' => $site->getWebServer(),
+                'php_version' => $site->getPhpVersion(),
+                'node' => $site->getUsesNodejs(),
+                'db_server' => $site->getDbServer(),
+                'db_password' => $site->getDbPassword(),
+                'template_version' => $site->getTemplateVersion(),
+                'protected_dir' => $site->getProtectedDir(),
+                'index' => $site->getIndexName(),
+                'template' => $site->getTemplate(),
+                'ldap_user' => $site->getLdapUser()->getId(),
+                'site' => $site->getSite()->getId()
+
+            ];
+        }
+        $response = new Response(
+            \json_encode($sites),
+            200,
+            ['content-type' => 'json']
+        );
+        return $response;
+    }
+
+    /**
+     * @Route("/epsitename", methods={"POST"})
+     */
+    public function getSiteName(Request $request) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $request_data = \json_decode($request->getContent(), true);
+        $result = $entityManager->getRepository(Site::class)->find($request_data['site'])->getName();
+        $response = new Response(
+            \json_encode($result),
             200,
             ['content-type' => 'json']
         );

@@ -20,11 +20,6 @@ class Contract
     /**
      * @ORM\Column(type="integer")
      */
-    private $contract_id;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
     private $extra_disk_space;
 
     /**
@@ -33,7 +28,7 @@ class Contract
     private $extra_db_space;
 
     /**
-     * @ORM\ManyToOne(targetEntity=client::class, inversedBy="contracts")
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="contracts")
      * @ORM\JoinColumn(nullable=false)
      */
     private $client;
@@ -53,18 +48,6 @@ class Contract
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getContractId(): ?int
-    {
-        return $this->contract_id;
-    }
-
-    public function setContractId(int $contract_id): self
-    {
-        $this->contract_id = $contract_id;
-
-        return $this;
     }
 
     public function getExtraDiskSpace(): ?int

@@ -1,15 +1,18 @@
 <template>
   <div>
-      <Form></Form>
+    <Navbar></Navbar>
+    <router-view />
   </div>
 </template>
 
 <script>
-import Form from '../components/Form.vue'
+import Navbar from '../components/NavBar'
 export default {
+    name: "App",
     components: {
-        Form
+        Navbar
     },
+    
 }
 </script>
 

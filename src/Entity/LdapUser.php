@@ -30,7 +30,7 @@ class LdapUser
     private $password;
 
     /**
-     * @ORM\OneToOne(targetEntity=client::class, inversedBy="ldapUser", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Client::class, inversedBy="ldapUser", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $client;

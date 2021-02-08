@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\HostedSiteRepository;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -58,13 +59,7 @@ class HostedSite
     private $index_name;
 
     /**
-     * @ORM\OneToOne(targetEntity=Site::class, inversedBy="hostedSite", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $site;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=ldapUser::class, inversedBy="hostedSites")
+     * @ORM\ManyToOne(targetEntity=LdapUser::class, inversedBy="hostedSites")
      * @ORM\JoinColumn(nullable=false)
      */
     private $ldapUser;
@@ -73,6 +68,11 @@ class HostedSite
      * @ORM\Column(type="integer")
      */
     private $template_id;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Site::class, cascade={"persist", "remove"})
+     */
+    private $site;
 
     public function __construct($web_server, $php_version, $uses_nodejs, $db_server, $db_password, $template, $template_version, $protected_dir, $index_name)
     {
@@ -188,24 +188,12 @@ class HostedSite
         return $this;
     }
 
-    public function getSite(): ?Site
-    {
-        return $this->site;
-    }
-
-    public function setSite(Site $site): self
-    {
-        $this->site = $site;
-
-        return $this;
-    }
-
-    public function getLdapUser(): ?ldapUser
+    public function getLdapUser(): ?LdapUser
     {
         return $this->ldapUser;
     }
 
-    public function setLdapUser(?ldapUser $ldapUser): self
+    public function setLdapUser(?LdapUser $ldapUser): self
     {
         $this->ldapUser = $ldapUser;
 
@@ -220,6 +208,18 @@ class HostedSite
     public function setTemplate(int $template): self
     {
         $this->template_id = $template;
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SiteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,28 +20,23 @@ class Site
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $site_id;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $alias;
 
     /**
-     * @ORM\ManyToOne(targetEntity=client::class, inversedBy="sites", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="sites", cascade={"persist"})
      */
     private $client;
 
     /**
-     * @ORM\OneToOne(targetEntity=HostedSite::class, mappedBy="site", cascade={"persist", "remove"})
+     * @ORM\Column(type="string", length=255)
      */
-    private $hostedSite;
+    private $name;
 
     public function __construct($name, $alias)
     {
-        $this->site_id = $name;
+        $this->name = $name;
         $this->alias = $alias;
     }
 
@@ -50,12 +47,12 @@ class Site
 
     public function getName(): ?string
     {
-        return $this->site_id;
+        return $this->name;
     }
 
     public function setName(string $name): self
     {
-        $this->site_id = $name;
+        $this->name = $name;
 
         return $this;
     }
@@ -80,23 +77,6 @@ class Site
     public function setClient(?client $client): self
     {
         $this->client = $client;
-
-        return $this;
-    }
-
-    public function getHostedSite(): ?HostedSite
-    {
-        return $this->hostedSite;
-    }
-
-    public function setHostedSite(HostedSite $hostedSite): self
-    {
-        // set the owning side of the relation if necessary
-        if ($hostedSite->getSite() !== $this) {
-            $hostedSite->setSite($this);
-        }
-
-        $this->hostedSite = $hostedSite;
 
         return $this;
     }

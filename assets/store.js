@@ -10,7 +10,8 @@ export default new Vuex.Store({
         php_options: ["5.6", "7.1", "7.2", "7.3"],
         templates: [],
         database_servers: [],
-        packets: []
+        packets: [],
+        hosted_sites: []
     },
     getters: {
         getNaturalPackets: state => {
@@ -44,6 +45,9 @@ export default new Vuex.Store({
         },
         SET_PACKETS(state, data) {
             state.packets = data;
+        },
+        SET_HOSTED_SITES(state, data) {
+            state.hosted_sites = data
         }
     },
     actions:{}
