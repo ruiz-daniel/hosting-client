@@ -39,7 +39,7 @@ export default {
     viewSites() {
         axios.request({
             method: 'get',
-            url: '/epgethostedsites'
+            url: '/epgetsites'
         }).then(response=>{
             this.$store.commit("SET_HOSTED_SITES", response.data);
             this.$router.push({name: 'viewsites'})

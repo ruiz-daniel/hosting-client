@@ -22,11 +22,6 @@ class Client
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $client_id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $name;
 
     /**
@@ -78,18 +73,6 @@ class Client
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getClientId(): ?int
-    {
-        return $this->client_id;
-    }
-    
-    public function setClientId(string $client_id): self
-    {
-        $this->client_id = $client_id;
-
-        return $this;
     }
 
     public function getName(): ?string
