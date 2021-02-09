@@ -164,27 +164,20 @@ class VueAPIController extends AbstractController
     }
 
     /**
-     * @Route("/epgethostedsites", methods={"GET"})
+     * @Route("/epgetsites", methods={"GET"})
      */
     public function getSites(){
         $entityManager = $this->getDoctrine();
-        $sites_response = $entityManager->getRepository(HostedSite::class)->findAll();
+        $sites_response = $entityManager->getRepository(Site::class)->findAll();
         $sites = [];
         foreach ($sites_response as $site) {
             $sites[] = [
                 'id' => $site->getId(),
-                'web_server' => $site->getWebServer(),
-                'php_version' => $site->getPhpVersion(),
-                'node' => $site->getUsesNodejs(),
-                'db_server' => $site->getDbServer(),
-                'db_password' => $site->getDbPassword(),
-                'template_version' => $site->getTemplateVersion(),
-                'protected_dir' => $site->getProtectedDir(),
-                'index' => $site->getIndexName(),
-                'template' => $site->getTemplate(),
-                'ldap_user' => $site->getLdapUser()->getId(),
-                'site' => $site->getSite()->getId()
-
+                'site_name' => $site->getName(),
+                'alias' => $site->getAlias(),
+                'client' => $site->getClient()->getId(),
+                'client_name' => $entityManager->getRepository(Client::class)->find($site->getClient()->getId())->getName()
+                ." ".$entityManager->getRepository(Client::class)->find($site->getClient()->getId())->getLastName()
             ];
         }
         $response = new Response(
@@ -193,6 +186,15 @@ class VueAPIController extends AbstractController
             ['content-type' => 'json']
         );
         return $response;
+    }
+
+    /**
+     * @Route("/epsitedata", methods={"POST"})
+     */
+    public function getSiteData(Request $request) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $request_data = \json_decode($request->getContent(), true);
+        
     }
 
     /**
