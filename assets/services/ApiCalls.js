@@ -48,7 +48,7 @@ export default {
         });
     },
 
-    getSiteDetails(fn, data) {
+    getSiteData(fn, data) {
         axios.request({
           method: 'post',
           url: '/epsitedata',
