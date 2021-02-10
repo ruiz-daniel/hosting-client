@@ -56,7 +56,7 @@ export default {
             'site_id': data.id
           }
         }).then(response=> {
-          fn(data)
+          fn(response.data)
         })
       }
 }
