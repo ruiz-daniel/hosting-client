@@ -194,7 +194,26 @@ class VueAPIController extends AbstractController
     public function getSiteData(Request $request) {
         $entityManager = $this->getDoctrine()->getManager();
         $request_data = \json_decode($request->getContent(), true);
-        
+        $hosted_site = $entityManager->getRepository(HostedSite::class)->findOneBy(['site'=>$request_data['site_id']]);
+        $result = [
+            'id' => $hosted_site->getId(),
+            'web_server' => $entityManager->getRepository(AvailableWebServer::class)->find($hosted_site->getWebServer())->getName(),
+            'php_version' => $hosted_site->getPhpVersion(),
+            'node' => $hosted_site->getUsesNodeJs(),
+            'db_server' => $entityManager->getRepository(DatabaseServer::class)->find($hosted_site->getDbServer())->getName(),
+            'db_password' => $hosted_site->getDbPassword(),
+            'template_version' => $hosted_site->getTemplateVersion(),
+            'protected_dir' => $hosted_site->getProtectedDir(),
+            'index' => $hosted_site->getIndexName(),
+            'ldap_user' => $hosted_site->getLdapUser()->getUserName(),
+            'template' => $hosted_site->getTemplate()
+        ];
+        $response = new Response(
+            \json_encode($result),
+            200,
+            ['content-type' => 'json']
+        );
+        return $response;
     }
 
     /**

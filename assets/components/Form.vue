@@ -143,7 +143,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import { mapState } from 'vuex';
 export default {
     data() {
@@ -319,35 +318,31 @@ export default {
             ]
         },
         submit(){
-            axios.request({
-                method: "post",
-                url: '/epcommit',
-                data: {
-                    ldap_name: this.ldap_name,
-                    ldap_last_name: this.ldap_last_name,
-                    ldap_email: this.ldap_email,
-                    ldap_phone: this.ldap_phone,
-                    ldap_user: this.ldap_user,
-                    client: this.client,
-                    site_name: this.site_name,
-                    alias: this.alias,
-                    ldap_password: this.ldap_password,
-                    packet: this.packet.id,
-                    disk_space: this.disk_space,
-                    extra_disk_space: this.extra_disk_space,
-                    db_space: this.db_space,
-                    extra_db_space: this.extra_db_space,
-                    web_server: this.web_server.id,
-                    php_version: this.php_version,
-                    node: this.node,
-                    template: this.template.id,
-                    template_version: this.template_version,
-                    database_server: this.database_server.id,
-                    database_password: this.database_password,
-                    protected_files: this.protected_files,
-                    index: this.index
-                }
-            });
+            this.$root.api.registerNewSite(function(){}, {
+                ldap_name: this.ldap_name,
+                ldap_last_name: this.ldap_last_name,
+                ldap_email: this.ldap_email,
+                ldap_phone: this.ldap_phone,
+                ldap_user: this.ldap_user,
+                client: this.client,
+                site_name: this.site_name,
+                alias: this.alias,
+                ldap_password: this.ldap_password,
+                packet: this.packet.id,
+                disk_space: this.disk_space,
+                extra_disk_space: this.extra_disk_space,
+                db_space: this.db_space,
+                extra_db_space: this.extra_db_space,
+                web_server: this.web_server.id,
+                php_version: this.php_version,
+                node: this.node,
+                template: this.template.id,
+                template_version: this.template_version,
+                database_server: this.database_server.id,
+                database_password: this.database_password,
+                protected_files: this.protected_files,
+                index: this.index
+            })
         },
     },
     computed: {
@@ -379,15 +374,6 @@ export default {
     },
     mounted () {
         this.createTable();
-        axios.request({
-            method: "post",
-            url: '/epsitename',
-            data: {
-                'site': 40
-            }
-        }).then(response => {
-            console.log(response.data)
-        })
     },
 }
 </script>

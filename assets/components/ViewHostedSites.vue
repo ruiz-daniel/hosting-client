@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default {
     data() {
         return {
@@ -36,9 +35,14 @@ export default {
         }
     },
     methods: {
+      viewDetails(site) {
+        this.$root.api.getSiteData(function(data){
+          this.$store.commit('SET_SELECTED_SITE', data)
+        }, site)
+      }
     },
     created(){
-      this.table_data = this.$store.state.hosted_sites
+      this.table_data = this.$store.state.hosted_sites;
     }
 };
 </script>

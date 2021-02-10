@@ -13,9 +13,9 @@ import './bootstrap';
 
 import Vue from 'vue';
 import App from './components/App';
-import axios from 'axios';
 import store from './store.js';
 import router from './router.js';
+import api from './services/ApiCalls.js'
 
 
 
@@ -48,35 +48,29 @@ Vue.component("Toolbar", Toolbar);
 new Vue({
     store,
     router,
+    api,
+    data() {
+        return {
+            api
+        }
+    },
 
     mounted() {
-        axios.request({
-            method: 'get',
-            url: '/eppackets'
-        }).then(response=>{
-            store.commit("SET_PACKETS", response.data)
-        });
+        api.getPackets(function(data){
+            store.commit("SET_PACKETS", data)
+        })
 
-        axios.request({
-            method: 'get',
-            url: '/epwebservers'
-        }).then(response=>{
-            store.commit("SET_WEB_SERVERS", response.data)
-        });
+        api.getWebServers(function(data){
+            store.commit("SET_WEB_SERVERS", data)
+        })
 
-        axios.request({
-            method: 'get',
-            url: '/epdbservers'
-        }).then(response=>{
-            store.commit("SET_DATABASE_SERVERS", response.data)
-        });
+        api.getDbServers(function(data){
+            store.commit("SET_DATABASE_SERVERS", data)
+        })
 
-        axios.request({
-            method: 'get',
-            url: '/eptemplates'
-        }).then(response=>{
-            store.commit("SET_TEMPLATES", response.data)
-        });
+        api.getTemplates(function(data){
+            store.commit("SET_TEMPLATES", data)
+        })
     },
 
 

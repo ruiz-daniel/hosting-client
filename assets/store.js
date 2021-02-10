@@ -11,7 +11,8 @@ export default new Vuex.Store({
         templates: [],
         database_servers: [],
         packets: [],
-        hosted_sites: []
+        hosted_sites: [],
+        selected_site: {}
     },
     getters: {
         getNaturalPackets: state => {
@@ -48,6 +49,9 @@ export default new Vuex.Store({
         },
         SET_HOSTED_SITES(state, data) {
             state.hosted_sites = data
+        },
+        SET_SELECTED_SITE(state, data) {
+            state.selected_site = data
         }
     },
     actions:{}
