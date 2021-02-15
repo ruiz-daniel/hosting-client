@@ -49,16 +49,6 @@ class Client
      */
     private $sites;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Contract::class, mappedBy="ManyToOne", orphanRemoval=true)
-     */
-    private $contracts;
-
-    /**
-     * @ORM\OneToOne(targetEntity=LdapUser::class, mappedBy="client", cascade={"persist", "remove"})
-     */
-    private $ldapUser;
-
     public function __construct($name, $last_name, $email, $phone, $type)
     {
         $this->sites = new ArrayCollection();
@@ -67,7 +57,6 @@ class Client
         $this->email = $email;
         $this->phone = $phone;
         $this->type = $type;
-        $this->contracts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -161,53 +150,6 @@ class Client
                 $site->setClient(null);
             }
         }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Contract[]
-     */
-    public function getContracts(): Collection
-    {
-        return $this->contracts;
-    }
-
-    public function addContract(Contract $contract): self
-    {
-        if (!$this->contracts->contains($contract)) {
-            $this->contracts[] = $contract;
-            $contract->setClient($this);
-        }
-
-        return $this;
-    }
-
-    public function removeContract(Contract $contract): self
-    {
-        if ($this->contracts->removeElement($contract)) {
-            // set the owning side to null (unless already changed)
-            if ($contract->getClient() === $this) {
-                $contract->setClient(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getLdapUser(): ?LdapUser
-    {
-        return $this->ldapUser;
-    }
-
-    public function setLdapUser(LdapUser $ldapUser): self
-    {
-        // set the owning side of the relation if necessary
-        if ($ldapUser->getClient() !== $this) {
-            $ldapUser->setClient($this);
-        }
-
-        $this->ldapUser = $ldapUser;
 
         return $this;
     }

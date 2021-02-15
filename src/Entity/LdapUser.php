@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\LdapUserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,21 +28,15 @@ class LdapUser
     private $password;
 
     /**
-     * @ORM\OneToOne(targetEntity=Client::class, inversedBy="ldapUser", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Site::class, inversedBy="ldapUsers")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $client;
-
-    /**
-     * @ORM\OneToMany(targetEntity=HostedSite::class, mappedBy="ldapUser", orphanRemoval=true)
-     */
-    private $hostedSites;
+    private $site;
 
     public function __construct($username, $password)
     {
         $this->username = $username;
         $this->password = $password;
-        $this->hostedSites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -76,44 +68,14 @@ class LdapUser
         return $this;
     }
 
-    public function getClient(): ?client
+    public function getSite(): ?Site
     {
-        return $this->client;
+        return $this->site;
     }
 
-    public function setClient(client $client): self
+    public function setSite(?Site $site): self
     {
-        $this->client = $client;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|HostedSite[]
-     */
-    public function getHostedSites(): Collection
-    {
-        return $this->hostedSites;
-    }
-
-    public function addHostedSite(HostedSite $hostedSite): self
-    {
-        if (!$this->hostedSites->contains($hostedSite)) {
-            $this->hostedSites[] = $hostedSite;
-            $hostedSite->setLdapUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeHostedSite(HostedSite $hostedSite): self
-    {
-        if ($this->hostedSites->removeElement($hostedSite)) {
-            // set the owning side to null (unless already changed)
-            if ($hostedSite->getLdapUser() === $this) {
-                $hostedSite->setLdapUser(null);
-            }
-        }
+        $this->site = $site;
 
         return $this;
     }

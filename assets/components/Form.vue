@@ -340,6 +340,8 @@ export default {
                 template_version: this.template_version,
                 database_server: this.database_server.id,
                 database_password: this.database_password,
+                database_name: this.database_name,
+                database_user: this.database_user,
                 protected_files: this.protected_files,
                 index: this.index
             })

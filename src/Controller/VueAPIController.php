@@ -16,6 +16,7 @@ use App\Entity\Template;
 use App\Entity\Contract;
 use App\Entity\HostedSite;
 use App\Entity\LdapUser;
+use App\Entity\Quota;
 
 class VueAPIController extends AbstractController
 {
@@ -76,6 +77,8 @@ class VueAPIController extends AbstractController
             $request_data["node"],
             $request_data["database_server"],
             $request_data["database_password"],
+            $request_data["database_name"],
+            $request_data["database_user"],
             $request_data["template"],
             $request_data["template_version"],
             $request_data["protected_files"],
@@ -195,18 +198,26 @@ class VueAPIController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $request_data = \json_decode($request->getContent(), true);
         $hosted_site = $entityManager->getRepository(HostedSite::class)->findOneBy(['site'=>$request_data['site_id']]);
+        $web_server = $entityManager->getRepository(AvailableWebServer::class)->find($hosted_site->getWebServer());
+        $db_server = $entityManager->getRepository(DatabaseServer::class)->find($hosted_site->getDbServer());
+        $template = $entityManager->getRepository(Template::class)->find($hosted_site->getTemplate());
+        $client = $entityManager->getRepository(Client::class)->find($request_data['client']);
+        $contract = $entityManager->getRepository(Quota::class)->find($hosted_site->getDbServer());
         $result = [
             'id' => $hosted_site->getId(),
-            'web_server' => $entityManager->getRepository(AvailableWebServer::class)->find($hosted_site->getWebServer())->getName(),
+            'site_name' => $request_data['site_name'],
+            'alias' => $request_data['alias'],
+            'web_server' => $web_server->getName(),
             'php_version' => $hosted_site->getPhpVersion(),
             'node' => $hosted_site->getUsesNodeJs(),
-            'db_server' => $entityManager->getRepository(DatabaseServer::class)->find($hosted_site->getDbServer())->getName(),
+            'db_server' => $db_server->getName(),
             'db_password' => $hosted_site->getDbPassword(),
             'template_version' => $hosted_site->getTemplateVersion(),
             'protected_dir' => $hosted_site->getProtectedDir(),
             'index' => $hosted_site->getIndexName(),
             'ldap_user' => $hosted_site->getLdapUser()->getUserName(),
-            'template' => $hosted_site->getTemplate()
+            'template' => $template->getName()
+            
         ];
         $response = new Response(
             \json_encode($result),
