@@ -169,7 +169,8 @@ class VueAPIController extends AbstractController
                 'alias' => $site->getAlias(),
                 'client' => $site->getClient()->getId(),
                 'client_name' => $entityManager->getRepository(Client::class)->find($site->getClient()->getId())->getName()
-                ." ".$entityManager->getRepository(Client::class)->find($site->getClient()->getId())->getLastName()
+                ." ".$entityManager->getRepository(Client::class)->find($site->getClient()->getId())->getLastName(),
+                'hosted' => $site->getHosted()
             ];
         }
         $response = new Response(

@@ -270,11 +270,12 @@ export default {
     methods: {
         selectWebServer() {
             if(this.web_server.name === "Apache/PHP/Node.js"){
+                this.node = false;
                 this.show_php_node = true;
             }
             else {
                 this.php_version = "";
-                this.node = {};
+                this.node = false;
                 this.show_php_node = false;
             }
         },
