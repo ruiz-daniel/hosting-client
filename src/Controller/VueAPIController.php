@@ -187,26 +187,38 @@ class VueAPIController extends AbstractController
     public function getSiteData(Request $request) {
         $entityManager = $this->getDoctrine()->getManager();
         $request_data = \json_decode($request->getContent(), true);
-        $hosted_site = $entityManager->getRepository(HostedSite::class)->findOneBy(['site'=>$request_data['site_id']]);
-        $web_server = $entityManager->getRepository(AvailableWebServer::class)->find($hosted_site->getWebServer());
-        $db_server = $entityManager->getRepository(DatabaseServer::class)->find($hosted_site->getDbServer());
-        $template = $entityManager->getRepository(Template::class)->find($hosted_site->getTemplate());
-        $client = $entityManager->getRepository(Client::class)->find($request_data['client']);
-        $contract = $entityManager->getRepository(Quota::class)->find($hosted_site->getDbServer());
+        $site = $entityManager->getRepository(Site::class)->find($request_data['site_id']);
+        $web_server = $entityManager->getRepository(AvailableWebServer::class)->find($site->getWebServerId());
+        $db_server = $entityManager->getRepository(DatabaseServer::class)->find($site->getDbServerId());
+        $template = $entityManager->getRepository(Template::class)->find($site->getTemplateId());
+        $client = $site->getClient();
+        $quota = $site->getQuota();
+        $packet = $entityManager->getRepository(Packet::class)->find($quota->getPacketId());
         $result = [
-            'id' => $hosted_site->getId(),
+            'id' => $site->getId(),
             'site_name' => $request_data['site_name'],
             'alias' => $request_data['alias'],
             'web_server' => $web_server->getName(),
-            'php_version' => $hosted_site->getPhpVersion(),
-            'node' => $hosted_site->getUsesNodeJs(),
+            'php_version' => $site->getPhpVersion(),
+            'node' => $site->getNodeJs(),
             'db_server' => $db_server->getName(),
-            'db_password' => $hosted_site->getDbPassword(),
-            'template_version' => $hosted_site->getTemplateVersion(),
-            'protected_dir' => $hosted_site->getProtectedDir(),
-            'index' => $hosted_site->getIndexName(),
-            'ldap_user' => $hosted_site->getLdapUser()->getUserName(),
-            'template' => $template->getName()
+            'db_password' => $site->getDbPassword(),
+            'db_user' => $site->getDbUser(),
+            'template' => $template->getName(),
+            'template_version' => $site->getTemplateVersion(),
+            'protected_dir' => $site->getProtectedDir(),
+            'index' => $site->getIndexName(),
+            'ldap_user' => $site->getLdapUsers()[0]->getUserName(),
+            'ldap_password' => $site->getLdapUsers()[0]->getPassword(),
+            'packet' => $packet->getName(),
+            'disk_space' => $packet->getDiskSpace(),
+            'db_space' => $packet->getDbSpace(),
+            'extra_disk_space' => $quota->getExtraDiskSpace(),
+            'extra_db_space' => $quota->getExtraDbSpace(),
+            'client' => $client->getFullName(),
+            'client_email' => $client->getEmail(),
+            'client_phone' => $client->getPhone(),
+            'client_type' => $client->getType()
             
         ];
         $response = new Response(

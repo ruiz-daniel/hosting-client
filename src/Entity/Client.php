@@ -87,6 +87,10 @@ class Client
 
         return $this;
     }
+    public function getFullName(): ?string
+    {
+        return $this->name." ".$this->last_name;
+    }
 
     public function getEmail(): ?string
     {

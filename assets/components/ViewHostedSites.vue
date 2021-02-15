@@ -44,7 +44,7 @@ export default {
     },
     methods: {
       viewDetails(site) {
-        var store = this.$store
+        var store = this.$store;
         this.$root.api.getSiteData(function(response_data) {
           store.commit('SET_SELECTED_SITE', response_data);
         }, site)

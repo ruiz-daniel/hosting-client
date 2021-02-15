@@ -53,7 +53,10 @@ export default {
           method: 'post',
           url: '/epsitedata',
           data: {
-            'site_id': data.id
+            'site_id': data.id,
+            'site_name': data.site_name,
+            'alias': data.alias,
+            'client': data.client_name
           }
         }).then(response=> {
           fn(response.data)
