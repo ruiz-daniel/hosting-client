@@ -28,10 +28,9 @@ class Quota
     private $extra_db_space;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Packet::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="integer")
      */
-    private $packet;
+    private $packet_id;
 
     public function getId(): ?int
     {
@@ -62,14 +61,14 @@ class Quota
         return $this;
     }
 
-    public function getPacket(): ?Packet
+    public function getPacketId(): ?int
     {
-        return $this->packet;
+        return $this->packet_id;
     }
 
-    public function setPacket(?Packet $packet): self
+    public function setPacketId(int $packet_id): self
     {
-        $this->packet = $packet;
+        $this->packet_id = $packet_id;
 
         return $this;
     }

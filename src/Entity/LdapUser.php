@@ -28,7 +28,7 @@ class LdapUser
     private $password;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Site::class, inversedBy="ldapUsers")
+     * @ORM\ManyToOne(targetEntity=Site::class, inversedBy="ldapUsers", cascade={"persist"}))
      * @ORM\JoinColumn(nullable=false)
      */
     private $site;

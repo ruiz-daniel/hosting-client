@@ -154,7 +154,7 @@ export default {
             show_ldap: false,
             show_save: false,
 
-            site_name: "",
+            site_name: "www.",
             alias: "",
             client: "Natural",
 
@@ -166,8 +166,8 @@ export default {
             template: "",
             template_version: "",
 
-            database_name: "",
-            database_user: "",
+            database_name: "db",
+            database_user: "dbo",
             database_server: "MySQL",
             database_password: "",
 
@@ -175,7 +175,7 @@ export default {
             index: "index.html",
 
             ldap_name: "",
-            ldap_user: "",
+            ldap_user: "ftp",
             ldap_last_name: "",
             ldap_email: "",
             ldap_phone: "",
@@ -329,9 +329,7 @@ export default {
                 alias: this.alias,
                 ldap_password: this.ldap_password,
                 packet: this.packet.id,
-                disk_space: this.disk_space,
                 extra_disk_space: this.extra_disk_space,
-                db_space: this.db_space,
                 extra_db_space: this.extra_db_space,
                 web_server: this.web_server.id,
                 php_version: this.php_version,
@@ -342,7 +340,7 @@ export default {
                 database_password: this.database_password,
                 database_name: this.database_name,
                 database_user: this.database_user,
-                protected_files: this.protected_files,
+                protected_dir: this.protected_files,
                 index: this.index
             })
         },

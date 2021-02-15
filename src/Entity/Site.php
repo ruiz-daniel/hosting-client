@@ -40,7 +40,7 @@ class Site
     private $ldapUsers;
 
     /**
-     * @ORM\OneToOne(targetEntity=quota::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Quota::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $quota;
@@ -86,11 +86,6 @@ class Site
     private $template_version;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $web_server;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $web_server_id;
@@ -106,7 +101,7 @@ class Site
     private $template_id;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $hosted;
 
@@ -114,7 +109,6 @@ class Site
     {
         $this->name = $name;
         $this->alias = $alias;
-        $this->ldapUsers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -292,18 +286,6 @@ class Site
     public function setTemplateVersion(?string $template_version): self
     {
         $this->template_version = $template_version;
-
-        return $this;
-    }
-
-    public function getWebServer(): ?string
-    {
-        return $this->web_server;
-    }
-
-    public function setWebServer(string $web_server): self
-    {
-        $this->web_server = $web_server;
 
         return $this;
     }

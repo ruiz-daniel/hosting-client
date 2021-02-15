@@ -49,44 +49,33 @@ class VueAPIController extends AbstractController
             $request_data['client']
         );
 
+        $quota = new Quota();
+        $quota->setPacketId($request_data['packet']);
+        $quota->setExtraDiskSpace($request_data['extra_disk_space']);
+        $quota->setExtraDbSpace($request_data['extra_db_space']);
+
         $site = new Site(
             $request_data['site_name'],
             $request_data['alias']
         );
         $site->setClient($client);
-        $entityManager->persist($site);
+        $site->setQuota($quota);
+        $site->setIndexName($request_data['index']);
+        $site->setProtectedDir($request_data['protected_dir']);
+        $site->setWebServerId($request_data['web_server']);
+        $site->setPhpVersion($request_data['php_version']);
+        $site->setNodeJs($request_data['node']);
+        $site->setDbServerId($request_data['database_server']);
+        $site->setDbName($request_data['database_name']);
+        $site->setDbUser($request_data['database_user']);
+        $site->setDbPassword($request_data['database_password']);
+        $site->setTemplateId($request_data['template']);
+        $site->setTemplateVersion($request_data['template_version']);
+        $site->setHosted(False);
 
-        $contract = new Contract(
-            $request_data["extra_disk_space"],
-            $request_data["extra_db_space"],
-            $request_data['packet']
-        );
-        $contract->setClient($client);
-        $entityManager->persist($contract);
-
-        $ldapUser = new LdapUser(
-            $request_data["ldap_user"],
-            $request_data["ldap_password"]
-        );
-        $ldapUser->setClient($client);
-        $entityManager->persist($ldapUser);
-
-        $hosted_site = new HostedSite(
-            $request_data["web_server"],
-            $request_data["php_version"],
-            $request_data["node"],
-            $request_data["database_server"],
-            $request_data["database_password"],
-            $request_data["database_name"],
-            $request_data["database_user"],
-            $request_data["template"],
-            $request_data["template_version"],
-            $request_data["protected_files"],
-            $request_data["index"]
-        );
-        $hosted_site->setSite($site);
-        $hosted_site->setLdapUser($ldapUser);
-        $entityManager->persist($hosted_site);
+        $ldap_user = new LdapUser($request_data['ldap_user'], $request_data['ldap_password']);
+        $ldap_user->setSite($site);
+        $entityManager->persist($ldap_user);
 
         $entityManager->flush();
 
