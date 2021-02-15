@@ -204,6 +204,7 @@ class VueAPIController extends AbstractController
             'db_server' => $db_server->getName(),
             'db_password' => $site->getDbPassword(),
             'db_user' => $site->getDbUser(),
+            'db_name' => $site->getDbName(),
             'template' => $template->getName(),
             'template_version' => $site->getTemplateVersion(),
             'protected_dir' => $site->getProtectedDir(),

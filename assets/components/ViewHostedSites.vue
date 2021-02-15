@@ -45,8 +45,10 @@ export default {
     methods: {
       viewDetails(site) {
         var store = this.$store;
+        var router = this.$router;
         this.$root.api.getSiteData(function(response_data) {
           store.commit('SET_SELECTED_SITE', response_data);
+          router.push({name: 'sitedata'})
         }, site)
       }
     },

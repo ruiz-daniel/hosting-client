@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Form from './components/Form.vue';
 import Main from './views/Main.vue'
 import ViewSites from './components/ViewHostedSites.vue'
+import SiteData from './components/SiteData.vue'
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
         path: '/viewsites',
         name: 'viewsites',
         component: ViewSites
+    },
+    {
+        path: '/sitedata',
+        name: 'sitedata',
+        component: SiteData
     }
 ];
 
