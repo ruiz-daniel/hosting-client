@@ -8,7 +8,7 @@
           </div>
           <span class="p-input-icon-left">
                 <i class="pi pi-search" />
-                <InputText v-model="filters['global']" placeholder="Buscar" />
+                <InputText v-model="filters['global']" placeholder="Búsqueda global" />
             </span>
         </template>
         <Column field="site_name" header="Nombre del sitio">

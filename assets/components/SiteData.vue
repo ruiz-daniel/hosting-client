@@ -64,7 +64,7 @@
           <div v-if="site_data.web_server === 'Apache/PHP/Node.js'">
             <p>Version php</p>
             {{ site_data.php_version }}
-            <p v-if="site_data.node">Usa NodeJS</p>
+            <p v-if="site_data.node" style="color:red">Usa NodeJS</p>
           </div>
           <div>
               <p>Servidor BD</p>
@@ -84,6 +84,34 @@
           </div>
         </div>
       </div>
+      <div class="p-col-2 p-mt-4 p-ml-4">
+        <div class="content-wrapper">
+          <div>
+            <p>Plantilla</p>
+            {{site_data.template}}
+          </div>
+          <div>
+            <p>Versión</p>
+            {{site_data.template_version}}
+          </div>
+          <div>
+            <p>Usuario LDAP</p>
+            {{site_data.ldap_user}}
+          </div>
+          <div>
+            <p>Contraseña LDAP</p>
+            {{site_data.ldap_password}}
+          </div>
+          <div>
+            <p>Fichero de inicio</p>
+            {{site_data.index}}
+          </div>
+          <div>
+            <p>Directorios protegidos</p>
+            {{site_data.protected_dir}}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -100,7 +128,7 @@ export default {
 
 <style scoped>
 .wrap {
-  width: 80%;
+  width: 70%;
   background-color: white;
 }
 p {
