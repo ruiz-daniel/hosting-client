@@ -26,7 +26,8 @@
         <Column field="" header="">
           <template #body="slotProps">
             <Button icon="pi pi-eye" v-on:click="viewDetails(slotProps.data)"/>
-            <Button icon="pi pi-pencil" v-on:click="modifySite(slotProps.data.id)"/>
+            <Button icon="pi pi-pencil" v-on:click="modifySite(slotProps.data)"/>
+            <Button icon="pi pi-trash" v-on:click="deleteSite(slotProps.data)"/>
           </template>
         </Column>
       </DataTable>
@@ -38,7 +39,7 @@
 export default {
     data() {
         return {
-            table_data: [],
+            table_data: this.$store.state.hosted_sites,
             filters: {}
         }
     },
@@ -50,10 +51,32 @@ export default {
           store.commit('SET_SELECTED_SITE', response_data);
           router.push({name: 'sitedata'})
         }, site)
+      },
+      modifySite(site) {
+        var store = this.$store;
+        var router = this.$router;
+        this.$root.api.getSiteData(function(response_data) {
+          store.commit('SET_SELECTED_SITE', response_data);
+          store.commit('SWITCH_EDIT', true)
+          router.push({name: 'Form'})
+        }, site)
+      },
+      deleteSite(site) {
+        var root = this.$root
+        var store = this.$store
+        var update = this.updateTableData;
+        this.$root.api.deleteSite(function(){
+          root.api.getSites(function(data) {
+          store.commit("SET_HOSTED_SITES", data);
+          update()
+        }) 
+        }, site)
+      },
+      updateTableData(){
+        this.table_data = this.$store.state.hosted_sites
       }
     },
-    created(){
-      this.table_data = this.$store.state.hosted_sites;
+    mounted(){
       this.table_data.forEach(element=>{
         if (element.hosted == true) element.hosted = "Completada";
         else if (element.hosted == false) element.hosted = "Pendiente";

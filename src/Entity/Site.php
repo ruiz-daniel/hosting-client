@@ -25,7 +25,7 @@ class Site
     private $alias;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="sites", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="sites", cascade={"persist", "remove"})
      */
     private $client;
 

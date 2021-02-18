@@ -33,6 +33,42 @@
                 "
               />
             </div>
+            <div class="p-field">
+              <label for="client_name">Nombre</label>
+              <InputText
+                id="client_name"
+                type="text"
+                name="client_name"
+                v-model="client_name"
+              />
+            </div>
+            <div class="p-field">
+              <label for="client_last_name">Apellidos</label>
+              <InputText
+                id="client_last_name"
+                type="text"
+                name="client_last_name"
+                v-model="client_last_name"
+              />
+            </div>
+            <div class="p-field">
+              <label for="client_email">Correo</label>
+              <InputText
+                id="client_email"
+                type="text"
+                name="client_email"
+                v-model="client_email"
+              />
+            </div>
+            <div class="p-field">
+              <label for="client_phone">Teléfono</label>
+              <InputText
+                id="client_phone"
+                type="number"
+                name="client_phone"
+                v-model="client_phone"
+              />
+            </div>
           </div>
 
           <div class="p-col-7 tab" v-show="show_packet">
@@ -184,6 +220,7 @@
           </div>
 
           <div class="p-col-7 tab" v-show="show_ldap">
+            <div v-if="!$store.state.edit_switch"></div>
             <div class="p-field">
               <label for="ldap_user">Usuario</label>
               <InputText
@@ -191,42 +228,6 @@
                 type="text"
                 name="ldap_user"
                 v-model="ldap_user"
-              />
-            </div>
-            <div class="p-field">
-              <label for="ldap_name">Nombre</label>
-              <InputText
-                id="ldap_name"
-                type="text"
-                name="ldap_name"
-                v-model="ldap_name"
-              />
-            </div>
-            <div class="p-field">
-              <label for="ldap_last_name">Apellidos</label>
-              <InputText
-                id="ldap_last_name"
-                type="text"
-                name="ldap_last_name"
-                v-model="ldap_last_name"
-              />
-            </div>
-            <div class="p-field">
-              <label for="ldap_email">Correo</label>
-              <InputText
-                id="ldap_email"
-                type="text"
-                name="ldap_email"
-                v-model="ldap_email"
-              />
-            </div>
-            <div class="p-field">
-              <label for="ldap_phone">Teléfono</label>
-              <InputText
-                id="ldap_phone"
-                type="number"
-                name="ldap_phone"
-                v-model="ldap_phone"
               />
             </div>
             <div class="p-field">
@@ -238,19 +239,63 @@
                 v-model="ldap_password"
               />
             </div>
+            <div>
+              <Button
+                label="Añadir usuario"
+                v-on:click="addLdapUser(ldap_user, ldap_password)"
+              />
+            </div>
+            <div>
+              <DataTable :value="ldap_users" :autoLayout="true" editMode="cell">
+                <template #header>
+                  <div class="table-header" style="text-align:center">
+                    Usuarios
+                  </div>
+                </template>
+                <Column field="ldap_user" header="usuario">
+                  <template #body="slotProps">
+                    <InputText
+                        type="text"
+                        v-model="slotProps.data.ldap_user"
+                      />
+                  </template>
+                </Column>
+                <Column field="ldap_password" header="contraseña">
+                  <template #body="slotProps">
+                    <InputText
+                        type="text"
+                        v-model="slotProps.data.ldap_password"
+                        style="width:auto"
+                      />
+                  </template>
+                </Column>
+                <Column field="" header="">
+                  <template #body="slotProps">
+                    <Button
+                      icon="pi pi-trash"
+                      v-on:click="removeLdapUser(slotProps.data)"
+                      style="width:auto"
+                    />
+                  </template>
+                </Column>
+              </DataTable>
+            </div>
           </div>
 
           <div class="p-col-7 tab" v-show="show_save">
             <div class="p-col-11" style="text-align:center">
-              <DataTable
-                id="table_data"
-                :value="table_data"
-                :paginator="true"
-                :rows="10"
+              <Message
+                severity="error"
+                :closable="false"
+                v-if="validateClientName"
+                >Falta el nombre del sitio</Message
               >
-                <Column field="field" header="Campo"></Column>
-                <Column field="value" header="Valor"></Column>
-              </DataTable>
+              <Message
+                severity="error"
+                :closable="false"
+                v-if="!validateClientData"
+                >Faltan datos del cliente</Message
+              >
             </div>
             <div class="submit-div p-col-11">
               <Button
@@ -299,12 +344,14 @@ export default {
       protected_files: "",
       index: "index.html",
 
-      ldap_name: "",
+      client_name: "",
       ldap_user: "ftp",
-      ldap_last_name: "",
-      ldap_email: "",
-      ldap_phone: "",
+      client_last_name: "",
+      client_email: "",
+      client_phone: "",
       ldap_password: "",
+
+      ldap_users: [],
 
       packet: "",
       selected_packet: false,
@@ -315,9 +362,13 @@ export default {
 
       table_data: [],
 
+      site_id: "",
+      hosted: false,
+      editingLdapUser: false,
+
       menu_items: [
         {
-          label: "Sitio",
+          label: "Sitio y Cliente",
           icon: "pi pi-file",
           command: () => {
             this.show_site = true;
@@ -380,7 +431,6 @@ export default {
           label: "Guardar",
           icon: "pi pi-save",
           command: () => {
-            this.createTable();
             this.show_site = false;
             this.show_packet = false;
             this.show_web = false;
@@ -413,64 +463,77 @@ export default {
         this.selected_packet = true;
       }
     },
-    createTable() {
-      var node = "Sí";
-      if (!this.node) node = "No";
-      this.table_data = [
-        { field: "Nombre", value: this.site_name },
-        { field: "Alias", value: this.alias },
-        { field: "Cliente", value: this.client },
-        { field: "Nombre del Titular", value: this.ldap_name },
-        { field: "Apellidos", value: this.ldap_last_name },
-        { field: "Correo", value: this.ldap_email },
-        { field: "Teléfono", value: this.ldap_phone },
-        { field: "Contraseña ldap", value: this.ldap_password },
-        { field: "Paquete Contratado", value: this.packet.name },
-        {
-          field: "Espacio adicional disco",
-          value: this.extra_disk_space + "MB",
-        },
-        { field: "Espacio adicional bd", value: this.extra_db_space + "MB" },
-        { field: "Servidor Web", value: this.web_server.name },
-        { field: "Version php", value: this.php_version },
-        { field: "Node.js", value: node },
-        { field: "Plantilla", value: this.template.name },
-        { field: "Versión", value: this.template_version },
-        {
-          field: "Servidor de Base de Datos",
-          value: this.database_server.name,
-        },
-        { field: "Contraseña bd", value: this.database_password },
-        { field: "Ficheros Protegidos", value: this.protected_files },
-        { field: "Fichero Inicio", value: this.index },
-      ];
+    addLdapUser(username, password) {
+      if (username !== "" && password !== "") {
+        this.ldap_users.push({
+          ldap_user: username,
+          ldap_password: password,
+        });
+        this.ldap_user = "ftp" + this.ldap_users.length.toString();
+        this.ldap_password = "";
+      }
+    },
+    removeLdapUser(user) {
+      for (let i = 0; i < this.ldap_users.length; i++) {
+        if (this.ldap_users[i] === user) {
+          this.ldap_users.splice(i, 1);
+        }
+      }
     },
     submit() {
-      this.$root.api.registerNewSite(function() {}, {
-        ldap_name: this.ldap_name,
-        ldap_last_name: this.ldap_last_name,
-        ldap_email: this.ldap_email,
-        ldap_phone: this.ldap_phone,
-        ldap_user: this.ldap_user,
-        client: this.client,
-        site_name: this.site_name,
-        alias: this.alias,
-        ldap_password: this.ldap_password,
-        packet: this.packet.id,
-        extra_disk_space: this.extra_disk_space,
-        extra_db_space: this.extra_db_space,
-        web_server: this.web_server.id,
-        php_version: this.php_version,
-        node: this.node,
-        template: this.template.id,
-        template_version: this.template_version,
-        database_server: this.database_server.id,
-        database_password: this.database_password,
-        database_name: this.database_name,
-        database_user: this.database_user,
-        protected_dir: this.protected_files,
-        index: this.index,
-      });
+      if (!this.$store.state.edit_switch) {
+        this.$root.api.registerNewSite(function() {}, {
+          ldap_users: this.ldap_users,
+          client_type: this.client,
+          client_name: this.client_name,
+          client_last_name: this.client_last_name,
+          client_email: this.client_email,
+          client_phone: this.client_phone,
+          site_name: this.site_name,
+          alias: this.alias,
+          packet: this.packet.id,
+          extra_disk_space: this.extra_disk_space,
+          extra_db_space: this.extra_db_space,
+          web_server: this.web_server.id,
+          php_version: this.php_version,
+          node: this.node,
+          template: this.template.id,
+          template_version: this.template_version,
+          database_server: this.database_server.id,
+          database_password: this.database_password,
+          database_name: this.database_name,
+          database_user: this.database_user,
+          protected_dir: this.protected_files,
+          index: this.index,
+        });
+      } else {
+        this.$root.api.updateSite(function() {}, {
+          id: this.site_id,
+          ldap_users: this.ldap_users,
+          client_type: this.client,
+          client_name: this.client_name,
+          client_last_name: this.client_last_name,
+          client_email: this.client_email,
+          client_phone: this.client_phone,
+          site_name: this.site_name,
+          alias: this.alias,
+          packet: this.packet.id,
+          extra_disk_space: this.extra_disk_space,
+          extra_db_space: this.extra_db_space,
+          web_server: this.web_server.id,
+          php_version: this.php_version,
+          node: this.node,
+          template: this.template.id,
+          template_version: this.template_version,
+          database_server: this.database_server.id,
+          database_password: this.database_password,
+          database_name: this.database_name,
+          database_user: this.database_user,
+          protected_dir: this.protected_files,
+          index: this.index,
+          hosted: this.hosted,
+        });
+      }
     },
   },
   computed: {
@@ -480,16 +543,22 @@ export default {
         this.template !== "" &&
         this.database_password !== "" &&
         this.index !== "" &&
-        this.ldap_user !== "" &&
-        this.ldap_name !== "" &&
-        this.ldap_last_name !== "" &&
-        this.ldap_email !== "" &&
-        this.ldap_phone !== "" &&
-        this.ldap_password !== "" &&
+        this.ldap_users.length > 0 &&
         this.packet !== null &&
         this.packet != "" &&
         this.disk_space !== "" &&
         this.db_space !== ""
+      );
+    },
+    validateClientName() {
+      return this.site_name == "" || this.site_name == "www.";
+    },
+    validateClientData() {
+      return (
+        this.client_name != "" &&
+        this.client_last_name != "" &&
+        this.client_email != "" &&
+        this.client_phone != ""
       );
     },
     packets() {
@@ -508,7 +577,40 @@ export default {
     ]),
   },
   mounted() {
-    this.createTable();
+    if (this.$store.state.edit_switch) {
+      let site = this.$store.state.selected_site;
+      this.site_id = site.id;
+      this.site_name = site.site_name;
+      this.alias = site.alias;
+      this.client = site.client_type;
+      (this.client_name = site.client_name),
+        (this.client_last_name = site.client_last_name),
+        (this.client_email = site.client_email),
+        (this.client_phone = site.client_phone),
+        (this.packet = this.$store.getters.getPacketByNameAndClient(
+          site.packet,
+          site.client_type
+        ));
+      this.getPacket();
+      this.extra_disk_space = site.extra_disk_space;
+      this.extra_db_space = site.extra_db_space;
+      this.web_server = this.$store.getters.getWebServerByName(site.web_server);
+      this.selectWebServer();
+      this.php_version = site.php_version;
+      this.node = site.node;
+      this.database_server = this.$store.getters.getDatabaseServerByName(
+        site.db_server
+      );
+      this.database_name = site.db_name;
+      this.database_user = site.db_user;
+      this.database_password = site.db_password;
+      this.template = this.$store.getters.getTemplateByName(site.template);
+      this.template_version = site.template_version;
+      this.hosted = site.hosted;
+      for (let i = 0; i < site.ldap_users.length; i++) {
+        this.addLdapUser(site.ldap_users[i], site.ldap_passwords[i]);
+      }
+    }
   },
 };
 </script>

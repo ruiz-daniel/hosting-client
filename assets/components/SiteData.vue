@@ -1,7 +1,7 @@
 <template>
   <div class="p-grid p-justify-center p-mt-3">
     <div class="p-grid p-shadow-14 wrap">
-      <div class="p-col-2 p-mt-4 p-ml-4">
+      <div class="p-col-3 p-lg-2 p-mt-4 p-ml-4">
         <div class="p-d-flex p-jc-between">
           <div class="p-mr-3">
             <p>Sitio</p>
@@ -15,7 +15,7 @@
         <div class="content-wrapper">
           <div>
             <p>Titular</p>
-            {{ site_data.client }}
+            {{ site_data.client_name+" "+site_data.client_last_name }}
           </div>
           <div>
             <p>Tipo de cliente</p>
@@ -96,11 +96,11 @@
           </div>
           <div>
             <p>Usuario LDAP</p>
-            {{site_data.ldap_user}}
+            {{site_data.ldap_users}}
           </div>
           <div>
             <p>Contraseña LDAP</p>
-            {{site_data.ldap_password}}
+            {{site_data.ldap_passwords}}
           </div>
           <div>
             <p>Fichero de inicio</p>
@@ -122,6 +122,8 @@ export default {
     return {
       site_data: this.$store.state.selected_site,
     };
+  },
+  methods: {
   },
 };
 </script>

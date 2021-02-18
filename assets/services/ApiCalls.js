@@ -48,6 +48,25 @@ export default {
         });
     },
 
+    updateSite(fn, data) {
+        apiClient.request({
+            method: "post",
+            url: '/epupdate',
+            data: data
+        }).then(response =>{
+            fn()
+        });
+    },
+
+    getSites(fn) {
+        apiClient.request({
+            method: 'get',
+            url: '/epgetsites'
+        }).then(response => {
+            fn(response.data)
+        });
+    },
+
     getSiteData(fn, data) {
         axios.request({
           method: 'post',
@@ -61,5 +80,15 @@ export default {
         }).then(response=> {
           fn(response.data)
         })
-      }
+    },
+
+    deleteSite(fn, data) {
+        apiClient.request({
+            method: "post",
+            url: '/epdelete',
+            data: data
+        }).then(response =>{
+            fn()
+        });
+    }
 }

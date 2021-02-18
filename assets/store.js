@@ -12,7 +12,8 @@ export default new Vuex.Store({
         database_servers: [],
         packets: [],
         hosted_sites: [],
-        selected_site: {}
+        selected_site: {},
+        edit_switch: false
     },
     getters: {
         getNaturalPackets: state => {
@@ -31,6 +32,42 @@ export default new Vuex.Store({
                     result.push(element)
                 }
             });
+            return result
+        },
+        getPacketByNameAndClient: state => (name, client) => {
+            let result;
+            state.packets.forEach(element => {
+                if (element.name === name && element.client_type === client) {
+                    result = element
+                }
+            });
+            return result
+        },
+        getWebServerByName: state => name => {
+            let result
+            state.web_server_options.forEach(element => {
+                if (element.name === name) {
+                    result = element
+                }
+            })
+            return result
+        },
+        getDatabaseServerByName: state => name => {
+            let result
+            state.database_servers.forEach(element => {
+                if (element.name === name) {
+                    result = element
+                }
+            })
+            return result
+        },
+        getTemplateByName: state => name => {
+            let result
+            state.templates.forEach(element => {
+                if (element.name === name) {
+                    result = element
+                }
+            })
             return result
         }
     },
@@ -52,6 +89,9 @@ export default new Vuex.Store({
         },
         SET_SELECTED_SITE(state, data) {
             state.selected_site = data
+        },
+        SWITCH_EDIT(state, edit) {
+            state.edit_switch = edit;
         }
     },
     actions:{}

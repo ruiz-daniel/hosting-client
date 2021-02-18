@@ -44,6 +44,10 @@ import Card from 'primevue/card';
 Vue.component("Card", Card);
 import Toolbar from 'primevue/toolbar';
 Vue.component("Toolbar", Toolbar);
+import Message from 'primevue/message';
+Vue.component("Message", Message);
+import Dialog from 'primevue/dialog';
+Vue.component("Dialog", Dialog);
 
 new Vue({
     store,

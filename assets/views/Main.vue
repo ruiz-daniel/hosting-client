@@ -37,13 +37,14 @@ export default {
       this.$router.push({ name: "Form" });
     },
     viewSites() {
-        axios.request({
-            method: 'get',
-            url: '/epgetsites'
-        }).then(response=>{
-            this.$store.commit("SET_HOSTED_SITES", response.data);
-            this.$router.push({name: 'viewsites'})
-        })
+      var store = this.$store
+      var router = this.$router
+        this.$root.api.getSites(function(data) {
+          store.commit("SET_HOSTED_SITES", data);
+          router.push({name: 'viewsites'})
+        }) 
+            
+        
     },
   },
 };

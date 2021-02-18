@@ -42,11 +42,11 @@ class VueAPIController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $request_data = \json_decode($request->getContent(), true);
         $client = new Client(
-            $request_data['ldap_name'],
-            $request_data['ldap_last_name'],
-            $request_data['ldap_email'],
-            $request_data['ldap_phone'],
-            $request_data['client']
+            $request_data['client_name'],
+            $request_data['client_last_name'],
+            $request_data['client_email'],
+            $request_data['client_phone'],
+            $request_data['client_type']
         );
 
         $quota = new Quota();
@@ -73,10 +73,75 @@ class VueAPIController extends AbstractController
         $site->setTemplateVersion($request_data['template_version']);
         $site->setHosted(False);
 
-        $ldap_user = new LdapUser($request_data['ldap_user'], $request_data['ldap_password']);
-        $ldap_user->setSite($site);
-        $entityManager->persist($ldap_user);
+        foreach ($request_data['ldap_users'] as $ldap_user) {
+            $ldap_user = new LdapUser($ldap_user['ldap_user'], $ldap_user['ldap_password']);
+            $ldap_user->setSite($site);
+            $entityManager->persist($ldap_user);
+        }
 
+        
+
+        $entityManager->flush();
+
+        return $this->render('vue_api/index.html.twig', []);
+    }
+
+    /**
+     * @Route("/epupdate", methods={"POST", "GET"})
+     */
+    public function updateSite(Request $request) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $request_data = \json_decode($request->getContent(), true);
+        $site = $entityManager->getRepository(Site::class)->find($request_data['id']);
+        $site->setName($request_data['site_name']);
+        $site->setAlias($request_data['alias']);
+        $site->setIndexName($request_data['index']);
+        $site->setProtectedDir($request_data['protected_dir']);
+        $site->setWebServerId($request_data['web_server']);
+        $site->setPhpVersion($request_data['php_version']);
+        $site->setNodeJs($request_data['node']);
+        $site->setDbServerId($request_data['database_server']);
+        $site->setDbName($request_data['database_name']);
+        $site->setDbUser($request_data['database_user']);
+        $site->setDbPassword($request_data['database_password']);
+        $site->setTemplateId($request_data['template']);
+        $site->setTemplateVersion($request_data['template_version']);
+        $site->setHosted($request_data['hosted']);
+
+        $quota = $site->getQuota();
+        $quota->setPacketId($request_data['packet']);
+        $quota->setExtraDiskSpace($request_data['extra_disk_space']);
+        $quota->setExtraDbSpace($request_data['extra_db_space']);
+
+        $client = $site->getClient();
+        $client->setName($request_data['client_name']);
+        $client->setLastName($request_data['client_last_name']);
+        $client->setEmail($request_data['client_email']);
+        $client->setPhone($request_data['client_phone']);
+        $client->setType($request_data['client_type']);
+
+        $old_ldap_users = $site->getLdapUsers();
+        foreach ($old_ldap_users as $user) {
+            $entityManager->remove($user);
+        }
+        foreach ($request_data['ldap_users'] as $ldap_user) {
+            $ldap_user = new LdapUser($ldap_user['ldap_user'], $ldap_user['ldap_password']);
+            $ldap_user->setSite($site);
+            $entityManager->persist($ldap_user);
+        }
+        $entityManager->flush();
+
+        return $this->render('vue_api/index.html.twig', []);
+    }
+
+    /**
+     * @Route("/epdelete", methods={"POST"})
+     */
+    public function deleteSite(Request $request) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $request_data = \json_decode($request->getContent(), true);
+        $site = $entityManager->getRepository(Site::class)->find($request_data['id']);
+        $entityManager->remove($site);
         $entityManager->flush();
 
         return $this->render('vue_api/index.html.twig', []);
@@ -209,19 +274,25 @@ class VueAPIController extends AbstractController
             'template_version' => $site->getTemplateVersion(),
             'protected_dir' => $site->getProtectedDir(),
             'index' => $site->getIndexName(),
-            'ldap_user' => $site->getLdapUsers()[0]->getUserName(),
-            'ldap_password' => $site->getLdapUsers()[0]->getPassword(),
+            'ldap_users' => [],
+            'ldap_passwords' => [],
             'packet' => $packet->getName(),
             'disk_space' => $packet->getDiskSpace(),
             'db_space' => $packet->getDbSpace(),
             'extra_disk_space' => $quota->getExtraDiskSpace(),
             'extra_db_space' => $quota->getExtraDbSpace(),
-            'client' => $client->getFullName(),
+            'client_name' => $client->getName(),
+            'client_last_name' => $client->getLastName(),
             'client_email' => $client->getEmail(),
             'client_phone' => $client->getPhone(),
-            'client_type' => $client->getType()
+            'client_type' => $client->getType(),
+            'hosted' => $site->getHosted()
             
         ];
+        foreach ($site->getLdapUsers() as $ldap_user) {
+            $result['ldap_users'][] = $ldap_user->getUserName();
+            $result['ldap_passwords'][] = $ldap_user->getPassword();
+        }
         $response = new Response(
             \json_encode($result),
             200,

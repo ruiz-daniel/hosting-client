@@ -5,7 +5,7 @@
     </template>
 
     <template #right>
-        <Button icon="pi pi-arrow-left" class="p-mr-2" v-on:click="goBack()" />
+        <Button icon="pi pi-arrow-left" class="p-mr-2" v-if="$route.path !== '/'" v-on:click="goBack()" />
     </template>
 </Toolbar>
 </template>
