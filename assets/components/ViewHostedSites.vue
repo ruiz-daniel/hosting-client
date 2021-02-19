@@ -74,7 +74,7 @@ export default {
     deleteSite(site) {
       var root = this.$root;
       var store = this.$store;
-      var update = this.updateTableData;
+      var update = this.updateTableData; // doing this with a method due to vue not allowing to call a local variable from within a function parameter
       this.$root.api.deleteSite(function() {
         root.api.getSites(function(data) {
           store.commit("SET_HOSTED_SITES", data);
@@ -88,6 +88,7 @@ export default {
   },
   mounted() {
     this.table_data.forEach((element) => {
+      //Change boolean value of hosted to Completed / Pendant
       if (element.hosted == true) element.hosted = "Completada";
       else if (element.hosted == false) element.hosted = "Pendiente";
     });

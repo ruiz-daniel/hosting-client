@@ -58,7 +58,7 @@ Vue.component("OverlayPanel", OverlayPanel);
 new Vue({
     store,
     router,
-    api,
+
     data() {
         return {
             api
@@ -66,6 +66,7 @@ new Vue({
     },
 
     mounted() {
+        //Get data for comboboxes.......................
         api.getPackets(function(data){
             store.commit("SET_PACKETS", data)
         })
@@ -82,7 +83,6 @@ new Vue({
             store.commit("SET_TEMPLATES", data)
         })
     },
-
 
     el: '#app',
     render: h => h(App)

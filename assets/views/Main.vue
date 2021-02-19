@@ -34,7 +34,7 @@ import axios from 'axios';
 export default {
   methods: {
     newSite() {
-      this.$store.commit('SWITCH_EDIT', false)
+      this.$store.commit('SWITCH_EDIT', false) //remove the edit flag to go as a new site
       this.$router.push({ name: "Form" });
     },
     viewSites() {

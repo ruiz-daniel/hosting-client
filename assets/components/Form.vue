@@ -366,6 +366,7 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
+      //Flags for showing each tab
       show_site: true,
       show_packet: false,
       show_web: false,
@@ -379,7 +380,7 @@ export default {
       IPs: "",
 
       web_server: { id: 1, name: "Apache/PHP/Node.js" },
-      show_php_node: true,
+      show_php_node: true, //flag to know when specification of php version and NodeJS is needed
       php_version: "",
       node: false,
 
@@ -388,7 +389,7 @@ export default {
 
       database_name: "db",
       database_user: "dbo",
-      database_server: {id: null, name: ""},
+      database_server: {id: null, name: ""}, //initialized with the posibility of having no database
       database_password: "",
 
       protected_files: "",
@@ -404,17 +405,15 @@ export default {
       ldap_users: [],
 
       packet: "",
-      selected_packet: false,
+      selected_packet: false, //flag to know when a packet has been selected to display its info
       disk_space: "",
       extra_disk_space: 0,
       db_space: "",
       extra_db_space: 0,
 
-      table_data: [],
-
-      site_id: "",
-      hosted: false,
-      editingLdapUser: false,
+      
+      site_id: "", //Only used when editing a site, since we know its id
+      hosted: false, //set to false by default since is a new site
 
       menu_items: [
         {
@@ -494,6 +493,7 @@ export default {
   },
   methods: {
     selectWebServer() {
+      //show or hide php and node fields when selecting a web server
       if (this.web_server.name === "Apache/PHP/Node.js") {
         this.node = false;
         this.show_php_node = true;
@@ -504,6 +504,7 @@ export default {
       }
     },
     getPacket() {
+      //Get or clean quota info when selecting or removing a quota
       if (this.packet === null) {
         this.selected_packet = false;
         this.packet = "";
@@ -533,6 +534,7 @@ export default {
     submit() {
       var toast = this.$toast;
       if (!this.$store.state.edit_switch) {
+        //if we are not editing / adding a new site.................................
         this.$root.api.registerNewSite(function() {
           toast.add({severity:'success', detail:'El sitio se ha guardado con éxito', life: 3000});
         }, {
@@ -561,6 +563,7 @@ export default {
           IPs: this.IPs
         });
       } else {
+        // if we are editing an existing site..............................
         this.$root.api.updateSite(function() {
           toast.add({severity:'success', detail:'El sitio se ha actualizado con éxito', life: 3000});
         }, {
@@ -642,6 +645,7 @@ export default {
       return (this.client == "Empresarial" && this.IPs != "") || this.client == "Natural"
     },
     packets() {
+      //ask the store for the corresponding packets for each type of clients, since their spaces are different
       if (this.client === "Natural") {
         return this.$store.getters.getNaturalPackets;
       } else if (this.client === "Empresarial") {
@@ -657,6 +661,7 @@ export default {
     ]),
   },
   mounted() {
+    //Check if we are editing a site, in which case load its info from the "selected_site" object in the store
     if (this.$store.state.edit_switch) {
       let site = this.$store.state.selected_site;
       this.site_id = site.id;

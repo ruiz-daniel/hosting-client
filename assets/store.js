@@ -12,8 +12,8 @@ export default new Vuex.Store({
         database_servers: [],
         packets: [],
         hosted_sites: [],
-        selected_site: {},
-        edit_switch: false
+        selected_site: {}, // site that is being edited or checked its info
+        edit_switch: false // flag to know when a site has been selected for modifications
     },
     getters: {
         getNaturalPackets: state => {
