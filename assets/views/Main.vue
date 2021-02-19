@@ -34,6 +34,7 @@ import axios from 'axios';
 export default {
   methods: {
     newSite() {
+      this.$store.commit('SWITCH_EDIT', false)
       this.$router.push({ name: "Form" });
     },
     viewSites() {

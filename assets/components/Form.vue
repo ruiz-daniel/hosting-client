@@ -531,8 +531,11 @@ export default {
       }
     },
     submit() {
+      var toast = this.$toast;
       if (!this.$store.state.edit_switch) {
-        this.$root.api.registerNewSite(function() {}, {
+        this.$root.api.registerNewSite(function() {
+          toast.add({severity:'success', detail:'El sitio se ha guardado con éxito', life: 3000});
+        }, {
           ldap_users: this.ldap_users,
           client_type: this.client,
           client_name: this.client_name,
@@ -558,7 +561,9 @@ export default {
           IPs: this.IPs
         });
       } else {
-        this.$root.api.updateSite(function() {}, {
+        this.$root.api.updateSite(function() {
+          toast.add({severity:'success', detail:'El sitio se ha actualizado con éxito', life: 3000});
+        }, {
           id: this.site_id,
           ldap_users: this.ldap_users,
           client_type: this.client,
