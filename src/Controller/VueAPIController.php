@@ -65,12 +65,21 @@ class VueAPIController extends AbstractController
         $site->setWebServerId($request_data['web_server']);
         $site->setPhpVersion($request_data['php_version']);
         $site->setNodeJs($request_data['node']);
-        $site->setDbServerId($request_data['database_server']);
-        $site->setDbName($request_data['database_name']);
-        $site->setDbUser($request_data['database_user']);
-        $site->setDbPassword($request_data['database_password']);
+        if ($request_data['database_server'] !== null && $request_data['database_server'] !== "") {
+            $site->setDbServerId($request_data['database_server']);
+            $site->setDbName($request_data['database_name']);
+            $site->setDbUser($request_data['database_user']);
+            $site->setDbPassword($request_data['database_password']);
+        } else {
+            $site->setDbServerId(0);
+            $site->setDbName("");
+            $site->setDbUser("");
+            $site->setDbPassword("");
+        }
+        
         $site->setTemplateId($request_data['template']);
         $site->setTemplateVersion($request_data['template_version']);
+        $site->setIPs($request_data['IPs']);
         $site->setHosted(False);
 
         foreach ($request_data['ldap_users'] as $ldap_user) {
@@ -101,12 +110,20 @@ class VueAPIController extends AbstractController
         $site->setPhpVersion($request_data['php_version']);
         $site->setNodeJs($request_data['node']);
         $site->setDbServerId($request_data['database_server']);
-        $site->setDbName($request_data['database_name']);
-        $site->setDbUser($request_data['database_user']);
-        $site->setDbPassword($request_data['database_password']);
+        if ($request_data['database_server'] == 0) {
+            $site->setDbName("");
+            $site->setDbUser("");
+            $site->setDbPassword("");
+        } else {
+            $site->setDbName($request_data['database_name']);
+            $site->setDbUser($request_data['database_user']);
+            $site->setDbPassword($request_data['database_password']);
+        }
+        
         $site->setTemplateId($request_data['template']);
         $site->setTemplateVersion($request_data['template_version']);
         $site->setHosted($request_data['hosted']);
+        $site->setIPs($request_data['IPs']);
 
         $quota = $site->getQuota();
         $quota->setPacketId($request_data['packet']);
@@ -286,7 +303,8 @@ class VueAPIController extends AbstractController
             'client_email' => $client->getEmail(),
             'client_phone' => $client->getPhone(),
             'client_type' => $client->getType(),
-            'hosted' => $site->getHosted()
+            'hosted' => $site->getHosted(),
+            'IPs' => $site->getIPs()
             
         ];
         foreach ($site->getLdapUsers() as $ldap_user) {

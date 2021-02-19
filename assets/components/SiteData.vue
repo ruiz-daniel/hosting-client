@@ -22,6 +22,10 @@
             {{ site_data.client_type }}
           </div>
           <div>
+            <p>IPs de acceso</p>
+            {{site_data.IPs}}
+          </div>
+          <div>
             <p>Correo</p>
             {{ site_data.client_email }}
           </div>

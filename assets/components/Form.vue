@@ -33,6 +33,10 @@
                 "
               />
             </div>
+            <div v-if="client == 'Empresarial'" class="p-field">
+              <label for="ips">IPs arrendadas</label>
+              <InputText id="ips" type="text" v-model="IPs" />
+            </div>
             <div class="p-field">
               <label for="client_name">Nombre</label>
               <InputText
@@ -254,19 +258,16 @@
                 </template>
                 <Column field="ldap_user" header="usuario">
                   <template #body="slotProps">
-                    <InputText
-                        type="text"
-                        v-model="slotProps.data.ldap_user"
-                      />
+                    <InputText type="text" v-model="slotProps.data.ldap_user" />
                   </template>
                 </Column>
                 <Column field="ldap_password" header="contraseña">
                   <template #body="slotProps">
                     <InputText
-                        type="text"
-                        v-model="slotProps.data.ldap_password"
-                        style="width:auto"
-                      />
+                      type="text"
+                      v-model="slotProps.data.ldap_password"
+                      style="width:auto"
+                    />
                   </template>
                 </Column>
                 <Column field="" header="">
@@ -287,7 +288,7 @@
               <Message
                 severity="error"
                 :closable="false"
-                v-if="validateClientName"
+                v-if="!validateSiteName"
                 >Falta el nombre del sitio</Message
               >
               <Message
@@ -296,14 +297,62 @@
                 v-if="!validateClientData"
                 >Faltan datos del cliente</Message
               >
-            </div>
-            <div class="submit-div p-col-11">
+              <Message
+                severity="error"
+                :closable="false"
+                v-if="!validateIPs"
+                >Especifique IPs arrendadas</Message
+              >
+              <Message
+                severity="error"
+                :closable="false"
+                v-if="!selected_packet"
+                >Seleccione un paquete</Message
+              >
+              <Message
+                severity="error"
+                :closable="false"
+                v-if="!validateWebServer"
+                >Seleccione un servidor web</Message
+              >
+              <Message
+                severity="error"
+                :closable="false"
+                v-if="!validatePhpVersion"
+                >Especifique versión de php</Message
+              >
+              <Message
+                severity="error"
+                :closable="false"
+                v-if="!validateDatabaseData"
+                >Faltan datos de nombre y usuario de base de datos</Message
+              >
+              <Message
+                severity="error"
+                :closable="false"
+                v-if="!validateTemplate"
+                >Seleccione una plantilla y versión</Message
+              >
+              <Message
+                severity="error"
+                :closable="false"
+                v-if="!ldap_users.length > 0"
+                >Inserte al menos un usuario LDAP</Message
+              >
+              <Message
+                severity="success"
+                :closable="false"
+                v-if="validate"
+                >Los Datos son correctos</Message
+              >
+              <div class="submit-div p-col-11">
               <Button
                 label="Guardar"
                 v-if="validate"
                 v-on:click="submit()"
                 style="float: right"
               />
+            </div>
             </div>
           </div>
         </div>
@@ -327,8 +376,9 @@ export default {
       site_name: "www.",
       alias: "",
       client: "Natural",
+      IPs: "",
 
-      web_server: "Apache/PHP/Node.js",
+      web_server: { id: 1, name: "Apache/PHP/Node.js" },
       show_php_node: true,
       php_version: "",
       node: false,
@@ -338,7 +388,7 @@ export default {
 
       database_name: "db",
       database_user: "dbo",
-      database_server: "MySQL",
+      database_server: {id: null, name: ""},
       database_password: "",
 
       protected_files: "",
@@ -456,8 +506,8 @@ export default {
     getPacket() {
       if (this.packet === null) {
         this.selected_packet = false;
-        this.packet = {};
-      } else if (this.packet != {}) {
+        this.packet = "";
+      } else if (this.packet != "") {
         this.disk_space = this.packet.disk_space;
         this.db_space = this.packet.db_space;
         this.selected_packet = true;
@@ -505,6 +555,7 @@ export default {
           database_user: this.database_user,
           protected_dir: this.protected_files,
           index: this.index,
+          IPs: this.IPs
         });
       } else {
         this.$root.api.updateSite(function() {}, {
@@ -532,6 +583,7 @@ export default {
           protected_dir: this.protected_files,
           index: this.index,
           hosted: this.hosted,
+          IPs: this.IPs
         });
       }
     },
@@ -539,19 +591,18 @@ export default {
   computed: {
     validate() {
       return (
-        this.site_name !== "" &&
-        this.template !== "" &&
-        this.database_password !== "" &&
-        this.index !== "" &&
+        this.validateSiteName &&
+        this.validateClientData &&
+        this.validateWebServer &&
+        this.validatePhpVersion !== "" &&
         this.ldap_users.length > 0 &&
-        this.packet !== null &&
-        this.packet != "" &&
-        this.disk_space !== "" &&
-        this.db_space !== ""
+        this.selected_packet &&
+        this.validateTemplate &&
+        this.validateDatabaseData
       );
     },
-    validateClientName() {
-      return this.site_name == "" || this.site_name == "www.";
+    validateSiteName() {
+      return this.site_name != "" && this.site_name != "www.";
     },
     validateClientData() {
       return (
@@ -560,6 +611,30 @@ export default {
         this.client_email != "" &&
         this.client_phone != ""
       );
+    },
+    validateWebServer() {
+      return this.web_server != "" && this.web_server != null;
+    },
+    validatePhpVersion() {
+      return (
+        (this.show_php_node && this.php_version != "") || !this.show_php_node
+      );
+    },
+    validateDatabaseData() {
+      return (
+        this.database_server.name != "" &&
+        this.database_name != "" &&
+        this.database_name != "db" &&
+        this.database_user != "" &&
+        this.database_user != "dbo"  &&
+        this.database_password != ""
+      ) || (this.database_server.name == "" || this.database_server == null) || (this.database_server.id == 0);
+    },
+    validateTemplate() {
+      return this.template != "" && this.template != null
+    },
+    validateIPs() {
+      return (this.client == "Empresarial" && this.IPs != "") || this.client == "Natural"
     },
     packets() {
       if (this.client === "Natural") {
@@ -607,6 +682,7 @@ export default {
       this.template = this.$store.getters.getTemplateByName(site.template);
       this.template_version = site.template_version;
       this.hosted = site.hosted;
+      this.IPs = site.IPs;
       for (let i = 0; i < site.ldap_users.length; i++) {
         this.addLdapUser(site.ldap_users[i], site.ldap_passwords[i]);
       }

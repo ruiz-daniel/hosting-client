@@ -1,6 +1,7 @@
 <template>
   <div>
     <Navbar></Navbar>
+    <Toast></Toast>
     <router-view />
   </div>
 </template>

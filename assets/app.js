@@ -23,6 +23,8 @@ import 'primeicons/primeicons.css'
 import 'primevue/resources/primevue.min.css'
 import 'primeflex/primeflex.css'
 import 'primevue/resources/themes/nova/theme.css'
+import ToastService from 'primevue/toastservice';
+Vue.use(ToastService);
 
 import PanelMenu from 'primevue/panelmenu';
 Vue.component('PanelMenu', PanelMenu);
@@ -48,6 +50,8 @@ import Message from 'primevue/message';
 Vue.component("Message", Message);
 import Dialog from 'primevue/dialog';
 Vue.component("Dialog", Dialog);
+import Toast from 'primevue/toast';
+Vue.component("Toast", Toast);
 
 new Vue({
     store,

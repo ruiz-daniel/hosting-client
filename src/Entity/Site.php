@@ -91,7 +91,7 @@ class Site
     private $web_server_id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $db_server_id;
 
@@ -104,6 +104,11 @@ class Site
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $hosted;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $IPs;
 
     public function __construct($name, $alias)
     {
@@ -334,6 +339,18 @@ class Site
     public function setHosted(bool $hosted): self
     {
         $this->hosted = $hosted;
+
+        return $this;
+    }
+
+    public function getIPs(): ?string
+    {
+        return $this->IPs;
+    }
+
+    public function setIPs(?string $IPs): self
+    {
+        $this->IPs = $IPs;
 
         return $this;
     }
