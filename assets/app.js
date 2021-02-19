@@ -17,6 +17,8 @@ import store from './store.js';
 import router from './router.js';
 import api from './services/ApiCalls.js'
 
+import 'nprogress/nprogress.css'
+
 
 
 import 'primeicons/primeicons.css'
