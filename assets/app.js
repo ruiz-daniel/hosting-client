@@ -52,6 +52,8 @@ import Dialog from 'primevue/dialog';
 Vue.component("Dialog", Dialog);
 import Toast from 'primevue/toast';
 Vue.component("Toast", Toast);
+import OverlayPanel from 'primevue/overlaypanel';
+Vue.component("OverlayPanel", OverlayPanel);
 
 new Vue({
     store,

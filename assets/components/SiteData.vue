@@ -2,7 +2,7 @@
   <div class="p-grid p-justify-center p-mt-3">
     <div class="p-grid p-shadow-14 wrap">
       <div class="p-col-3 p-lg-2 p-mt-4 p-ml-4">
-        <div class="p-d-flex p-jc-between">
+        <div class="content-wrapper">
           <div class="p-mr-3">
             <p>Sitio</p>
             <span id="site_name">{{ site_data.site_name }}</span>
@@ -134,7 +134,7 @@ export default {
 
 <style scoped>
 .wrap {
-  width: 70%;
+  width: 90%;
   background-color: white;
 }
 p {
