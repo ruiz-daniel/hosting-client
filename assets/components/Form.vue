@@ -300,6 +300,18 @@
               <Message
                 severity="error"
                 :closable="false"
+                v-if="!validateEmail"
+                >Email inválido</Message
+              >
+              <Message
+                severity="error"
+                :closable="false"
+                v-if="!validatePhone"
+                >Número de teléfono inválido</Message
+              >
+              <Message
+                severity="error"
+                :closable="false"
                 v-if="!validateIPs"
                 >Especifique IPs arrendadas</Message
               >
@@ -606,7 +618,8 @@ export default {
         this.ldap_users.length > 0 &&
         this.selected_packet &&
         this.validateTemplate &&
-        this.validateDatabaseData
+        this.validateDatabaseData &&
+        this.validateEmail
       );
     },
     validateSiteName() {
@@ -619,6 +632,12 @@ export default {
         this.client_email != "" &&
         this.client_phone != ""
       );
+    },
+    validateEmail() {
+      return this.client_email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
+    },
+    validatePhone() {
+      return this.client_phone.match(/^\(?([0-9]{4})\)?[-. ]?([0-9]{2})[-. ]?([0-9]{2})$/)
     },
     validateWebServer() {
       return this.web_server != "" && this.web_server != null;
