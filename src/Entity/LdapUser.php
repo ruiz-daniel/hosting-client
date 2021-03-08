@@ -12,8 +12,8 @@ class LdapUser
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="string", length=255)
      */
     private $id;
 
@@ -39,7 +39,7 @@ class LdapUser
         $this->password = $password;
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }

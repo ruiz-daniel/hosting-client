@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 19, 2021 at 10:10 PM
+-- Generation Time: Mar 08, 2021 at 07:30 PM
 -- Server version: 10.4.16-MariaDB
 -- PHP Version: 7.4.12
 
@@ -47,7 +47,7 @@ INSERT INTO `available_web_server` (`id`, `name`) VALUES
 --
 
 CREATE TABLE `client` (
-  `id` int(8) NOT NULL,
+  `id` varchar(8) NOT NULL,
   `name` varchar(20) NOT NULL,
   `last_name` varchar(20) NOT NULL,
   `email` varchar(20) NOT NULL,
@@ -60,13 +60,16 @@ CREATE TABLE `client` (
 --
 
 INSERT INTO `client` (`id`, `name`, `last_name`, `email`, `phone`, `type`) VALUES
-(93, 'daniel', 'ruiz garcia', 'ruizd1710@gmail.com', '72064388', 'Natural'),
-(94, 'david', 'carvajal iznaga', 'ruizd1710@gmail.com', '72353090', 'Natural'),
-(96, 'drg', 'weiss', 'weiss@gmail.com', '72065566', 'Natural'),
-(97, 'dan', 'ziur', 'ruizd1710@gmail.com', '15412512', 'Natural'),
-(98, 'grim', 'noire', 'ruizd1710@gmail.com', '2362136136', 'Natural'),
-(115, 'DRG', 'weiss', 'ruizd1710@gmail.com', '21541251', 'Natural'),
-(116, 'DRG', 'co', 'ruizd1710@gmail.com', '325213515', 'Empresarial');
+('115', 'DRG', 'weiss', 'ruizd1710@gmail.com', '21541251', 'Natural'),
+('116', 'DRG', 'co', 'ruizd1710@gmail.com', '325213515', 'Empresarial'),
+('15cc3609', 'test', 'ruiz', 'ruizd1710@gmail.com', '72064388', 'Natural'),
+('28393c5d', 'DRG', '1weqrqt', 'ruizd1710@gmail.com', '12456745', 'Natural'),
+('93', 'Daniel', 'ruiz garcia', 'ruizd1710@gmail.com', '72064388', 'Natural'),
+('94', 'david', 'carvajal iznaga', 'ruizd1710@gmail.com', '72353090', 'Natural'),
+('96', 'drg', 'weiss', 'weiss@gmail.com', '72065566', 'Natural'),
+('97', 'dan', 'ziur', 'ruizd1710@gmail.com', '15412512', 'Natural'),
+('98', 'grim', 'noire', 'ruizd1710@gmail.com', '2362136136', 'Natural'),
+('c637bfb9', 'DRG', 'rft', 'ruizd1710@gmail.com', '12456745', 'Natural');
 
 -- --------------------------------------------------------
 
@@ -95,9 +98,9 @@ INSERT INTO `database_server` (`name`, `id`) VALUES
 --
 
 CREATE TABLE `ldap_user` (
-  `id` int(8) NOT NULL,
+  `id` varchar(8) NOT NULL,
   `username` varchar(30) NOT NULL,
-  `site_id` int(8) NOT NULL,
+  `site_id` varchar(8) NOT NULL,
   `password` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -106,14 +109,16 @@ CREATE TABLE `ldap_user` (
 --
 
 INSERT INTO `ldap_user` (`id`, `username`, `site_id`, `password`) VALUES
-(46, 'test2ftp', 44, 'asdfaff'),
-(47, 'test3ftp', 45, 'agasgags'),
-(48, 'test4ftp', 46, 'agfasgags'),
-(49, 'test5ftp', 47, 'asgashaha'),
-(50, 'test5ftp1', 47, 'asfgasgag'),
-(69, 'test6ftp', 63, 'qwgtaqwgqg'),
-(73, 'test7ftp', 64, 'awtaqwgtaqg'),
-(77, 'testftp', 43, '12346');
+('28309389', 'uidftp', '283906b6', 'asfgag'),
+('46', 'test2ftp', '44', 'asdfaff'),
+('47', 'test3ftp', '45', 'agasgags'),
+('48', 'test4ftp', '46', 'agfasgags'),
+('49', 'test5ftp', '47', 'asgashaha'),
+('50', 'test5ftp1', '47', 'asfgasgag'),
+('69', 'test6ftp', '63', 'qwgtaqwgqg'),
+('73', 'test7ftp', '64', 'awtaqwgtaqg'),
+('a747bdbe', 'testftp', '43', '12346'),
+('c6360888', 'md5ftp1', 'c6379477', '1c33c7e8661203a4');
 
 -- --------------------------------------------------------
 
@@ -164,7 +169,9 @@ INSERT INTO `quota` (`id`, `packet_id`, `extra_disk_space`, `extra_db_space`) VA
 (72, 3, 0, 0),
 (73, 1, 0, 0),
 (90, 2, 0, 0),
-(91, 6, 0, 0);
+(91, 6, 0, 0),
+(108, 2, 0, 0),
+(109, 2, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -173,10 +180,10 @@ INSERT INTO `quota` (`id`, `packet_id`, `extra_disk_space`, `extra_db_space`) VA
 --
 
 CREATE TABLE `site` (
-  `id` int(8) NOT NULL,
+  `id` varchar(8) NOT NULL,
   `name` varchar(30) NOT NULL,
   `alias` varchar(20) NOT NULL,
-  `client_id` int(7) NOT NULL,
+  `client_id` varchar(8) NOT NULL,
   `quota_id` int(8) NOT NULL,
   `index_name` varchar(30) NOT NULL DEFAULT 'index.html',
   `protected_dir` varchar(100) NOT NULL,
@@ -198,13 +205,15 @@ CREATE TABLE `site` (
 --
 
 INSERT INTO `site` (`id`, `name`, `alias`, `client_id`, `quota_id`, `index_name`, `protected_dir`, `web_server_id`, `php_version`, `node_js`, `db_server_id`, `db_name`, `db_user`, `db_password`, `template_id`, `template_version`, `hosted`, `IPs`) VALUES
-(43, 'www.test.nat.cu', 'pruebas', 93, 66, 'index.html', '', 1, '7.1', 1, 2, 'testdb', 'testdbo', 'asfqawq', 1, '5', 0, ''),
-(44, 'www.test2.nat.cu', 'prueba2', 94, 67, 'index.html', '', 1, '7.2', 0, 1, 'test2db', 'test2dbo', 'asgfasfa', 2, '2', 0, ''),
-(45, 'www.test3.nat.cu', '', 96, 69, 'index.html', 'folder, folder1, folder2', 2, '', 0, 2, 'testdb', 'testdbo', 'asgasga', 3, '', 0, ''),
-(46, 'www.test4.nat.cu', '', 97, 72, 'index.html', '', 1, '7.2', 1, 1, 'test4db', 'test4dbo', 'qwrqwtgq', 1, '5', 0, ''),
-(47, 'www.test5.nat.cu', 'multildap', 98, 73, 'index.html', '', 1, '7.2', 0, 1, 'test5db', 'test5dbo', 'aeyqeyqh', 1, '5', 0, ''),
-(63, 'www.test6.nat.cu', 'nodb', 115, 90, 'index.html', '', 1, '7.1', 0, 0, '', '', '', 2, '', 0, ''),
-(64, 'www.test7.nat.cu', 'ips', 116, 91, 'index.html', '', 1, '7.1', 0, 0, '', '', '', 1, '', 0, '192.168.58.8, 192.168.78.9');
+('283906b6', 'www.test8.nat.cu', 'uuid', '28393c5d', 108, 'index.html', '', 2, '', 0, 0, '', '', '', 3, '', 0, ''),
+('43', 'www.test.nat.cu', 'pruebas', '93', 66, 'index.html', '', 1, '7.1', 1, 2, 'testdb', 'testdbo', 'asfqawq', 1, '5', 0, ''),
+('44', 'www.test2.nat.cu', 'prueba2', '94', 67, 'index.html', '', 1, '7.2', 0, 1, 'test2db', 'test2dbo', 'asgfasfa', 2, '2', 0, ''),
+('45', 'www.test3.nat.cu', '', '96', 69, 'index.html', 'folder, folder1, folder2', 2, '', 0, 2, 'testdb', 'testdbo', 'asgasga', 3, '', 0, ''),
+('46', 'www.test4.nat.cu', '', '97', 72, 'index.html', '', 1, '7.2', 1, 1, 'test4db', 'test4dbo', 'qwrqwtgq', 1, '5', 0, ''),
+('47', 'www.test5.nat.cu', 'multildap', '98', 73, 'index.html', '', 1, '7.2', 0, 1, 'test5db', 'test5dbo', 'aeyqeyqh', 1, '5', 0, ''),
+('63', 'www.test6.nat.cu', 'nodb', '115', 90, 'index.html', '', 1, '7.1', 0, 0, '', '', '', 2, '', 0, ''),
+('64', 'www.test7.nat.cu', 'ips', '116', 91, 'index.html', '', 1, '7.1', 0, 0, '', '', '', 1, '', 0, '192.168.58.8, 192.168.78.9'),
+('c6379477', 'www.test9.nat.cu', 'md5', 'c637bfb9', 109, 'index.html', '', 2, '', 0, 0, '', '', '', 3, '', 0, '');
 
 -- --------------------------------------------------------
 
@@ -291,18 +300,6 @@ ALTER TABLE `template`
 --
 
 --
--- AUTO_INCREMENT for table `client`
---
-ALTER TABLE `client`
-  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
-
---
--- AUTO_INCREMENT for table `ldap_user`
---
-ALTER TABLE `ldap_user`
-  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
-
---
 -- AUTO_INCREMENT for table `packet`
 --
 ALTER TABLE `packet`
@@ -312,13 +309,7 @@ ALTER TABLE `packet`
 -- AUTO_INCREMENT for table `quota`
 --
 ALTER TABLE `quota`
-  MODIFY `id` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
-
---
--- AUTO_INCREMENT for table `site`
---
-ALTER TABLE `site`
-  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
 
 --
 -- AUTO_INCREMENT for table `template`
