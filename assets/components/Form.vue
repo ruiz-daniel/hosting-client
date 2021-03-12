@@ -162,7 +162,7 @@
                   v-model="database_server"
                 />
               </div>
-              <div class="p-field">
+              <div class="p-field" v-if="showDataBaseFields">
                 <label for="database_name">Nombre base de datos</label>
                 <InputText
                   id="database_name"
@@ -170,7 +170,7 @@
                   v-model="database_name"
                 />
               </div>
-              <div class="p-field">
+              <div class="p-field" v-if="showDataBaseFields">
                 <label for="database_user">Usuario base de datos</label>
                 <InputText
                   id="database_user"
@@ -178,7 +178,7 @@
                   v-model="database_user"
                 />
               </div>
-              <div class="p-field">
+              <div class="p-field" v-if="showDataBaseFields">
                 <label for="database_password">Contraseña base de datos</label>
                 <InputText
                   id="database_password"
@@ -286,67 +286,67 @@
           <div class="p-col-7 tab" v-show="show_save">
             <div class="p-col-11" style="text-align:center">
               <Message
-                severity="error"
+                severity="warn"
                 :closable="false"
                 v-if="!validateSiteName"
                 >Falta el nombre del sitio</Message
               >
               <Message
-                severity="error"
+                severity="warn"
                 :closable="false"
                 v-if="!validateClientData"
                 >Faltan datos del cliente</Message
               >
               <Message
-                severity="error"
+                severity="warn"
                 :closable="false"
                 v-if="!validateEmail"
                 >Email inválido</Message
               >
               <Message
-                severity="error"
+                severity="warn"
                 :closable="false"
                 v-if="!validatePhone"
                 >Número de teléfono inválido</Message
               >
               <Message
-                severity="error"
+                severity="warn"
                 :closable="false"
                 v-if="!validateIPs"
                 >Especifique IPs arrendadas</Message
               >
               <Message
-                severity="error"
+                severity="warn"
                 :closable="false"
                 v-if="!selected_packet"
                 >Seleccione un paquete</Message
               >
               <Message
-                severity="error"
+                severity="warn"
                 :closable="false"
                 v-if="!validateWebServer"
                 >Seleccione un servidor web</Message
               >
               <Message
-                severity="error"
+                severity="warn"
                 :closable="false"
                 v-if="!validatePhpVersion"
                 >Especifique versión de php</Message
               >
               <Message
-                severity="error"
+                severity="warn"
                 :closable="false"
                 v-if="!validateDatabaseData"
                 >Faltan datos de nombre y usuario de base de datos</Message
               >
               <Message
-                severity="error"
+                severity="warn"
                 :closable="false"
                 v-if="!validateTemplate"
                 >Seleccione una plantilla y versión</Message
               >
               <Message
-                severity="error"
+                severity="warn"
                 :closable="false"
                 v-if="!ldap_users.length > 0"
                 >Inserte al menos un usuario LDAP</Message
@@ -399,8 +399,8 @@ export default {
       template: "",
       template_version: "",
 
-      database_name: "db",
-      database_user: "dbo",
+      database_name: "",
+      database_user: "",
       database_server: {id: null, name: ""}, //initialized with the posibility of having no database
       database_password: "",
 
@@ -408,7 +408,7 @@ export default {
       index: "index.html",
 
       client_name: "",
-      ldap_user: "ftp",
+      ldap_user: "",
       client_last_name: "",
       client_email: "",
       client_phone: "",
@@ -532,7 +532,10 @@ export default {
           ldap_user: username,
           ldap_password: password,
         });
-        this.ldap_user = "ftp" + this.ldap_users.length.toString();
+        if (this.ldap_users.length > 1)
+          this.ldap_user = this.ldap_user.substring(0, this.ldap_user.length-1) + this.ldap_users.length.toString();
+        else
+          this.ldap_user = this.ldap_user + this.ldap_users.length.toString();
         this.ldap_password = "";
       }
     },
@@ -670,6 +673,9 @@ export default {
       } else if (this.client === "Empresarial") {
         return this.$store.getters.getEnterprisePackets;
       }
+    },
+    showDataBaseFields() {
+      return this.database_server.id != 0 && this.database_server.id != null;
     },
     ...mapState([
       "web_server_options",
