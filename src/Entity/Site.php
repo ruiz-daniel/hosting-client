@@ -14,8 +14,8 @@ class Site
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="UUID")
-     * @ORM\Column(type="string", length=255)
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
     private $id;
 
@@ -116,13 +116,9 @@ class Site
         $this->alias = $alias;
     }
 
-    public function getId(): ?string
+    public function getId(): ?int
     {
         return $this->id;
-    }
-    public function setId(string $id)
-    {
-        $this->id = $id;
     }
 
     public function getName(): ?string
