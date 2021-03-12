@@ -1,8 +1,7 @@
 <template>
   <div class="p-grid p-justify-center" style="margin-top:2%; height: 100vh">
-    <div class="p-shadow-14 p-col-6" style="text-align:center" id="container">
+    <div class="p-shadow-14 p-col-8" style="text-align:center" id="container">
       <h1>Datos del Sitio</h1>
-      <form method="POST">
         <div class="p-grid form-container">
           <div class="p-col-4 box">
             <PanelMenu :model="menu_items"></PanelMenu>
@@ -42,7 +41,6 @@
               <InputText
                 id="client_name"
                 type="text"
-                name="client_name"
                 v-model="client_name"
               />
             </div>
@@ -51,7 +49,6 @@
               <InputText
                 id="client_last_name"
                 type="text"
-                name="client_last_name"
                 v-model="client_last_name"
               />
             </div>
@@ -60,7 +57,6 @@
               <InputText
                 id="client_email"
                 type="text"
-                name="client_email"
                 v-model="client_email"
               />
             </div>
@@ -69,7 +65,6 @@
               <InputText
                 id="client_phone"
                 type="number"
-                name="client_phone"
                 v-model="client_phone"
               />
             </div>
@@ -77,7 +72,7 @@
 
           <div class="p-col-7 tab" v-show="show_packet">
             <div class="p-field" style="text-align:center; margin-bottom:2rem">
-              <label for="packet">Paquete contratado</label>
+              <h3>Paquete contratado</h3>
               <Dropdown
                 id="packet"
                 :options="packets"
@@ -90,12 +85,12 @@
             </div>
             <div class="p-grid" v-if="selected_packet">
               <div class="p-col-6">
-                <label for="disk_space">Espacio en Disco</label>
-                <InputNumber id="disk_space" v-model="disk_space" />MB
+                <label for="disk_space">Espacio en Disco (MB)</label>
+                <InputNumber id="disk_space" v-model="disk_space" />
               </div>
               <div class="p-col-6">
-                <label for="db_space">Espacio en Base de Datos</label>
-                <InputNumber id="db_space" v-model="db_space" />MB
+                <label for="db_space">Espacio en Base de Datos (MB)</label>
+                <InputNumber id="db_space" v-model="db_space" />
               </div>
             </div>
             <div class="p-grid" v-if="selected_packet">
@@ -204,7 +199,6 @@
               <InputText
                 id="template_version"
                 type="text"
-                name="template_version"
                 v-model="template_version"
               />
             </div>
@@ -230,7 +224,6 @@
               <InputText
                 id="ldap_user"
                 type="text"
-                name="ldap_user"
                 v-model="ldap_user"
               />
             </div>
@@ -239,7 +232,6 @@
               <InputText
                 id="ldap_password"
                 type="password"
-                name="ldap_password"
                 v-model="ldap_password"
               />
             </div>
@@ -368,7 +360,6 @@
             </div>
           </div>
         </div>
-      </form>
     </div>
   </div>
 </template>

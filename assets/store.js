@@ -13,7 +13,8 @@ export default new Vuex.Store({
         packets: [],
         hosted_sites: [],
         selected_site: {}, // site that is being edited or checked its info
-        edit_switch: false // flag to know when a site has been selected for modifications
+        edit_switch: false, // flag to know when a site has been selected for modifications
+        user_data: "no user"
     },
     getters: {
         getNaturalPackets: state => {
@@ -92,6 +93,9 @@ export default new Vuex.Store({
         },
         SWITCH_EDIT(state, edit) {
             state.edit_switch = edit;
+        },
+        SET_USER_DATA(state, data) {
+            state.user_data = data;
         }
     },
     actions:{}

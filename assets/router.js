@@ -4,6 +4,7 @@ import Form from './components/Form.vue';
 import Main from './views/Main.vue'
 import ViewSites from './components/ViewHostedSites.vue'
 import SiteData from './components/SiteData.vue'
+import Login from './views/Login.vue'
 
 Vue.use(VueRouter);
 
@@ -11,6 +12,11 @@ const routes = [
     {
         path: '/',
         name: 'index',
+        component: Login
+    },
+    {
+        path: '/main',
+        name: 'main',
         component: Main
     },
     {

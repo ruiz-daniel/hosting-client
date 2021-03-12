@@ -101,5 +101,18 @@ export default {
         }).then(response =>{
             fn()
         });
+    },
+
+    login(fn, data) {
+        apiClient.request({
+            method: "post",
+            url: '/eplogin',
+            data: {
+                'username': data.username,
+                'password': data.password
+            },
+        }).then(response =>{
+            fn(response.data)
+        });
     }
 }

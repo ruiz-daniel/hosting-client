@@ -17,6 +17,8 @@ use App\Entity\Contract;
 use App\Entity\HostedSite;
 use App\Entity\LdapUser;
 use App\Entity\Quota;
+use App\Entity\User;
+use App\Entity\UserRole;
 
 class VueAPIController extends AbstractController
 {
@@ -326,6 +328,30 @@ class VueAPIController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $request_data = \json_decode($request->getContent(), true);
         $result = $entityManager->getRepository(Site::class)->find($request_data['site'])->getName();
+        $response = new Response(
+            \json_encode($result),
+            200,
+            ['content-type' => 'json']
+        );
+        return $response;
+    }
+
+    /**
+     * @Route("/eplogin", methods={"POST"})
+     */
+    public function getUserFromDB(Request $request) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $request_data = \json_decode($request->getContent(), true);
+        $user = $entityManager->getRepository(User::class)->findOneBy(['username'=>$request_data['username'], 'password'=>md5($request_data['password'])]);
+        $result = "";
+        if ($user) {
+            $result = [
+                'username' => $user->getUserName(),
+                'role' => $entityManager->getRepository(UserRole::class)->find($user->getRoleId())->getName()
+            ];
+        } else {
+            $result = "incorrect";
+        }
         $response = new Response(
             \json_encode($result),
             200,

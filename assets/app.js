@@ -84,6 +84,7 @@ new Vue({
         api.getTemplates(function(data){
             store.commit("SET_TEMPLATES", data)
         })
+
     },
 
     el: '#app',

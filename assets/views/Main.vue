@@ -1,8 +1,8 @@
 <template>
-  <div class="p-grid p-justify-center">
-    <div class="p-col-10">
+  <div class="p-grid">
+    <div class="p-col-9 p-ml-3">
       <div class="p-grid">
-        <div class="p-col-6 p-justify-center">
+        <div class="p-col-7 p-justify-center p-mr-3 p-mt-2">
           <Card>
             <template #title>
               Registrar Nuevo Sitio
@@ -13,7 +13,7 @@
             </template>
           </Card>
         </div>
-        <div class="p-col-6 p-justify-center">
+        <div v-if="$store.state.user_data.role === 'Especialista'" class="p-col-7 p-justify-center p-mt-3">
           <Card>
             <template #title>
               Ver Sitios
@@ -52,7 +52,7 @@ export default {
 </script>
 
 <style>
-.p-card {
+.p-card:hover {
   box-shadow: 10px 10px rgb(199, 194, 194);
 }
 </style>
