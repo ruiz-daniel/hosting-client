@@ -1,0 +1,383 @@
+{% extends 'base.html.twig' %} {% block title %}Datos del sitio{% endblock %} 
+
+{%block body %}
+<style>
+  .tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+  }
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    color: blue ;
+  }
+  .tab button:hover {
+    background-color: #ddd;
+  }
+  
+  /* Create an active/current tablink class */
+  .tab button.active {
+    background-color: #ccc;
+  }
+  .btn-next{
+    background-color: blue;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    color:white ;
+    float: right;
+  }
+  .tabcontent {
+    display: none;
+  }
+
+  .example-wrapper {
+    margin: 1em auto;
+    max-width: 900px;
+    width: 95%;
+    font: 18px/1.5 sans-serif;
+  }
+  .example-wrapper code {
+    background: #f5f5f5;
+    padding: 2px 6px;
+  }
+  html,
+  body {
+    min-height: 100%;
+  }
+  body,
+  div,
+  form,
+  input,
+  select,
+  textarea,
+  p {
+    padding: 0;
+    margin: 0;
+    outline: none;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 14px;
+    color: #666;
+    line-height: 22px;
+  }
+  h1 {
+    position: absolute;
+    margin: 0;
+    font-size: 32px;
+    color: #fff;
+    z-index: 2;
+  }
+  h5 {
+    margin: 10px 0;
+  }
+  .testbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: inherit;
+    padding: 20px;
+  }
+  form {
+    width: 100%;
+    padding: 20px;
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0 0 20px 0 #095484;
+  }
+  .banner {
+    position: relative;
+    height: 210px;
+    background-image: url("/uploads/media/default/0001/01/c43630149befa5c9559813f72e99bcb6bf149e62.jpeg");
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .banner::after {
+    content: "";
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  input,
+  select,
+  textarea {
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  input {
+    width: calc(100% - 10px);
+    padding: 5px;
+  }
+  select {
+    width: 100%;
+    padding: 7px 0;
+    background: transparent;
+  }
+  textarea {
+    width: calc(100% - 12px);
+    padding: 5px;
+  }
+  .item:hover p,
+  .item:hover i,
+  .question:hover p,
+  .question label:hover,
+  input:hover::placeholder,
+  a {
+    color: #095484;
+  }
+  .item input:hover,
+  .item select:hover,
+  .item textarea:hover {
+    border: 1px solid transparent;
+    box-shadow: 0 0 6px 0 #095484;
+    color: #095484;
+  }
+  .item {
+    position: relative;
+    margin: 10px 0;
+    border-style: groove;
+    border-width: 2px;
+    padding: 0.5rem;
+  }
+  input[type="date"]::-webkit-inner-spin-button {
+    display: none;
+  }
+  .item i,
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    font-size: 20px;
+    color: #a9a9a9;
+  }
+  .item i {
+    right: 2%;
+    top: 30px;
+    z-index: 1;
+  }
+  [type="date"]::-webkit-calendar-picker-indicator {
+    right: 1%;
+    z-index: 2;
+    opacity: 0;
+    cursor: pointer;
+  }
+ 
+  label.radio,
+  label.check {
+    position: relative;
+    display: inline-block;
+    margin: 5px 20px 15px 0;
+    cursor: pointer;
+  }
+  .question span {
+    margin-left: 30px;
+  }
+  span.required {
+    margin-left: 0;
+    color: red;
+  }
+  .checkbox-item label {
+    margin: 5px 20px 10px 0;
+  }
+  label.radio:before,
+  label.check:before {
+    content: "";
+    position: absolute;
+    left: 0;
+  }
+  label.radio:before {
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    border: 2px solid #095484;
+  }
+  label.check:before {
+    top: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    border: 1px solid #095484;
+  }
+  input[type="checkbox"]:checked + .check:before {
+    background: #095484;
+  }
+  label.radio:after {
+    left: 5px;
+    border: 3px solid #095484;
+  }
+  label.check:after {
+    left: 4px;
+    border: 3px solid #fff;
+  }
+  label.radio:after,
+  label.check:after {
+    content: "";
+    position: absolute;
+    top: 6px;
+    width: 8px;
+    height: 4px;
+    background: transparent;
+    border-top: none;
+    border-right: none;
+    transform: rotate(-45deg);
+    opacity: 0;
+  }
+  input[type="radio"]:checked + label:after,
+  input[type="checkbox"]:checked + label:after {
+    opacity: 1;
+  }
+  .btn-block {
+    margin-top: 10px;
+    text-align: center;
+  }
+  button {
+    width: 150px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #095484;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+  }
+  button:hover {
+    background: #0666a3;
+  }
+  #submitdiv {
+    float: right;
+  }
+  @media (min-width: 568px) {
+    .city-item {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    .city-item input {
+      width: calc(50% - 20px);
+    }
+    .city-item select {
+      width: calc(50% - 8px);
+    }
+    .city-item div {
+      width: calc(50% - 20px);
+    }
+  }
+</style>
+
+<div class="example-wrapper">
+  <div class="testbox">
+    {{ form_start(form, {'action': path('persistSite'), 'method': 'POST'}) }}
+    <div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+    </div>
+
+    <div class="banner">
+      <h1>Insertar datos del sitio</h1>
+    </div>
+
+    <div class="tab">
+      <button class="tablinks" onclick="openTab(event, 'site')">Sitio</button>
+      <button class="tablinks" onclick="openTab(event, 'package')">Paquete</button>
+      <button class="tablinks" onclick="openTab(event, 'web')">Servidor Web</button>
+      <button class="tablinks" onclick="openTab(event, 'bd_files')">BD y Ficheros</button>
+      <button class="tablinks" onclick="openTab(event, 'ldap')">LDAP</button>
+    </div>
+
+    <div class="tabcontent" id="site" style="display: block;">
+      <div class="item">
+        {{ form_row(form.siteName, {'full_name':'site_name'}) }}
+        {{ form_row(form.alias, {'full_name':'alias'}) }}
+        {{ form_row(form.client_type, {'full_name':'client'})}}
+      </div>
+      <button class="btn-next" onclick="openTab(event, 'package')">Siguiente ></button>
+    </div>
+    
+    <div class="tabcontent" id="package">
+      <div class="item">
+        {{form_row(form.packetName, {'full_name':'packet_name'})}}
+        <div class="city-item">
+          {{form_row(form.diskSpace, {'full_name':'diskspace'})}}
+          {{form_row(form.extraDiskSpace, {'full_name':'extradiskspace'})}}
+          {{form_row(form.dbSpace, {'full_name':'dbspace'})}}
+          {{form_row(form.extraDBSpace, {'full_name':'extradbspace'})}}
+        </div>
+      </div>
+      <button class="btn-next" onclick="openTab(event, 'web')">Siguiente ></button>
+    </div>
+
+    <div class="tabcontent" id="web">
+      <div class="item">
+        {{form_row(form.webServer, {'full_name':'webserver'})}}
+        <div class="city-item">
+          {{form_row(form.phpVersion, {'full_name':'phpversion'})}}
+          {{form_row(form.node, {'full_name':'node'})}}
+        </div>
+        {{form_row(form.webTech, {'full_name':'webtech'})}}
+        {{form_row(form.webTechVersion, {'full_name':'version'})}}
+      </div>
+      <button class="btn-next" onclick="openTab(event, 'bd_files')">Siguiente ></button>
+    </div>
+
+    <div class="tabcontent" id="bd_files">
+      <div class="item">
+        {{form_row(form.dbServer, {'full_name':'db'})}}
+        {{form_row(form.dbPassword, {'full_name':'dbpass'})}}
+        {{form_row(form.protctedFiles, {'full_name':'protectedfiles'})}}
+        {{form_row(form.indexName, {'full_name':'index'})}}
+      </div>
+      <button class="btn-next" onclick="openTab(event, 'ldap')">Siguiente ></button>
+    </div>
+
+    <div class="tabcontent" id="ldap">
+      <div class="item">
+        {{form_row(form.ldapName, {'full_name':'ldapname'})}}
+        {{form_row(form.ldapLastName, {'full_name':'ldaplastname'})}}
+        {{form_row(form.ldapEmail, {'full_name':'ldapemail'})}}
+        {{form_row(form.ldapPhone, {'full_name':'ldapphone'})}}
+        {{form_row(form.ldapPassword, {'full_name':'ldappass'})}}
+      </div>
+      <div id="submitdiv">
+        {{form_row(form.save)}}
+      </div>
+      
+    </div>
+    
+{{ form_end(form) }}
+  </div>
+</div>
+
+<script>
+  function openTab(evt, tabName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+  
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+  
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+  
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+</script>
+
+{% endblock %} 
