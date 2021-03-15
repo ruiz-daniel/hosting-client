@@ -1,5 +1,5 @@
 <template>
-  <div class="p-grid p-justify-center p-mt-4">
+  <div class="p-grid p-justify-center p-mt-4" v-on:keyup.enter="login()">
     <div class="p-col-3 p-shadow-10" style="text-align: center">
       <h2>Inicio de sesión</h2>
       <div class="p-field">
@@ -29,10 +29,13 @@ export default {
         login() {
             var store = this.$store;
             var router = this.$router;
+            var toast = this.$toast;
             this.$root.api.login(function(data) {
                 if(data != 'incorrect') {
                     store.commit("SET_USER_DATA", data)
                     router.push({name:'main'})
+                } else {
+                  toast.add({severity:'error', detail:'Usuario o contraseña incorrectos', life: 3000});
                 }
         }, {'username': this.username, 'password':this.password})
         }

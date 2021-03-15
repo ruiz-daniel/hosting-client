@@ -13,7 +13,7 @@
               placeholder="Búsqueda global"
             />
           </span>
-          <OverlayPanel ref="op" style="width:65vw" :showCloseIcon="true">
+          <OverlayPanel ref="op" style="width:54vw" :showCloseIcon="true">
             <SiteData></SiteData>
           </OverlayPanel>
         </template>

@@ -265,6 +265,17 @@ class VueAPIController extends AbstractController
         return $response;
     }
 
+    // /**
+    //  * @Route("/epgetclientsites", methods={"POST"})
+    //  */
+    // public function getClientSites(Request $request) {
+    //     $entityManager = $this->getDoctrine()->getManager();
+    //     $request_data = \json_decode($request->getContent(), true);
+    //     $user = $entityManager->getRepository(LdapUser::class)->find($request_data['username']);
+    //     $sites_response = $entityManager->getRepository(Site::class)->findBy([]);
+    //     $sites = [];
+    // }
+
     /**
      * @Route("/epsitedata", methods={"POST"})
      */

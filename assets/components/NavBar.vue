@@ -5,8 +5,9 @@
     </template>
 
     <template #right>
-        <Button label="Cerrar Sesión" icon="pi pi-sign-out" iconPos="right" v-on:click="logout()" />
-        <!-- <Button icon="pi pi-arrow-left" class="p-mr-2" v-if="$route.path !== '/' && $route.path !== '/main'" v-on:click="goBack()" /> -->
+        <span class="pi pi-user"></span>
+        <span>{{$store.state.user_data.username}}</span>
+        <!-- <Button icon="pi pi-arrow-left" class="p-button-warning p-mr-2" v-if="$route.path !== '/' && $route.path !== '/main'" v-on:click="goBack()" /> -->
     </template>
 </Toolbar>
 </template>
@@ -26,14 +27,17 @@ export default {
             if (this.$route.path !== "/")
                 return this.$router.go(-1);
         },
-        logout() {
-            this.$store.commit("SET_USER_DATA", 'no user')
-            this.$router.push({name:'index'})
-        }
     }
 }
 </script>
 
-<style>
+<style scoped>
+.p-toolbar{
+    background-color: #0786e0;
+}
+span {
+    font-size: 20px;
+}
+
 
 </style>
