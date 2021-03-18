@@ -4,7 +4,7 @@
       <h2>Inicio de sesión</h2>
       <div class="p-field">
         <label for="username">Usuario</label>
-        <InputText id="username" type="text" v-model="username" />
+        <InputText id="username" type="text" v-model="username" autofocus />
       </div>
       <div class="p-field">
         <label for="password">Contraseña</label>
@@ -34,6 +34,8 @@ export default {
                 if(data != 'incorrect') {
                     store.commit("SET_USER_DATA", data)
                     router.push({name:'main'})
+                    sessionStorage.setItem('username', data.username)
+                    sessionStorage.setItem('role', data.role)
                 } else {
                   toast.add({severity:'error', detail:'Usuario o contraseña incorrectos', life: 3000});
                 }

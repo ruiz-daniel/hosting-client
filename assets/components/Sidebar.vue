@@ -1,9 +1,6 @@
 <template>
   <div class="sidebar">
     <div class="logo">
-      <!-- <router-link to="/main">
-        <img alt="Logo" src="../hosting web.png" />
-      </router-link> -->
       <h2>Menú</h2>
     </div>
     <div>

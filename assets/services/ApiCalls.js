@@ -199,5 +199,29 @@ export default {
         }).catch(error => {
             fn(false)
         });
+    },
+
+    changePassword(fn, data) {
+        apiClient.request({
+            method: "post",
+            url: '/epchangepassword',
+        }).then(response => {
+            fn(response.data)
+        }).catch(error => {
+            fn(false)
+        });
+    },
+
+    checkPassword(fn, data) {
+        apiClient.request({
+            method: "post",
+            url: '/epcheckpassword',
+            data: {
+                username: data.username,
+                password: data.password
+            }
+        }).then(response => {
+            fn(response.data)
+        })
     }
 }

@@ -20,6 +20,12 @@ export default new Vuex.Store({
         selected_user: {}
     },
     getters: {
+        checkData: state => {
+            return state.web_server_options.length > 0 &&
+            state.templates.length > 0 &&
+            state.database_servers.length > 0 &&
+            state.packets.length > 0
+        },
         getNaturalPackets: state => {
             let result = []
             state.packets.forEach(element => {

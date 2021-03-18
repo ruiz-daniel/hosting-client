@@ -498,4 +498,56 @@ class VueAPIController extends AbstractController
         );
         return $response;
     }
+
+    /**
+     * @Route("/epchangepassword", methods={"POST"})
+     */
+    public function changePassword(Request $request) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $request_data = \json_decode($request->getContent(), true);
+        $response = null;
+
+        //check current password
+        $user = $entityManager->getRepository(User::class)->findOneBy(["username" => $request_data['username']]);
+        if ($user->getPassword() != md5($request_data['old_password'])) {
+            $response = new Response(
+                \json_encode("incorrect password"),
+                200,
+                ['content-type' => 'json']
+            );
+        }
+        else if ($user->getPassword() == md5($request_data['old_password'])) {
+            $user->setPassword(md5($request_data['password']));
+            $response = new Response(
+                \json_encode("incorrect password"),
+                200,
+                ['content-type' => 'json']
+            );
+        }
+        return $response;
+    }
+
+    /**
+     * @Route("/epcheckpassword", methods={"POST"})
+     */
+    public function checkPassword(Request $request) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $request_data = \json_decode($request->getContent(), true);
+        $response = new Response(
+            \json_encode(false),
+            200,
+            ['content-type' => 'json']
+        );
+
+        $user = $entityManager->getRepository(User::class)->findOneBy(["username" => $request_data['username']]);
+        if ($user->getPassword() == md5($request_data['password'])) {
+            $response = new Response(
+                \json_encode(true),
+                200,
+                ['content-type' => 'json']
+            );
+        }
+        return $response;
+
+    }
 }

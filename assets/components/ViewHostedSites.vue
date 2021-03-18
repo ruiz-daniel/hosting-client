@@ -1,5 +1,16 @@
 <template>
   <div class="p-grid p-justify-center">
+    <Dialog
+      header="Inserte su contraseña"
+      :visible.sync="askPassword"
+      :style="{ width: '350px' }"
+      :modal="true"
+    >
+      <div class="confirmation-content" v-on:keyup.enter="refresh()">
+        <InputText type="password" v-model="password" autofocus />
+        <Button icon="pi pi-check" v-on:click="refresh()" />
+      </div>
+    </Dialog>
     <div class="p-col-10">
       <DataTable :value="table_data" :filters="filters">
         <template #header>
@@ -46,6 +57,8 @@ export default {
     return {
       table_data: this.$store.state.hosted_sites,
       filters: {},
+      askPassword: false,
+      password: "",
     };
   },
   components: {
@@ -54,12 +67,10 @@ export default {
   methods: {
     viewDetails(site, event) {
       var store = this.$store;
-      var router = this.$router;
       var op = this.$refs.op;
       this.$root.api.getSiteData(function(response_data) {
         store.commit("SET_SELECTED_SITE", response_data);
         op.toggle(event);
-        // router.push({ name: "sitedata" });
       }, site);
     },
     modifySite(site) {
@@ -84,14 +95,52 @@ export default {
     },
     updateTableData() {
       this.table_data = this.$store.state.hosted_sites;
+      this.table_data.forEach((element) => {
+        //Change boolean value of hosted to Completed / Pendant
+        if (element.hosted == true) element.hosted = "Completada";
+        else if (element.hosted == false) element.hosted = "Pendiente";
+      });
+    },
+    refresh() {
+      var toast = this.$toast;
+      var store = this.$store;
+      var update = this.updateTableData;
+      var root = this.$root;
+      var closeconfirm = this.closePasswordDialog;
+
+      this.$root.api.checkPassword(
+        function(response) {
+          if (response) {
+            root.api.getSites(function(data) {
+              store.commit("SET_HOSTED_SITES", data);
+              update();
+              closeconfirm();
+            });
+          } else {
+            toast.add({
+              severity: "error",
+              detail: "Contraseña incorrecta",
+              life: 3000,
+            });
+          }
+        },
+        {
+          username: sessionStorage.getItem("username"),
+          password: this.password,
+        }
+      );
+    },
+    closePasswordDialog() {
+      this.askPassword = false;
     },
   },
   mounted() {
-    this.table_data.forEach((element) => {
-      //Change boolean value of hosted to Completed / Pendant
-      if (element.hosted == true) element.hosted = "Completada";
-      else if (element.hosted == false) element.hosted = "Pendiente";
-    });
+    if (
+      sessionStorage.getItem("role") == "Especialista" &&
+      this.$store.state.hosted_sites.length == 0
+    ) {
+      this.askPassword = true;
+    }
   },
 };
 </script>

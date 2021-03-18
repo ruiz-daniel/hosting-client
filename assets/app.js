@@ -71,9 +71,9 @@ new Vue({
             api
         }
     },
-
-    mounted() {
-        //Get data for comboboxes.......................
+    methods: {
+      getServerData() {
+            //Get data for comboboxes.......................
         api.getPackets(function(data){
             store.commit("SET_PACKETS", data)
         })
@@ -89,6 +89,18 @@ new Vue({
         api.getTemplates(function(data){
             store.commit("SET_TEMPLATES", data)
         })
+      }
+    },
+
+    mounted() {
+        this.getServerData()
+        if (this.$route.path !== "/" && (store.user_data == "no user" || store.user_data == null)) {
+            let user_data = {
+              'username': sessionStorage.getItem('username'),
+              'role': sessionStorage.getItem('role')
+            }
+            store.commit("SET_USER_DATA", user_data)
+          }
 
     },
 

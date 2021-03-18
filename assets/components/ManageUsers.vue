@@ -1,5 +1,16 @@
 <template>
   <div class="p-grid p-justify-center">
+    <Dialog
+      header="Inserte su contraseña"
+      :visible.sync="askPassword"
+      :style="{ width: '350px' }"
+      :modal="true"
+    >
+      <div class="confirmation-content" v-on:keyup.enter="refresh()">
+        <InputText type="password" v-model="password" autofocus />
+        <Button icon="pi pi-check" v-on:click="refresh()" />
+      </div>
+    </Dialog>
     <div class="p-col-10">
       <DataTable :value="table_data" :filters="filters">
         <template #header>
@@ -40,12 +51,14 @@ export default {
     return {
       table_data: this.$store.state.users_list,
       filters: {},
+      askPassword: false,
+      password: "",
     };
   },
   methods: {
     modifyUser(user) {
-      this.$store.commit("SET_SELECTED_USER", user)
-      this.$router.push({name:'edituser'})
+      this.$store.commit("SET_SELECTED_USER", user);
+      this.$router.push({ name: "edituser" });
     },
     deleteUser(user) {
       var root = this.$root;
@@ -61,6 +74,49 @@ export default {
     updateTableData() {
       this.table_data = this.$store.state.users_list;
     },
+    refresh() {
+      var toast = this.$toast;
+      var store = this.$store;
+      var update = this.updateTableData;
+      var root = this.$root;
+      var closeconfirm = this.closePasswordDialog;
+
+      this.$root.api.checkPassword(
+        function(response) {
+          if (response) {
+            root.api.getUsers(function(data) {
+              store.commit("SET_USERS_LIST", data);
+              root.api.getUserRoles(function(data) {
+                store.commit("SET_USER_ROLES", data);
+                update();
+                closeconfirm();
+              });
+            });
+          } else {
+            toast.add({
+              severity: "error",
+              detail: "Contraseña incorrecta",
+              life: 3000,
+            });
+          }
+        },
+        {
+          username: sessionStorage.getItem("username"),
+          password: this.password,
+        }
+      );
+    },
+    closePasswordDialog() {
+      this.askPassword = false;
+    },
+  },
+  mounted() {
+    if (
+      sessionStorage.getItem("role") == "Administrador" &&
+      this.$store.state.users_list.length == 0
+    ) {
+      this.askPassword = true;
+    }
   },
 };
 </script>
