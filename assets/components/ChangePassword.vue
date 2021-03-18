@@ -1,6 +1,6 @@
 <template>
   <div class="p-grid p-ml-2">
-    <div class="p-col-4 p-mt-2 p-shadow-6">
+    <div class="p-col-4 p-mt-2 p-shadow-6 container">
       <div style="text-align:center">
         <h3>Cambiar Contraseña</h3>
       </div>
@@ -35,14 +35,6 @@
           >Las contraseñas no coinciden</small
         >
       </div>
-      <div class="p-field">
-        <label for="role">Rol</label>
-        <Dropdown
-          :options="$store.state.roles"
-          optionLabel="name"
-          v-model="role"
-        />
-      </div>
       <div class="p-grid" style="text-align:end">
         <div class="p-col-3">
           <Button class="p-ml-2" label="Guardar" v-on:click="change()" />
@@ -64,21 +56,45 @@ export default {
   },
   methods: {
     change() {
-      this.$root.api.changePassword(function() {}, {
+      var toast = this.$toast
+      this.$root.api.changePassword(function(response) {
+        if (response === true) {
+          toast.add({severity:'success', detail:'Se ha cambiado su contraseña', life: 3000});
+        }
+        else if (response == "incorrect password") {
+          toast.add({severity:'error', detail:'Contraseña actual incorrecta', life: 3000});
+        }
+        else {
+          toast.add({severity:'error', detail:'Ha ocurrido un error al cambiar su contraseña', life: 3000});
+        }
+      }, {
+        username: this.username,
         old_password: this.old_password,
         password: this.password,
       });
     },
   },
   mounted() {
-    this.user_id = this.$store.state.user_data.username;
+    if (this.$store.state.user_data.username == null) {
+      this.username = sessionStorage.getItem("username");
+    } else {
+      this.username = this.$store.state.user_data.username;
+    }
   },
   computed: {
     validatePasswords() {
-      return this.old_password === this.password;
+      return this.confirm_password === this.password;
     },
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+label {
+  width: 150px;
+  text-align: end;
+}
+.container {
+  width: 400px;
+}
+</style>

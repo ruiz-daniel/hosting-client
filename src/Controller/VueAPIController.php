@@ -518,8 +518,9 @@ class VueAPIController extends AbstractController
         }
         else if ($user->getPassword() == md5($request_data['old_password'])) {
             $user->setPassword(md5($request_data['password']));
+            $entityManager->flush();
             $response = new Response(
-                \json_encode("incorrect password"),
+                \json_encode(true),
                 200,
                 ['content-type' => 'json']
             );

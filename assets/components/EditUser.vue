@@ -1,6 +1,6 @@
 <template>
   <div class="p-grid p-ml-2" v-on:keyup.enter="update()">
-    <div class="p-col-4 p-mt-2 p-shadow-6">
+    <div class="p-col-4 p-mt-2 p-shadow-6 container">
       <div style="text-align:center">
         <h3>Datos del usuario</h3>
       </div>
@@ -88,5 +88,8 @@ export default {
 label {
   width: 150px;
   text-align: end;
+}
+.container {
+  width: 400px;
 }
 </style>

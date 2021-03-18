@@ -49,7 +49,10 @@ export default {
         },
         {
           label: "Cambiar contraseña",
-          icon: "pi pi-key"
+          icon: "pi pi-key",
+          command: () => {
+            this.$router.push({name:'changepassword'})
+          }
         },
         {
           label: "Salir",
@@ -71,7 +74,10 @@ export default {
         },
         {
           label: "Cambiar contraseña",
-          icon: "pi pi-key"
+          icon: "pi pi-key",
+          command: () => {
+            this.$router.push({name:'changepassword'})
+          }
         },
         {
           label: "Salir",
@@ -115,7 +121,10 @@ export default {
         },
         {
           label: "Cambiar contraseña",
-          icon: "pi pi-key"
+          icon: "pi pi-key",
+          command: () => {
+            this.$router.push({name:'changepassword'})
+          }
         },
         {
           label: "Salir",

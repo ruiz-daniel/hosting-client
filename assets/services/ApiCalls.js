@@ -205,6 +205,11 @@ export default {
         apiClient.request({
             method: "post",
             url: '/epchangepassword',
+            data: {
+                username: data.username,
+                old_password: data.old_password,
+                password: data.password
+            }
         }).then(response => {
             fn(response.data)
         }).catch(error => {
