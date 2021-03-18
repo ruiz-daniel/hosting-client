@@ -14,7 +14,10 @@ export default new Vuex.Store({
         hosted_sites: [],
         selected_site: {}, // site that is being edited or checked its info
         edit_switch: false, // flag to know when a site has been selected for modifications
-        user_data: "no user"
+        user_data: "no user", //loged in user data
+        users_list: [],
+        roles: [],
+        selected_user: {}
     },
     getters: {
         getNaturalPackets: state => {
@@ -70,6 +73,15 @@ export default new Vuex.Store({
                 }
             })
             return result
+        },
+        getRoleByName: state => name => {
+            let result
+            state.roles.forEach(element => {
+                if(element.name === name) {
+                    result = element
+                }
+            })
+            return result
         }
     },
     mutations: {
@@ -96,6 +108,15 @@ export default new Vuex.Store({
         },
         SET_USER_DATA(state, data) {
             state.user_data = data;
+        },
+        SET_USERS_LIST(state, data) {
+            state.users_list = data
+        },
+        SET_USER_ROLES(state, data) {
+            state.roles = data
+        },
+        SET_SELECTED_USER(state, data) {
+            state.selected_user = data
         }
     },
     actions:{}

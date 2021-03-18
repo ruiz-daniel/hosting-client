@@ -240,7 +240,7 @@ class VueAPIController extends AbstractController
     }
 
     /**
-     * @Route("/epgetsites", methods={"GET"})
+     * @Route("/epgetsites", methods={"POST"})
      */
     public function getSites(){
         $entityManager = $this->getDoctrine();
@@ -318,7 +318,6 @@ class VueAPIController extends AbstractController
             'client_type' => $client->getType(),
             'hosted' => $site->getHosted(),
             'IPs' => $site->getIPs()
-            
         ];
         foreach ($site->getLdapUsers() as $ldap_user) {
             $result['ldap_users'][] = $ldap_user->getUserName();
@@ -365,6 +364,135 @@ class VueAPIController extends AbstractController
         }
         $response = new Response(
             \json_encode($result),
+            200,
+            ['content-type' => 'json']
+        );
+        return $response;
+    }
+
+    /**
+     * @Route("/epgetusers", methods={"POST"})
+     */
+    public function getUsersList() {
+        $entityManager = $this->getDoctrine()->getManager();
+        $users_response = $entityManager->getRepository(User::class)->findAll();
+        $users = [];
+        foreach ($users_response as $user) {
+            if ($user->getRoleId() != 3) {
+                $users[] = [
+                    'id' => $user->getId(),
+                    'username' => $user->getUsername(),
+                    'password' => $user->getPassword(),
+                    'role' => $entityManager->getRepository(UserRole::class)->find($user->getRoleId())->getName()
+                ];
+            }
+            
+        }
+        $response = new Response(
+            \json_encode($users),
+            200,
+            ['content-type' => 'json']
+        );
+        return $response;
+    }
+
+    /**
+     * @Route("/epadduser", methods={"POST"})
+     */
+    public function addUser(Request $request) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $request_data = \json_decode($request->getContent(), true);
+
+        $user = new User();
+        $user->setUsername($request_data['username']);
+        $user->setPassword(md5($request_data['password']));
+        $user->setRoleId($request_data['role']);
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        $response = new Response(
+            \json_encode(true),
+            200,
+            ['content-type' => 'json']
+        );
+        return $response;
+    }
+
+    /**
+     * @Route("/epupdateuser", methods={"POST"})
+     */
+    public function updateUser(Request $request) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $request_data = \json_decode($request->getContent(), true);
+        
+        $user = $entityManager->getRepository(User::class)->find($request_data['id']);
+        $user->setUsername($request_data['username']);
+        $user->setRoleId($request_data['role']);
+
+        $entityManager->flush();
+
+        $response = new Response(
+            \json_encode(true),
+            200,
+            ['content-type' => 'json']
+        );
+        return $response;
+    }
+
+    /**
+     * @Route("/epupdatepassword", methods={"POST"})
+     */
+    public function updatePassword(Request $request) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $request_data = \json_decode($request->getContent(), true);
+        
+        $user = $entityManager->getRepository(User::class)->find($request_data['id']);
+        $user->setPassword(md5($request_data['password']));
+
+        $entityManager->flush();
+
+        $response = new Response(
+            \json_encode(true),
+            200,
+            ['content-type' => 'json']
+        );
+        return $response;
+    }
+
+    /**
+     * @Route("/epdeleteuser", methods={"POST"})
+     */
+    public function deleteUser(Request $request) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $request_data = \json_decode($request->getContent(), true);
+        
+        $user = $entityManager->getRepository(User::class)->find($request_data['id']);
+        if ($user->getRoleId() != 3)
+            $entityManager->remove($user);
+
+        $entityManager->flush();
+
+        $response = new Response(
+            \json_encode(true),
+            200,
+            ['content-type' => 'json']
+        );
+        return $response;
+    }
+
+    /**
+     * @Route("/epuserroles", methods={"GET"})
+     */
+    public function getUserRoles() {
+        $entityManager = $this->getDoctrine()->getManager();
+        $roles_response = $entityManager->getRepository(UserRole::class)->findAll();
+        $roles = [];
+        foreach ($roles_response as $role) {
+            $roles[] = ['id'=>$role->getId(), 'name'=>$role->getName()];
+        }
+        $response = new Response(
+            \json_encode($roles),
             200,
             ['content-type' => 'json']
         );

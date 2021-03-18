@@ -3,6 +3,7 @@
     <Navbar></Navbar>
     <div class="p-grid" style="margin-top:0">
       <div v-show="$route.path !== '/'" class="p-col-2 div-sidebar">
+      <Toast></Toast>
       <Sidebar></Sidebar>
     </div>
     <div class="p-col-10 div-content">
@@ -10,9 +11,6 @@
     </div>
     </div>
     
-    
-    
-    <Toast></Toast>
     
   </div>
 </template>

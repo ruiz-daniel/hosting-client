@@ -21,6 +21,7 @@ import 'nprogress/nprogress.css'
 
 
 
+
 import 'primeicons/primeicons.css'
 import 'primevue/resources/primevue.min.css'
 import 'primeflex/primeflex.css'
@@ -50,12 +51,16 @@ import Toolbar from 'primevue/toolbar';
 Vue.component("Toolbar", Toolbar);
 import Message from 'primevue/message';
 Vue.component("Message", Message);
+import InlineMessage from 'primevue/inlinemessage';
+Vue.component("InlineMessage", InlineMessage);
 import Dialog from 'primevue/dialog';
 Vue.component("Dialog", Dialog);
 import Toast from 'primevue/toast';
 Vue.component("Toast", Toast);
 import OverlayPanel from 'primevue/overlaypanel';
 Vue.component("OverlayPanel", OverlayPanel);
+import Password from 'primevue/password';
+Vue.component("Password", Password);
 
 new Vue({
     store,

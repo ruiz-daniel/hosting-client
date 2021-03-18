@@ -55,7 +55,10 @@ export default {
             url: '/epcommit',
             data: submit_data
         }).then(response =>{
-            fn()
+            fn(true)
+        }).catch(error => {
+            NProgress.done()
+            fn(false)
         });
     },
 
@@ -71,7 +74,7 @@ export default {
 
     getSites(fn) {
         apiClient.request({
-            method: 'get',
+            method: 'post',
             url: '/epgetsites'
         }).then(response => {
             fn(response.data)
@@ -113,6 +116,88 @@ export default {
             },
         }).then(response =>{
             fn(response.data)
+        });
+    },
+
+    getUsers(fn, data) {
+        apiClient.request({
+            method: "post",
+            url: '/epgetusers',
+        }).then(response =>{
+            fn(response.data)
+        });
+    },
+
+    addUser(fn, data) {
+        apiClient.request({
+            method: "post",
+            url: '/epadduser',
+            data: {
+                'username': data.username,
+                'password': data.password,
+                'role': data.role
+            },
+        }).then(response =>{
+            fn(true)
+        }).catch(error => {
+            fn(false)
+        });
+    },
+
+    updateUser(fn, data) {
+        apiClient.request({
+            method: "post",
+            url: '/epupdateuser',
+            data: {
+                'id': data.id,
+                'username': data.username,
+                'role': data.role
+            },
+        }).then(response =>{
+            fn(true)
+        }).catch(error => {
+            NProgress.done()
+            fn(false)
+        });
+    },
+
+    updatePassword(fn, data) {
+        apiClient.request({
+            method: "post",
+            url: '/epupdatepassword',
+            data: {
+                'id': data.id,
+                'password': data.password
+            },
+        }).then(response =>{
+            fn(true)
+        }).catch(error => {
+            fn(false)
+        });
+    },
+
+    deleteUser(fn, data) {
+        apiClient.request({
+            method: "post",
+            url: '/epdeleteuser',
+            data: {
+                'id': data.id
+            },
+        }).then(response =>{
+            fn(true)
+        }).catch(error => {
+            fn(false)
+        });
+    },
+
+    getUserRoles(fn) {
+        apiClient.request({
+            method: "get",
+            url: '/epuserroles',
+        }).then(response =>{
+            fn(response.data)
+        }).catch(error => {
+            fn(false)
         });
     }
 }

@@ -541,8 +541,11 @@ export default {
       var toast = this.$toast;
       if (!this.$store.state.edit_switch) {
         //if we are not editing / adding a new site.................................
-        this.$root.api.registerNewSite(function() {
-          toast.add({severity:'success', detail:'El sitio se ha guardado con éxito', life: 3000});
+        this.$root.api.registerNewSite(function(response) {
+          if (response)
+            toast.add({severity:'success', detail:'El sitio se ha guardado con éxito', life: 3000});
+          else
+            toast.add({severity:'error', detail:'Ha ocurrido un error al insertar el sitio', life: 3000});
         }, {
           ldap_users: this.ldap_users,
           client_type: this.client,

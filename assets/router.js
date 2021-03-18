@@ -5,6 +5,10 @@ import Main from './views/Main.vue'
 import ViewSites from './components/ViewHostedSites.vue'
 import SiteData from './components/SiteData.vue'
 import Login from './views/Login.vue'
+import ManageUsers from './components/ManageUsers.vue'
+import InsertUser from './components/InsertUser.vue'
+import EditUser from './components/EditUser.vue'
+import ChangePassword from './components/ChangePassword.vue'
 
 Vue.use(VueRouter);
 
@@ -33,6 +37,26 @@ const routes = [
         path: '/sitedata',
         name: 'sitedata',
         component: SiteData
+    },
+    {
+        path: '/manageusers',
+        name: 'manageusers',
+        component: ManageUsers
+    },
+    {
+        path: '/insertuser',
+        name: 'insertuser',
+        component: InsertUser
+    },
+    {
+        path: '/edituser',
+        name: 'edituser',
+        component: EditUser
+    },
+    {
+        path: '/changepassword',
+        name: 'changepassword',
+        component: ChangePassword
     }
 ];
 

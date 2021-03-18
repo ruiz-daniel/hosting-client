@@ -34,6 +34,7 @@ export default {
 <style scoped>
 .p-toolbar{
     background-color: #0786e0;
+    color: #ffff;
 }
 span {
     font-size: 20px;
