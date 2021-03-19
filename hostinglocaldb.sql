@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 12, 2021 at 10:31 PM
+-- Generation Time: Mar 19, 2021 at 08:09 PM
 -- Server version: 10.4.16-MariaDB
 -- PHP Version: 7.4.12
 
@@ -52,24 +52,25 @@ CREATE TABLE `client` (
   `last_name` varchar(20) NOT NULL,
   `email` varchar(20) NOT NULL,
   `phone` varchar(12) NOT NULL,
-  `type` varchar(12) NOT NULL
+  `type` varchar(12) NOT NULL,
+  `user_id` varchar(8) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `client`
 --
 
-INSERT INTO `client` (`id`, `name`, `last_name`, `email`, `phone`, `type`) VALUES
-('115', 'DRG', 'weiss', 'ruizd1710@gmail.com', '21541251', 'Natural'),
-('116', 'DRG', 'co', 'ruizd1710@gmail.com', '325213515', 'Empresarial'),
-('15cc3609', 'test', 'ruiz', 'ruizd1710@gmail.com', '72064388', 'Natural'),
-('28393c5d', 'DRG', '1weqrqt', 'ruizd1710@gmail.com', '12456745', 'Natural'),
-('93', 'Daniel', 'ruiz garcia', 'ruizd1710@gmail.com', '72064388', 'Natural'),
-('94', 'david', 'carvajal iznaga', 'ruizd1710@gmail.com', '72353090', 'Natural'),
-('96', 'drg', 'weiss', 'weiss@gmail.com', '72065566', 'Natural'),
-('97', 'dan', 'ziur', 'ruizd1710@gmail.com', '15412512', 'Natural'),
-('98', 'grim', 'noire', 'ruizd1710@gmail.com', '2362136136', 'Natural'),
-('c637bfb9', 'DRG', 'rft', 'ruizd1710@gmail.com', '12456745', 'Natural');
+INSERT INTO `client` (`id`, `name`, `last_name`, `email`, `phone`, `type`, `user_id`) VALUES
+('115', 'DRG', 'weiss', 'ruizd1710@gmail.com', '21541251', 'Natural', NULL),
+('116', 'DRG', 'co', 'ruizd1710@gmail.com', '32521351', 'Empresarial', NULL),
+('15cc3609', 'test', 'ruiz', 'ruizd1710@gmail.com', '72064388', 'Natural', NULL),
+('28393c5d', 'DRG', '1weqrqt', 'ruizd1710@gmail.com', '12456745', 'Natural', NULL),
+('93', 'Daniel', 'ruiz garcia', 'ruizd1710@gmail.com', '72064388', 'Natural', NULL),
+('94', 'david', 'carvajal iznaga', 'ruizd1710@gmail.com', '72353090', 'Natural', NULL),
+('96', 'drg', 'weiss', 'weiss@gmail.com', '72065566', 'Natural', NULL),
+('97', 'dan', 'ziur', 'ruizd1710@gmail.com', '15412512', 'Natural', NULL),
+('98', 'grim', 'noire', 'ruizd1710@gmail.com', '2362136136', 'Natural', NULL),
+('c637bfb9', 'DRG', 'rft', 'ruizd1710@gmail.com', '12456745', 'Natural', NULL);
 
 -- --------------------------------------------------------
 
@@ -116,9 +117,9 @@ INSERT INTO `ldap_user` (`id`, `username`, `site_id`, `password`) VALUES
 ('49', 'test5ftp', '47', 'asgashaha'),
 ('50', 'test5ftp1', '47', 'asfgasgag'),
 ('69', 'test6ftp', '63', 'qwgtaqwgqg'),
-('73', 'test7ftp', '64', 'awtaqwgtaqg'),
 ('a747bdbe', 'testftp', '43', '12346'),
-('c6360888', 'md5ftp1', 'c6379477', '1c33c7e8661203a4');
+('c6360888', 'md5ftp1', 'c6379477', '1c33c7e8661203a4'),
+('f64fe304', 'test7ftp', '64', 'awtaqwgtaqg');
 
 -- --------------------------------------------------------
 
@@ -212,7 +213,7 @@ INSERT INTO `site` (`id`, `name`, `alias`, `client_id`, `quota_id`, `index_name`
 ('46', 'www.test4.nat.cu', '', '97', 72, 'index.html', '', 1, '7.2', 1, 1, 'test4db', 'test4dbo', 'qwrqwtgq', 1, '5', 0, ''),
 ('47', 'www.test5.nat.cu', 'multildap', '98', 73, 'index.html', '', 1, '7.2', 0, 1, 'test5db', 'test5dbo', 'aeyqeyqh', 1, '5', 0, ''),
 ('63', 'www.test6.nat.cu', 'nodb', '115', 90, 'index.html', '', 1, '7.1', 0, 0, '', '', '', 2, '', 0, ''),
-('64', 'www.test7.nat.cu', 'ips', '116', 91, 'index.html', '', 1, '7.1', 0, 0, '', '', '', 1, '', 0, '192.168.58.8, 192.168.78.9'),
+('64', 'www.test7.nat.cu', 'ips', '116', 91, 'index.html', '', 1, '7.1', 0, 0, '', '', '', 1, '', 0, '192.168.58.8, 192.168.78.9, 192.168.67.89, 192.168.76.54'),
 ('c6379477', 'www.test9.nat.cu', 'md5', 'c637bfb9', 109, 'index.html', '', 2, '', 0, 0, '', '', '', 3, '', 0, '');
 
 -- --------------------------------------------------------
@@ -254,7 +255,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `password`, `role_id`) VALUES
-('1', 'daniel', '202cb962ac59075b964b07152d234b70', 2);
+('0', 'super', '9f6755788d156361df84ff2831b1411c', 3),
+('3cf86dd7', 'daniel', '202cb962ac59075b964b07152d234b70', 2),
+('6a24bdd0', 'danielcliente', '202cb962ac59075b964b07152d234b70', 1),
+('ac1d3728', 'admin', '21232f297a57a5a743894a0e4a801fc3', 3);
 
 -- --------------------------------------------------------
 
@@ -273,7 +277,8 @@ CREATE TABLE `user_role` (
 
 INSERT INTO `user_role` (`id`, `name`) VALUES
 (1, 'Cliente'),
-(2, 'Especialista');
+(2, 'Especialista'),
+(3, 'Administrador');
 
 --
 -- Indexes for dumped tables
@@ -289,7 +294,8 @@ ALTER TABLE `available_web_server`
 -- Indexes for table `client`
 --
 ALTER TABLE `client`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `client_user_fk` (`user_id`);
 
 --
 -- Indexes for table `database_server`
@@ -361,7 +367,7 @@ ALTER TABLE `packet`
 -- AUTO_INCREMENT for table `quota`
 --
 ALTER TABLE `quota`
-  MODIFY `id` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+  MODIFY `id` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
 
 --
 -- AUTO_INCREMENT for table `template`
@@ -373,11 +379,17 @@ ALTER TABLE `template`
 -- AUTO_INCREMENT for table `user_role`
 --
 ALTER TABLE `user_role`
-  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `client`
+--
+ALTER TABLE `client`
+  ADD CONSTRAINT `client_user_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `ldap_user`
