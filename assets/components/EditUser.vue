@@ -92,4 +92,7 @@ label {
 .container {
   width: 400px;
 }
+small {
+  margin-left: 150px;
+}
 </style>

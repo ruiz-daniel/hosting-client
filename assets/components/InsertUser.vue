@@ -22,6 +22,7 @@
           aria-describedby="confirm_invalid"
           v-model="confirm_password"
         />
+        <br>
         <small v-show="!validatePasswords" id="confirm_invalid" class="p-invalid">Las contraseñas no coinciden</small>
       </div>
       <div class="p-field">
@@ -91,6 +92,9 @@ label {
 }
 .container {
   width: 400px;
+}
+small {
+  margin-left: 150px;
 }
 
 </style>

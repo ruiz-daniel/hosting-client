@@ -6,6 +6,7 @@
         <div class="p-col-4 box">
           <PanelMenu :model="menu_items"></PanelMenu>
         </div>
+
         <div class="p-col-7 tab" v-show="show_site">
           <div class="p-field">
             <label for="site_name">Nombre del Sitio</label>
@@ -423,7 +424,7 @@ export default {
           },
         },
         {
-          label: "Usuario LDAP",
+          label: "Usuario FTP",
           icon: "pi pi-user",
           command: () => {
             this.show_site = false;
