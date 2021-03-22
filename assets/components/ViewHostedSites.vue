@@ -55,7 +55,7 @@ import SiteData from "./SiteData.vue";
 export default {
   data() {
     return {
-      table_data: this.$store.state.hosted_sites,
+      table_data: [],
       filters: {},
       askPassword: false,
       password: "",
@@ -140,7 +140,10 @@ export default {
       this.$store.state.hosted_sites.length == 0
     ) {
       this.askPassword = true;
+    } else {
+      this.updateTableData()
     }
+    
   },
 };
 </script>
