@@ -551,4 +551,53 @@ class VueAPIController extends AbstractController
         return $response;
 
     }
+
+    /**
+     * @Route("/epgetusernames", methods={"POST"})
+     */
+    public function getUsernames() {
+        $entityManager = $this->getDoctrine()->getManager();
+        $users_response = $entityManager->getRepository(User::class)->findAll();
+        $usernames = [];
+        foreach ($users_response as $user) {
+            $usernames[] = 
+                $user->getUsername();
+        }
+        $response = new Response(
+            \json_encode($usernames),
+            200,
+            ['content-type' => 'json']
+        );
+        return $response;
+    }
+
+    /**
+     * @Route("/epchangeusername", methods={"POST"})
+     */
+    public function changeUsername(Request $request) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $request_data = \json_decode($request->getContent(), true);
+        $user = $entityManager->getRepository(User::class)->findOneBy(["username" => $request_data['old_username']]);
+        $auth = $user->getPassword() == md5($request_data['password']);
+        $response = null;
+
+        if($auth) {
+            $user->setUsername($request_data['username']);
+            $entityManager->flush();
+            $response = new Response(
+                \json_encode(true),
+                200,
+                ['content-type' => 'json']
+            );
+        }
+        else {
+            $response = new Response(
+                \json_encode('incorrect password'),
+                200,
+                ['content-type' => 'json']
+            );
+        }
+        return $response;
+    }
+
 }

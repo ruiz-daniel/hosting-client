@@ -48,6 +48,13 @@ export default {
           },
         },
         {
+          label: "Cambiar Nombre de Usuario",
+          icon: "pi pi-user",
+          command: () => {
+            this.$router.push({name: 'changeusername'})
+          }
+        },
+        {
           label: "Cambiar contraseña",
           icon: "pi pi-key",
           command: () => {
@@ -71,6 +78,13 @@ export default {
             this.$store.commit("SWITCH_EDIT", false); //remove the edit flag to go as a new site
             this.$router.push({ name: "Form" });
           },
+        },
+        {
+          label: "Cambiar Nombre de Usuario",
+          icon: "pi pi-user",
+          command: () => {
+            this.$router.push({name: 'changeusername'})
+          }
         },
         {
           label: "Cambiar contraseña",
@@ -118,6 +132,13 @@ export default {
               router.push({ name: "insertuser" });
             });
           },
+        },
+        {
+          label: "Cambiar Nombre de Usuario",
+          icon: "pi pi-user",
+          command: () => {
+            this.$router.push({name: 'changeusername'})
+          }
         },
         {
           label: "Cambiar contraseña",

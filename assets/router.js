@@ -9,6 +9,7 @@ import ManageUsers from './components/ManageUsers.vue'
 import InsertUser from './components/InsertUser.vue'
 import EditUser from './components/EditUser.vue'
 import ChangePassword from './components/ChangePassword.vue'
+import ChangeUsername from './components/ChangeUsername.vue'
 
 Vue.use(VueRouter);
 
@@ -57,7 +58,13 @@ const routes = [
         path: '/changepassword',
         name: 'changepassword',
         component: ChangePassword
+    },
+    {
+        path: '/changeusername',
+        name: 'changeusername',
+        component: ChangeUsername
     }
+
 ];
 
 const router = new VueRouter({

@@ -1,5 +1,5 @@
 <template>
-  <div class="p-grid p-ml-2">
+  <div class="p-grid p-ml-2" v-on:keyup.enter="change()">
     <div class="p-col-4 p-mt-2 p-shadow-6 container">
       <div style="text-align:center">
         <h3>Cambiar Contraseña</h3>

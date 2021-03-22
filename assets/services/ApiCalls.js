@@ -228,5 +228,30 @@ export default {
         }).then(response => {
             fn(response.data)
         })
+    },
+
+    changeUsername(fn, data) {
+        apiClient.request({
+            method: "post",
+            url: '/epchangeusername',
+            data: {
+                old_username: data.old_username,
+                username: data.username,
+                password: data.password
+            }
+        }).then(response => {
+            fn(response.data)
+        })
+    },
+
+    getUsernames(fn) {
+        apiClient.request({
+            method: "post",
+            url: '/epgetusernames',
+        }).then(response => {
+            fn(response.data)
+        }).catch(error => {
+            fn(false)
+        });
     }
 }
