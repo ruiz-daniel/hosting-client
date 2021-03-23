@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar">
     <div class="logo">
-      <h2>Menú</h2>
+      <h2> <span class="pi pi-cog"></span> Menú</h2>
     </div>
     <div>
       <PanelMenu
@@ -167,12 +167,15 @@ export default {
   z-index: 999;
   overflow-y: auto;
   user-select: none;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
-  /* background-color: #333; */
-  /* background: linear-gradient(180deg, #4d505b 0, #3b3e47); */
+  box-shadow: 10px 0 20px 0 rgba(0, 0, 0, 0.16);
+  /* background-color: #0786e0; */
+  background: linear-gradient(180deg, #eeeff0 0, #ced4d8);
 }
 .logo {
   text-align: center;
-  color: rgb(18, 109, 194);
+  color: #0786e0
+}
+.p-panelmenu .p-panelmenu-panel{
+  margin-bottom: 0;
 }
 </style>

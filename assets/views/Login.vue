@@ -100,7 +100,7 @@ label {
 }
 .login-head {
   padding: 2em 0;
-  background: #5380c4;
+  background: #0786e0;
   position: relative;
 }
 .login-head h1 {
@@ -137,7 +137,7 @@ input[type="password"] {
 }
 input[type="text"]:hover,
 input[type="password"]:hover {
-  color: #5380c4;
+  color: #0786e0;
 }
 .submit h4 a {
   float: left;
@@ -149,7 +149,7 @@ input[type="password"]:hover {
   margin-left: 21px;
 }
 .submit h4 a:hover {
-  color: #5380c4;
+  color: #0786e0;
 }
 /*************************/
 .submit {
@@ -165,8 +165,8 @@ input[type="submit"] {
   padding: 12px 0px;
   width: 35%;
   font-size: 18px;
-  background: #5380c4;
-  border: 2px solid #5380c4;
+  background: #0786e0;
+  border: 2px solid #0786e0;
   border-radius: 0.5em;
   -webkit-border-radius: 0.5em;
   -moz-border-radius: 0.5em;
@@ -174,8 +174,8 @@ input[type="submit"] {
 }
 input[type="submit"]:hover {
   background: #fff;
-  color: #5380c4;
-  border: 2px solid #5380c4;
+  color: #0786e0;
+  border: 2px solid #0786e0;
 }
 /*----*/
 /* footer */

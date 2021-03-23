@@ -36,4 +36,18 @@ export default {
   margin-left: 0;
   padding-left: 0;
 }
+.header-div{
+  padding: 1.5em 0;
+  background: #0786e0;
+  position: relative;
+  color: white;
+  margin-bottom: 1rem;
+}
+.header-div h3 {
+  margin: 0;
+  
+}
+.container {
+  padding: 0;
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="p-grid p-ml-2" v-on:keyup.enter="change()">
     <div class="p-col-4 p-mt-2 p-shadow-6 container">
-      <div style="text-align:center">
+      <div style="text-align:center" class="header-div">
         <h3>Cambiar Nombre de Usuario</h3>
       </div>
 
