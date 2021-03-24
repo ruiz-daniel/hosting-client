@@ -607,4 +607,66 @@ class VueAPIController extends AbstractController
         return $response;
     }
 
+    /**
+     * @Route("/epsitesstats", methods={"POST"})
+     */
+    public function getStats() {
+        $entityManager = $this->getDoctrine()->getManager();
+        $hosted = 0;
+        $modified = 0;
+        $deleted = 0;
+
+        $php_node = 0;
+        $tomcat = 0;
+        $no_db = 0;
+        $mysql = 0;
+        $postgres = 0;
+
+        $sites = $entityManager->getRepository(Site::class)->findAll();
+        foreach ($sites as $site) {
+            if($site->getDeleted() == False) {
+                $hosted++;
+                if($site->getModified()) {
+                    $modified++;
+                }
+                if($site->getWebServerId() == 1) {
+                    $php_node++;
+                }
+                else if($site->getWebServerId() == 2) {
+                    $tomcat++;
+                }
+                if($site->getDbServerId() == 0) {
+                    $no_db++;
+                }
+                else if($site->getDbServerId() == 1) {
+                    $mysql++;
+                }
+                else if($site->getDbServerId() == 2) {
+                    $postgres++;
+                }
+            } 
+            else if($site->getDeleted() == True) {
+                $deleted++;
+            } 
+        }
+        $stats = [
+            'hosted' => $hosted,
+            'modified' => $modified,
+            'deleted' => $deleted,
+            'php_node' => $php_node,
+            'tomcat' => $tomcat,
+            'no_db' => $no_db,
+            'mysql' => $mysql,
+            'postgres' => $postgres
+        ];
+
+        $response = new Response(
+            \json_encode($stats),
+            200,
+            ['content-type' => 'json']
+        );
+
+        return $response;
+    }
+
 }

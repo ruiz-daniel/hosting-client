@@ -1,13 +1,11 @@
 <template>
-  <div class="p-grid">
-    <div class="p-col-9 p-ml-3">
-      
-    </div>
+  <div class="p-grid p-ml-2 p-mt-2">
+      <SpecialistView v-if="$store.state.user_data.role == 'Especialista'"></SpecialistView>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import SpecialistView from '../components/MainSpecialist'
 export default {
   methods: {
     newSite() {
@@ -22,6 +20,9 @@ export default {
           router.push({name: 'viewsites'})
         })
     },
+  },
+  components: {
+    SpecialistView,
   },
 };
 </script>

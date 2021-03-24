@@ -253,5 +253,14 @@ export default {
         }).catch(error => {
             fn(false)
         });
+    },
+
+    getSitesStats(fn) {
+        apiClient.request({
+            method: "post",
+            url: '/epsitesstats'
+        }).then(response=> {
+            fn(response.data)
+        })
     }
 }

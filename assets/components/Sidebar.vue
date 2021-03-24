@@ -72,14 +72,6 @@ export default {
       ],
       items_client: [
         {
-          label: "Nuevo sitio",
-          icon: "pi pi-globe",
-          command: () => {
-            this.$store.commit("SWITCH_EDIT", false); //remove the edit flag to go as a new site
-            this.$router.push({ name: "Form" });
-          },
-        },
-        {
           label: "Cambiar Nombre de Usuario",
           icon: "pi pi-user",
           command: () => {

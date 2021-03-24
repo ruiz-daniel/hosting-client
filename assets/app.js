@@ -61,6 +61,10 @@ import OverlayPanel from 'primevue/overlaypanel';
 Vue.component("OverlayPanel", OverlayPanel);
 import Password from 'primevue/password';
 Vue.component("Password", Password);
+import DataView from 'primevue/dataview';
+Vue.component("DataView", DataView);
+import Chart from 'primevue/chart';
+Vue.component("Chart", Chart);
 
 new Vue({
     store,
