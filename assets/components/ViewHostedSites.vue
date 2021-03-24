@@ -41,8 +41,39 @@
             />
             <Button
               icon="pi pi-trash"
-              v-on:click="deleteSite(slotProps.data)"
+              v-on:click="displayConfirmation = true"
             />
+            <Dialog
+              header="Confirmación"
+              :visible.sync="displayConfirmation"
+              :style="{ width: '350px' }"
+              :contentStyle="{overflow: 'visible'}"
+              :modal="true"
+              :dismissableMask="true"
+            >
+              <div class="confirmation-content">
+                <i
+                  class="pi pi-exclamation-triangle p-mr-3"
+                  style="font-size: 2rem"
+                />
+                <span>Seguro que desea eliminar este sitio?</span>
+              </div>
+              <template #footer>
+                <Button
+                  label="No"
+                  icon="pi pi-times"
+                  v-on:click="displayConfirmation = false"
+                  class="p-button-text"
+                  autofocus
+                />
+                <Button
+                  label="Sí"
+                  icon="pi pi-check"
+                  v-on:click="deleteSite(slotProps.data)"
+                  class="p-button-text"
+                />
+              </template>
+            </Dialog>
           </template>
         </Column>
       </DataTable>
@@ -59,6 +90,7 @@ export default {
       filters: {},
       askPassword: false,
       password: "",
+      displayConfirmation: false,
     };
   },
   components: {
@@ -141,11 +173,16 @@ export default {
     ) {
       this.askPassword = true;
     } else {
-      this.updateTableData()
+      this.updateTableData();
     }
-    
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.confirmation-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>

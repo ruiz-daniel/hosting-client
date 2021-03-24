@@ -110,6 +110,16 @@ class Site
      */
     private $IPs;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $modified;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $deleted;
+
     public function __construct($name, $alias)
     {
         $this->name = $name;
@@ -355,6 +365,30 @@ class Site
     public function setIPs(?string $IPs): self
     {
         $this->IPs = $IPs;
+
+        return $this;
+    }
+
+    public function getModified(): ?bool
+    {
+        return $this->modified;
+    }
+
+    public function setModified(bool $modified): self
+    {
+        $this->modified = $modified;
+
+        return $this;
+    }
+
+    public function getDeleted(): ?bool
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(bool $deleted): self
+    {
+        $this->deleted = $deleted;
 
         return $this;
     }

@@ -34,7 +34,7 @@ export default {
           },
         },
         {
-          label: "Ver sitios",
+          label: "Ver sitios hospedados",
           icon: "pi pi-users",
           command: () => {
             var store = this.$store;

@@ -83,6 +83,8 @@ class VueAPIController extends AbstractController
         $site->setTemplateVersion($request_data['template_version']);
         $site->setIPs($request_data['IPs']);
         $site->setHosted(False);
+        $site->setModified(False);
+        $site->setDeleted(False);
 
         foreach ($request_data['ldap_users'] as $ldap_user) {
             $ldap_user = new LdapUser($ldap_user['ldap_user'], $ldap_user['ldap_password']);
@@ -126,6 +128,7 @@ class VueAPIController extends AbstractController
         $site->setTemplateVersion($request_data['template_version']);
         $site->setHosted($request_data['hosted']);
         $site->setIPs($request_data['IPs']);
+        $site->setModified(true);
 
         $quota = $site->getQuota();
         $quota->setPacketId($request_data['packet']);
@@ -160,7 +163,7 @@ class VueAPIController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $request_data = \json_decode($request->getContent(), true);
         $site = $entityManager->getRepository(Site::class)->find($request_data['id']);
-        $entityManager->remove($site);
+        $site->setDeleted(True);
         $entityManager->flush();
 
         return $this->render('vue_api/index.html.twig', []);
@@ -247,15 +250,19 @@ class VueAPIController extends AbstractController
         $sites_response = $entityManager->getRepository(Site::class)->findAll();
         $sites = [];
         foreach ($sites_response as $site) {
-            $sites[] = [
-                'id' => $site->getId(),
-                'site_name' => $site->getName(),
-                'alias' => $site->getAlias(),
-                'client' => $site->getClient()->getId(),
-                'client_name' => $entityManager->getRepository(Client::class)->find($site->getClient()->getId())->getName()
-                ." ".$entityManager->getRepository(Client::class)->find($site->getClient()->getId())->getLastName(),
-                'hosted' => $site->getHosted()
-            ];
+            if($site->getDeleted() == False) {
+                $sites[] = [
+                    'id' => $site->getId(),
+                    'site_name' => $site->getName(),
+                    'alias' => $site->getAlias(),
+                    'client' => $site->getClient()->getId(),
+                    'client_name' => $entityManager->getRepository(Client::class)->find($site->getClient()->getId())->getName()
+                    ." ".$entityManager->getRepository(Client::class)->find($site->getClient()->getId())->getLastName(),
+                    'hosted' => $site->getHosted(),
+                    'modified' => $site->getModified()
+                ];
+            }
+            
         }
         $response = new Response(
             \json_encode($sites),

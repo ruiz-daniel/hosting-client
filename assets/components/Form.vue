@@ -1,5 +1,5 @@
 <template>
-  <div class="p-grid p-justify-center" style="margin-top:2%; height: 100vh">
+  <div class="p-grid p-justify-center" style="margin-top:2%; height: 85vh">
     <div class="p-shadow-14 p-col-8" style="text-align:center" id="container">
       <h1>Datos del Sitio</h1>
       <div class="p-grid form-container">
@@ -7,7 +7,7 @@
           <PanelMenu :model="menu_items"></PanelMenu>
         </div>
 
-        <div class="p-col-7 tab" v-show="show_site">
+        <div class="p-col tab" v-show="show_site">
           <div class="p-field">
             <label for="site_name">Nombre del Sitio</label>
             <InputText
@@ -59,7 +59,7 @@
           </div>
         </div>
 
-        <div class="p-col-7 tab" v-show="show_packet">
+        <div class="p-col tab" v-show="show_packet">
           <div class="p-field" style="text-align:center; margin-bottom:2rem">
             <h3>Paquete contratado</h3>
             <Dropdown
@@ -107,7 +107,7 @@
             </div>
           </div>
         </div>
-        <div class="p-col-7 tab" v-show="show_web">
+        <div class="p-col tab" v-show="show_web">
           <div class="p-field">
             <label for="web_server">Servidor Web</label>
             <Dropdown
@@ -169,7 +169,7 @@
           </div>
         </div>
 
-        <div class="p-col-7 tab" v-show="show_db">
+        <div class="p-col tab" v-show="show_db">
           <div class="p-field">
             <label for="template">Plantilla</label>
             <Dropdown
@@ -202,7 +202,7 @@
           </div>
         </div>
 
-        <div class="p-col-7 tab" v-show="show_ldap">
+        <div class="p-col tab" v-show="show_ldap">
           <div v-if="!$store.state.edit_switch"></div>
           <div class="p-field">
             <label for="ldap_user">Usuario</label>
@@ -256,7 +256,7 @@
           </div>
         </div>
 
-        <div class="p-col-7 tab" v-show="show_save">
+        <div class="p-col tab" v-show="show_save">
           <div class="p-col-11" style="text-align:center">
             <Message severity="warn" :closable="false" v-if="!validateSiteName"
               >Falta el nombre del sitio</Message
@@ -711,7 +711,7 @@ export default {
 <style scoped>
 #container {
   background-color: lightgray;
-  height: 85%;
+  height: 100%;
 }
 
 .p-panelmenu {
