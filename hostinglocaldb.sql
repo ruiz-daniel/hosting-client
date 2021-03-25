@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 19, 2021 at 08:09 PM
+-- Generation Time: Mar 25, 2021 at 08:17 PM
 -- Server version: 10.4.16-MariaDB
 -- PHP Version: 7.4.12
 
@@ -91,6 +91,33 @@ INSERT INTO `database_server` (`name`, `id`) VALUES
 ('Sin Base de Datos', 0),
 ('MySQL', 1),
 ('PostgreSQL', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deleted_site`
+--
+
+CREATE TABLE `deleted_site` (
+  `id` varchar(8) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `alias` varchar(20) NOT NULL,
+  `client_id` varchar(8) NOT NULL,
+  `quota_id` int(8) NOT NULL,
+  `index_name` varchar(30) NOT NULL DEFAULT 'index.html',
+  `protected_dir` varchar(100) NOT NULL,
+  `web_server_id` int(8) NOT NULL,
+  `php_version` varchar(30) NOT NULL,
+  `node_js` tinyint(1) NOT NULL DEFAULT 0,
+  `db_server_id` int(8) DEFAULT 0,
+  `db_name` varchar(30) DEFAULT NULL,
+  `db_user` varchar(30) DEFAULT NULL,
+  `db_password` varchar(30) DEFAULT NULL,
+  `template_id` int(8) NOT NULL,
+  `template_version` varchar(30) NOT NULL,
+  `hosted` tinyint(1) NOT NULL DEFAULT 0,
+  `IPs` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -198,23 +225,25 @@ CREATE TABLE `site` (
   `template_id` int(8) NOT NULL,
   `template_version` varchar(30) NOT NULL,
   `hosted` tinyint(1) NOT NULL DEFAULT 0,
-  `IPs` text NOT NULL
+  `IPs` text NOT NULL,
+  `modified` tinyint(1) NOT NULL DEFAULT 0,
+  `deleted` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `site`
 --
 
-INSERT INTO `site` (`id`, `name`, `alias`, `client_id`, `quota_id`, `index_name`, `protected_dir`, `web_server_id`, `php_version`, `node_js`, `db_server_id`, `db_name`, `db_user`, `db_password`, `template_id`, `template_version`, `hosted`, `IPs`) VALUES
-('283906b6', 'www.test8.nat.cu', 'uuid', '28393c5d', 108, 'index.html', '', 2, '', 0, 0, '', '', '', 3, '', 0, ''),
-('43', 'www.test.nat.cu', 'pruebas', '93', 66, 'index.html', '', 1, '7.1', 1, 2, 'testdb', 'testdbo', 'asfqawq', 1, '5', 0, ''),
-('44', 'www.test2.nat.cu', 'prueba2', '94', 67, 'index.html', '', 1, '7.2', 0, 1, 'test2db', 'test2dbo', 'asgfasfa', 2, '2', 0, ''),
-('45', 'www.test3.nat.cu', '', '96', 69, 'index.html', 'folder, folder1, folder2', 2, '', 0, 2, 'testdb', 'testdbo', 'asgasga', 3, '', 0, ''),
-('46', 'www.test4.nat.cu', '', '97', 72, 'index.html', '', 1, '7.2', 1, 1, 'test4db', 'test4dbo', 'qwrqwtgq', 1, '5', 0, ''),
-('47', 'www.test5.nat.cu', 'multildap', '98', 73, 'index.html', '', 1, '7.2', 0, 1, 'test5db', 'test5dbo', 'aeyqeyqh', 1, '5', 0, ''),
-('63', 'www.test6.nat.cu', 'nodb', '115', 90, 'index.html', '', 1, '7.1', 0, 0, '', '', '', 2, '', 0, ''),
-('64', 'www.test7.nat.cu', 'ips', '116', 91, 'index.html', '', 1, '7.1', 0, 0, '', '', '', 1, '', 0, '192.168.58.8, 192.168.78.9, 192.168.67.89, 192.168.76.54'),
-('c6379477', 'www.test9.nat.cu', 'md5', 'c637bfb9', 109, 'index.html', '', 2, '', 0, 0, '', '', '', 3, '', 0, '');
+INSERT INTO `site` (`id`, `name`, `alias`, `client_id`, `quota_id`, `index_name`, `protected_dir`, `web_server_id`, `php_version`, `node_js`, `db_server_id`, `db_name`, `db_user`, `db_password`, `template_id`, `template_version`, `hosted`, `IPs`, `modified`, `deleted`) VALUES
+('283906b6', 'www.test8.nat.cu', 'uuid', '28393c5d', 108, 'index.html', '', 2, '', 0, 0, '', '', '', 3, '', 0, '', 0, 0),
+('43', 'www.test.nat.cu', 'pruebas', '93', 66, 'index.html', '', 1, '7.1', 1, 2, 'testdb', 'testdbo', 'asfqawq', 1, '5', 0, '', 0, 0),
+('44', 'www.test2.nat.cu', 'prueba2', '94', 67, 'index.html', '', 1, '7.2', 0, 1, 'test2db', 'test2dbo', 'asgfasfa', 2, '2', 0, '', 0, 0),
+('45', 'www.test3.nat.cu', '', '96', 69, 'index.html', 'folder, folder1, folder2', 2, '', 0, 2, 'testdb', 'testdbo', 'asgasga', 3, '', 0, '', 0, 0),
+('46', 'www.test4.nat.cu', '', '97', 72, 'index.html', '', 1, '7.2', 1, 1, 'test4db', 'test4dbo', 'qwrqwtgq', 1, '5', 0, '', 0, 0),
+('47', 'www.test5.nat.cu', 'multildap', '98', 73, 'index.html', '', 1, '7.2', 0, 1, 'test5db', 'test5dbo', 'aeyqeyqh', 1, '5', 0, '', 0, 0),
+('63', 'www.test6.nat.cu', 'nodb', '115', 90, 'index.html', '', 1, '7.1', 0, 0, '', '', '', 2, '', 0, '', 0, 0),
+('64', 'www.test7.nat.cu', 'ips', '116', 91, 'index.html', '', 1, '7.1', 0, 0, '', '', '', 1, '', 0, '192.168.58.8, 192.168.78.9, 192.168.67.89, 192.168.76.54', 0, 0),
+('c6379477', 'www.test9.nat.cu', 'md5', 'c637bfb9', 109, 'index.html', '', 2, '', 0, 0, '', '', '', 3, '', 0, '', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -257,7 +286,7 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`id`, `username`, `password`, `role_id`) VALUES
 ('0', 'super', '9f6755788d156361df84ff2831b1411c', 3),
 ('3cf86dd7', 'daniel', '202cb962ac59075b964b07152d234b70', 2),
-('6a24bdd0', 'danielcliente', '202cb962ac59075b964b07152d234b70', 1),
+('6a24bdd0', 'cliente', '202cb962ac59075b964b07152d234b70', 1),
 ('ac1d3728', 'admin', '21232f297a57a5a743894a0e4a801fc3', 3);
 
 -- --------------------------------------------------------
@@ -302,6 +331,17 @@ ALTER TABLE `client`
 --
 ALTER TABLE `database_server`
   ADD PRIMARY KEY (`id`) USING BTREE;
+
+--
+-- Indexes for table `deleted_site`
+--
+ALTER TABLE `deleted_site`
+  ADD PRIMARY KEY (`id`) USING BTREE,
+  ADD KEY `site_ibfk_1` (`client_id`),
+  ADD KEY `site_quota_fk` (`quota_id`),
+  ADD KEY `site_database_fk` (`db_server_id`),
+  ADD KEY `site_web_server_fk` (`web_server_id`),
+  ADD KEY `site_template_fk` (`template_id`);
 
 --
 -- Indexes for table `ldap_user`
@@ -367,7 +407,7 @@ ALTER TABLE `packet`
 -- AUTO_INCREMENT for table `quota`
 --
 ALTER TABLE `quota`
-  MODIFY `id` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `id` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- AUTO_INCREMENT for table `template`
