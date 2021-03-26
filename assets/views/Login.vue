@@ -133,7 +133,7 @@ input[type="password"] {
   font-family: "Droid Sans", sans-serif;
   width: 70%;
   padding: 0.5em 2em 0.5em 1em;
-  color: #1b1a1a;
+  color: #6e6e6e;
   font-size: 20px;
   outline: none;
   background: none;

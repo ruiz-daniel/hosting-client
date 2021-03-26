@@ -88,7 +88,12 @@ class VueAPIController extends AbstractController
 
         $entityManager->flush();
 
-        return $this->render('vue_api/index.html.twig', []);
+        $response = new Response(
+            \json_encode("inserted"),
+            200,
+            ['content-type' => 'json'],
+        );
+        return $response;
     }
 
     /**
@@ -145,7 +150,12 @@ class VueAPIController extends AbstractController
         }
         $entityManager->flush();
 
-        return $this->render('vue_api/index.html.twig', []);
+        $response = new Response(
+            \json_encode("updated"),
+            200,
+            ['content-type' => 'json'],
+        );
+        return $response;
     }
 
     /**
@@ -158,7 +168,12 @@ class VueAPIController extends AbstractController
         $site->setDeleted(True);
         $entityManager->flush();
 
-        return $this->render('vue_api/index.html.twig', []);
+        $response = new Response(
+            \json_encode("deleted"),
+            200,
+            ['content-type' => 'json'],
+        );
+        return $response;
     }
 
     /**
