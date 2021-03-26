@@ -5,6 +5,7 @@ const apiClient = axios.create({
     baseURL: ''
 })
 
+// Interceptors to initiate and stop progress bar during axios requests
 apiClient.interceptors.request.use(config => {
     NProgress.start()
     return config
@@ -15,7 +16,16 @@ apiClient.interceptors.response.use(response => {
     return response
 })
 
+/**
+ * All methods for http request get a function as a parameter
+ * so they can call that function after receiving a response from the server.
+ * This is done due to axios requests being asynchronus and to avoid processing
+ * data before it has been received from the server.
+ * It also helps properly notify the app after a request has been successful
+ */
+
 export default {
+    // Get data for comboboxes............
     getPackets(fn) {
         apiClient.request({
             method: 'get',
@@ -48,6 +58,7 @@ export default {
             fn(response.data)
         });
     },
+    //.................................
 
     registerNewSite(fn, submit_data) {
         apiClient.request({

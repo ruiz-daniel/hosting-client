@@ -97,6 +97,7 @@ export default {
     SiteData,
   },
   methods: {
+    // Show panel with site data
     viewDetails(site, event) {
       var store = this.$store;
       var op = this.$refs.op;

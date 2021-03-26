@@ -7,7 +7,6 @@
     <template #right>
         <span class="pi pi-user"></span>
         <span>{{$store.state.user_data.username}}</span>
-        <!-- <Button icon="pi pi-arrow-left" class="p-button-warning p-mr-2" v-if="$route.path !== '/' && $route.path !== '/main'" v-on:click="goBack()" /> -->
     </template>
 </Toolbar>
 </template>

@@ -90,6 +90,7 @@ export default {
     },
   },
   mounted() {
+    // in case of the page being reloaded
     if (this.$store.state.user_data.username == null) {
       this.username = sessionStorage.getItem("username");
     } else {

@@ -11,21 +11,23 @@ export default new Vuex.Store({
         templates: [],
         database_servers: [],
         packets: [],
-        hosted_sites: [],
-        selected_site: {}, // site that is being edited or checked its info
-        edit_switch: false, // flag to know when a site has been selected for modifications
-        user_data: "no user", //loged in user data
-        users_list: [],
         roles: [],
-        selected_user: {}
+        hosted_sites: [],
+        selected_site: {}, // selected site for modifications or info check
+        edit_switch: false, // flag to know when a site has been selected for modifications
+        user_data: "no user", // loged in user data (role and username)
+        users_list: [],
+        selected_user: {} // selected user for modifications 
     },
     getters: {
+        // check if the needed data for the comboboxes was successfully loaded
         checkData: state => {
             return state.web_server_options.length > 0 &&
             state.templates.length > 0 &&
             state.database_servers.length > 0 &&
             state.packets.length > 0
         },
+        // get packets for natural clients
         getNaturalPackets: state => {
             let result = []
             state.packets.forEach(element => {
@@ -35,6 +37,7 @@ export default new Vuex.Store({
             });
             return result
         },
+        // get packets for enterprise clients
         getEnterprisePackets: state => {
             let result = []
             state.packets.forEach(element => {

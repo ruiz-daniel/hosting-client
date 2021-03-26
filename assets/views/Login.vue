@@ -7,7 +7,7 @@
         </div>
         <div class="form">
           <li>
-			  <span class="pi pi-user"></span>
+            <span class="pi pi-user"></span>
             <input
               type="text"
               class="text"
@@ -19,15 +19,14 @@
           </li>
           <div class="clear"></div>
           <li>
-			  <span class="pi pi-key"></span>
+            <span class="pi pi-key"></span>
             <input
               type="password"
-			  v-model="password"
+              v-model="password"
               value="Password"
               v-on:focus="password = ''"
               v-on:blur="changePassword"
             />
-            
           </li>
           <div class="clear"></div>
           <div class="submit">
@@ -60,6 +59,7 @@ export default {
           if (data != "incorrect") {
             store.commit("SET_USER_DATA", data);
             router.push({ name: "main" });
+            // save user data in session storage in case the page gets reloaded
             sessionStorage.setItem("username", data.username);
             sessionStorage.setItem("role", data.role);
           } else if (data == "incorrect") {
@@ -73,14 +73,18 @@ export default {
         { username: this.username, password: this.password }
       );
     },
+    // methods for visual effects on the input texts................
     changeUsername() {
       if (this.username == "") {
         this.username = "Usuario";
       }
     },
-	changePassword() {
-		if (this.password == '') {this.password = 'Password';}
-	}
+    changePassword() {
+      if (this.password == "") {
+        this.password = "Password";
+      }
+    },
+    // ................................................................
   },
 };
 </script>

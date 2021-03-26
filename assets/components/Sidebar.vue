@@ -24,6 +24,7 @@
 export default {
   data() {
     return {
+      // Menu for operation users
       items_specialist: [
         {
           label: "Nuevo sitio",
@@ -70,6 +71,7 @@ export default {
           },
         },
       ],
+      // Menu for client users (TBD)
       items_client: [
         {
           label: "Cambiar Nombre de Usuario",
@@ -94,6 +96,7 @@ export default {
           },
         },
       ],
+      // Menu for admin users
       items_admin: [
         {
           label: "Ver usuarios",
@@ -160,7 +163,6 @@ export default {
   overflow-y: auto;
   user-select: none;
   box-shadow: 10px 0 20px 0 rgba(0, 0, 0, 0.16);
-  /* background-color: #0786e0; */
   background: linear-gradient(180deg, #eeeff0 0, #ced4d8);
 }
 .logo {

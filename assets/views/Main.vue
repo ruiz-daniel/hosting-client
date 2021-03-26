@@ -7,20 +7,6 @@
 <script>
 import SpecialistView from '../components/MainSpecialist'
 export default {
-  methods: {
-    newSite() {
-      this.$store.commit('SWITCH_EDIT', false) //remove the edit flag to go as a new site
-      this.$router.push({ name: "Form" });
-    },
-    viewSites() {
-      var store = this.$store
-      var router = this.$router
-        this.$root.api.getSites(function(data) {
-          store.commit("SET_HOSTED_SITES", data);
-          router.push({name: 'viewsites'})
-        })
-    },
-  },
   components: {
     SpecialistView,
   },

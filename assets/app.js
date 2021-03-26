@@ -11,17 +11,20 @@ import './styles/app.css';
 // start the Stimulus application
 import './bootstrap';
 
+// Vue essentials
 import Vue from 'vue';
 import App from './components/App';
 import store from './store.js';
 import router from './router.js';
+//JS file for axios http requests
 import api from './services/ApiCalls.js'
 
+// progress bar
 import 'nprogress/nprogress.css'
 
 
 
-
+// PrimeVue essentials
 import 'primeicons/primeicons.css'
 import 'primevue/resources/primevue.min.css'
 import 'primeflex/primeflex.css'
@@ -29,6 +32,7 @@ import 'primevue/resources/themes/nova/theme.css'
 import ToastService from 'primevue/toastservice';
 Vue.use(ToastService);
 
+// PrimeVue components
 import PanelMenu from 'primevue/panelmenu';
 Vue.component('PanelMenu', PanelMenu);
 import InputText from 'primevue/inputtext';
@@ -76,8 +80,8 @@ new Vue({
         }
     },
     methods: {
+    // Get data for comboboxes
       getServerData() {
-            //Get data for comboboxes.......................
         api.getPackets(function(data){
             store.commit("SET_PACKETS", data)
         })
@@ -98,6 +102,7 @@ new Vue({
 
     mounted() {
         this.getServerData()
+        // If the page is reloaded outside of the login view, get the logged in user data from the session storage
         if (this.$route.path !== "/" && (store.user_data == "no user" || store.user_data == null)) {
             let user_data = {
               'username': sessionStorage.getItem('username'),

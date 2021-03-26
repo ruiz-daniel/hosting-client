@@ -13,8 +13,6 @@ use App\Entity\DatabaseServer;
 use App\Entity\Packet;
 use App\Entity\Site;
 use App\Entity\Template;
-use App\Entity\Contract;
-use App\Entity\HostedSite;
 use App\Entity\LdapUser;
 use App\Entity\Quota;
 use App\Entity\User;
@@ -22,12 +20,6 @@ use App\Entity\UserRole;
 
 class VueAPIController extends AbstractController
 {
-    /**
-     * @Route("/test", name="vueindex", methods={"GET"})
-     */
-    public function main(){
-        return $this->render('main/mainForm.html.twig', []);
-    }
 
     /**
      * @Route("/", name="vueapi")
@@ -38,7 +30,7 @@ class VueAPIController extends AbstractController
     }
 
     /**
-     * @Route("/epcommit", methods={"POST", "GET"})
+     * @Route("/epcommit", methods={"POST"})
      */
     public function commit(Request $request){
         $entityManager = $this->getDoctrine()->getManager();
@@ -271,17 +263,6 @@ class VueAPIController extends AbstractController
         );
         return $response;
     }
-
-    // /**
-    //  * @Route("/epgetclientsites", methods={"POST"})
-    //  */
-    // public function getClientSites(Request $request) {
-    //     $entityManager = $this->getDoctrine()->getManager();
-    //     $request_data = \json_decode($request->getContent(), true);
-    //     $user = $entityManager->getRepository(LdapUser::class)->find($request_data['username']);
-    //     $sites_response = $entityManager->getRepository(Site::class)->findBy([]);
-    //     $sites = [];
-    // }
 
     /**
      * @Route("/epsitedata", methods={"POST"})

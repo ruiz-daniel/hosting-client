@@ -365,14 +365,14 @@ export default {
       ldap_users: [],
 
       packet: "",
-      selected_packet: false, //flag to know when a packet has been selected to display its info
+      selected_packet: false, // flag to know when a packet has been selected to display its info
       disk_space: "",
       extra_disk_space: 0,
       db_space: "",
       extra_db_space: 0,
 
-      site_id: "", //Only used when editing a site, since we know its id
-      hosted: false, //set to false by default since is a new site
+      site_id: "", // Only used when editing a site, since we know its id
+      hosted: false, // set to false by default since is a new site
 
       menu_items: [
         {
@@ -452,7 +452,7 @@ export default {
   },
   methods: {
     selectWebServer() {
-      //show or hide php and node fields when selecting a web server
+      // show or hide php and node fields when selecting a web server
       if (this.web_server.name === "Apache/PHP/Node.js") {
         this.node = false;
         this.show_php_node = true;
@@ -463,7 +463,7 @@ export default {
       }
     },
     getPacket() {
-      //Get or clean quota info when selecting or removing a quota
+      // Get or clean quota info when selecting or removing a quota
       if (this.packet === null) {
         this.selected_packet = false;
         this.packet = "";
@@ -665,7 +665,7 @@ export default {
     ]),
   },
   mounted() {
-    //Check if we are editing a site, in which case load its info from the "selected_site" object in the store
+    // Check if we are editing a site, in which case load its info from the "selected_site" object in the store
     if (this.$store.state.edit_switch) {
       let site = this.$store.state.selected_site;
       this.site_id = site.id;
@@ -701,6 +701,7 @@ export default {
         this.addLdapUser(site.ldap_users[i], site.ldap_passwords[i]);
       }
     }
+    // if the combobox data hasn't been loaded (posibility of previous server errors)
     if (!this.$store.getters.checkData) {
       this.$root.getServerData();
     }
