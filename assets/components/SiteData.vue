@@ -68,7 +68,7 @@
           <div v-if="site_data.web_server === 'Apache/PHP/Node.js'">
             <p>Version php</p>
             {{ site_data.php_version }}
-            <p v-if="site_data.node" style="color:red">Usa NodeJS</p>
+            <p v-if="site_data.node" style="color:red">Incluye NodeJS</p>
           </div>
           <div>
               <p>Servidor BD</p>

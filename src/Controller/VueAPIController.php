@@ -88,12 +88,7 @@ class VueAPIController extends AbstractController
 
         $entityManager->flush();
 
-        $response = new Response(
-            \json_encode("inserted"),
-            200,
-            ['content-type' => 'json'],
-        );
-        return $response;
+        return $this->json("inserted");
     }
 
     /**
@@ -150,12 +145,7 @@ class VueAPIController extends AbstractController
         }
         $entityManager->flush();
 
-        $response = new Response(
-            \json_encode("updated"),
-            200,
-            ['content-type' => 'json'],
-        );
-        return $response;
+        return $this->json("updated");
     }
 
     /**
@@ -168,12 +158,7 @@ class VueAPIController extends AbstractController
         $site->setDeleted(True);
         $entityManager->flush();
 
-        $response = new Response(
-            \json_encode("deleted"),
-            200,
-            ['content-type' => 'json'],
-        );
-        return $response;
+        return $this->json("deleted");
     }
 
     /**
@@ -187,12 +172,8 @@ class VueAPIController extends AbstractController
         foreach ($packets_response as $packet) {
             $packets[] = ['id'=>$packet->getId(), 'name'=>$packet->getName(), 'disk_space'=>$packet->getDiskSpace(), 'db_space'=>$packet->getDbSpace(), 'client_type'=>$packet->getClientType()] ;
         }
-        $response = new Response(
-            \json_encode($packets),
-            200,
-            ['content-type' => 'json'],
-        );
-        return $response;
+        
+        return $this->json($packets);
     }
 
     /**
@@ -205,12 +186,8 @@ class VueAPIController extends AbstractController
         foreach ($servers_response as $server) {
             $servers[] = ['id'=>$server->getId(), 'name'=>$server->getName()];
         }
-        $response = new Response(
-            \json_encode($servers),
-            200,
-            ['content-type' => 'json']
-        );
-        return $response;
+        
+        return $this->json($servers);
     }
 
     /**
@@ -223,12 +200,8 @@ class VueAPIController extends AbstractController
         foreach ($servers_response as $server) {
             $servers[] = ['id'=>$server->getId(), 'name'=>$server->getName()];
         }
-        $response = new Response(
-            \json_encode($servers),
-            200,
-            ['content-type' => 'json']
-        );
-        return $response;
+        
+        return $this->json($servers);
     }
 
     /**
@@ -241,12 +214,8 @@ class VueAPIController extends AbstractController
         foreach ($templates_response as $template) {
             $templates[] = ['id'=>$template->getId(), 'name'=>$template->getName(), 'web_technology_type'=>$template->getWebTechnologyType()];
         }
-        $response = new Response(
-            \json_encode($templates),
-            200,
-            ['content-type' => 'json']
-        );
-        return $response;
+        
+        return $this->json($templates);
     }
 
     /**
@@ -271,12 +240,8 @@ class VueAPIController extends AbstractController
             }
             
         }
-        $response = new Response(
-            \json_encode($sites),
-            200,
-            ['content-type' => 'json']
-        );
-        return $response;
+        
+        return $this->json($sites);
     }
 
     /**
@@ -326,12 +291,8 @@ class VueAPIController extends AbstractController
             $result['ldap_users'][] = $ldap_user->getUserName();
             $result['ldap_passwords'][] = $ldap_user->getPassword();
         }
-        $response = new Response(
-            \json_encode($result),
-            200,
-            ['content-type' => 'json']
-        );
-        return $response;
+        
+        return $this->json($result);
     }
 
     /**
@@ -341,12 +302,8 @@ class VueAPIController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $request_data = \json_decode($request->getContent(), true);
         $result = $entityManager->getRepository(Site::class)->find($request_data['site'])->getName();
-        $response = new Response(
-            \json_encode($result),
-            200,
-            ['content-type' => 'json']
-        );
-        return $response;
+        
+        return $this->json($result);
     }
 
     /**
@@ -365,12 +322,8 @@ class VueAPIController extends AbstractController
         } else {
             $result = "incorrect";
         }
-        $response = new Response(
-            \json_encode($result),
-            200,
-            ['content-type' => 'json']
-        );
-        return $response;
+        
+        return $this->json($result);
     }
 
     /**
@@ -391,12 +344,8 @@ class VueAPIController extends AbstractController
             }
             
         }
-        $response = new Response(
-            \json_encode($users),
-            200,
-            ['content-type' => 'json']
-        );
-        return $response;
+        
+        return $this->json($users);
     }
 
     /**
@@ -414,12 +363,7 @@ class VueAPIController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
 
-        $response = new Response(
-            \json_encode(true),
-            200,
-            ['content-type' => 'json']
-        );
-        return $response;
+        return $this->json(true);
     }
 
     /**
@@ -435,12 +379,7 @@ class VueAPIController extends AbstractController
 
         $entityManager->flush();
 
-        $response = new Response(
-            \json_encode(true),
-            200,
-            ['content-type' => 'json']
-        );
-        return $response;
+        return $this->json(true);
     }
 
     /**
@@ -455,12 +394,7 @@ class VueAPIController extends AbstractController
 
         $entityManager->flush();
 
-        $response = new Response(
-            \json_encode(true),
-            200,
-            ['content-type' => 'json']
-        );
-        return $response;
+        return $this->json(true);
     }
 
     /**
@@ -476,12 +410,7 @@ class VueAPIController extends AbstractController
 
         $entityManager->flush();
 
-        $response = new Response(
-            \json_encode(true),
-            200,
-            ['content-type' => 'json']
-        );
-        return $response;
+        return $this->json(true);
     }
 
     /**
@@ -494,12 +423,8 @@ class VueAPIController extends AbstractController
         foreach ($roles_response as $role) {
             $roles[] = ['id'=>$role->getId(), 'name'=>$role->getName()];
         }
-        $response = new Response(
-            \json_encode($roles),
-            200,
-            ['content-type' => 'json']
-        );
-        return $response;
+        
+        return $this->json($roles);
     }
 
     /**
@@ -513,20 +438,12 @@ class VueAPIController extends AbstractController
         //check current password
         $user = $entityManager->getRepository(User::class)->findOneBy(["username" => $request_data['username']]);
         if ($user->getPassword() != md5($request_data['old_password'])) {
-            $response = new Response(
-                \json_encode("incorrect password"),
-                200,
-                ['content-type' => 'json']
-            );
+            $response = $response = $this->json("incorrect password");
         }
         else if ($user->getPassword() == md5($request_data['old_password'])) {
             $user->setPassword(md5($request_data['password']));
             $entityManager->flush();
-            $response = new Response(
-                \json_encode(true),
-                200,
-                ['content-type' => 'json']
-            );
+            $response = $this->json(true);
         }
         return $response;
     }
@@ -537,19 +454,11 @@ class VueAPIController extends AbstractController
     public function checkPassword(Request $request) {
         $entityManager = $this->getDoctrine()->getManager();
         $request_data = \json_decode($request->getContent(), true);
-        $response = new Response(
-            \json_encode(false),
-            200,
-            ['content-type' => 'json']
-        );
+        $response = $this->json(false);
 
         $user = $entityManager->getRepository(User::class)->findOneBy(["username" => $request_data['username']]);
         if ($user->getPassword() == md5($request_data['password'])) {
-            $response = new Response(
-                \json_encode(true),
-                200,
-                ['content-type' => 'json']
-            );
+            $response = $this->json(true);
         }
         return $response;
 
@@ -566,12 +475,8 @@ class VueAPIController extends AbstractController
             $usernames[] = 
                 $user->getUsername();
         }
-        $response = new Response(
-            \json_encode($usernames),
-            200,
-            ['content-type' => 'json']
-        );
-        return $response;
+        
+        return $this->json($usernames);
     }
 
     /**
@@ -587,18 +492,10 @@ class VueAPIController extends AbstractController
         if($auth) {
             $user->setUsername($request_data['username']);
             $entityManager->flush();
-            $response = new Response(
-                \json_encode(true),
-                200,
-                ['content-type' => 'json']
-            );
+            $response = $this->json(true);
         }
         else {
-            $response = new Response(
-                \json_encode('incorrect password'),
-                200,
-                ['content-type' => 'json']
-            );
+            $response = $this->json("incorrect password");
         }
         return $response;
     }
@@ -656,13 +553,7 @@ class VueAPIController extends AbstractController
             'postgres' => $postgres
         ];
 
-        $response = new Response(
-            \json_encode($stats),
-            200,
-            ['content-type' => 'json']
-        );
-
-        return $response;
+        return $this->json($stats);
     }
 
 }

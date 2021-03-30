@@ -119,10 +119,12 @@ export default {
       var root = this.$root;
       var store = this.$store;
       var update = this.updateTableData; // doing this with a method due to vue not allowing to call a local variable from within a function parameter
+      var closeConfirm = this.closeConfirmation;
       this.$root.api.deleteSite(function() {
         root.api.getSites(function(data) {
           store.commit("SET_HOSTED_SITES", data);
           update();
+          closeConfirm();
         });
       }, site);
     },
@@ -166,6 +168,9 @@ export default {
     closePasswordDialog() {
       this.askPassword = false;
     },
+    closeConfirmation() {
+      this.displayConfirmation = false
+    }
   },
   mounted() {
     if (

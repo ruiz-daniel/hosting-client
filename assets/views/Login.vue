@@ -338,6 +338,7 @@ input[type="submit"]:hover {
     padding: 11px 0px;
     width: 52%;
     font-size: 15px;
+    bottom: 1.5rem;
   }
   .submit h4 {
     margin-top: 15px;
